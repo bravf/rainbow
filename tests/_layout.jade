@@ -1,0 +1,28 @@
+doctype
+html.no-js
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    title
+      block title
+    meta(name='description', content='')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href="../libs/ionicons/css/ionicons.min.css")
+    script(src="../libs/vue/vue.js")
+
+    link(rel='stylesheet', href="../src/index.css")
+    script(src="../src/index.js")
+    style.
+      .panel{
+        border: 1px solid #000;
+        padding: 10px;
+        margin: 10px;
+      }
+      .margin-10{
+        margin: 10px;
+      }
+  body
+    div#app
+      block content
+
+    block script

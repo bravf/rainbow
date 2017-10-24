@@ -1,0 +1,63 @@
+extends ./_layout
+
+block title
+  | Radio
+
+block content
+  div.panel
+    h3| radio
+    div.margin-10
+      rb-radio(v-model="sex", label="男", :value="1")
+      rb-radio(v-model="sex", label="女", :value="0")
+      rb-radio(v-model="sex", label="其他", :value="2")
+      rb-radio(v-model="sex", label="其他2", :value="3", disabled)
+      
+      div| {{sex}}
+  
+  div.panel
+    h3| radio 自定义内容
+    div.margin-10
+      rb-radio-group(v-model="sex")
+        rb-radio(label="男", :value="1")
+          rb-icon(type="man")
+          span| 男
+
+        rb-radio(label="女", :value="0")
+          rb-icon(type="woman")
+          span| 女
+
+        div| {{sex}}
+  
+  div.panel
+    h3| radio-group
+    div.margin-10
+      rb-radio-group(v-model="sex")
+        rb-radio(label="男", :value="1")
+        rb-radio(label="女", :value="0")
+
+        div| {{sex}}
+  
+  div.panel
+    h3| radio-group-vertical
+    div.margin-10
+      rb-radio-group(v-model="sex", vertical)
+        rb-radio(label="男", :value="1")
+          rb-icon(type="man")
+          span| 男
+
+        rb-radio(label="女", :value="0")
+          rb-icon(type="woman")
+          span| 女
+
+        div| {{sex}}
+
+block script
+  script.
+    new Vue({
+      el: '#app',
+      data () {
+        return {
+          sex: 0,
+        }
+      }
+    })

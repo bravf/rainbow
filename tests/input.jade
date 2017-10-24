@@ -1,0 +1,117 @@
+extends ./_layout
+
+block title
+  | Input
+
+block content
+
+  //- type
+  div.panel
+    h3| type
+  
+    div.margin-10
+      rb-input(value="text")
+    
+    div.margin-10
+      rb-input(type="password", value="password")
+    
+    div.margin-10
+      rb-input(type="textarea", value="textarea", rows="3", clearable)
+
+  //- v-model
+  div.panel
+    h3| v-model
+  
+    div.margin-10
+      rb-input(v-model="text")
+      div| {{text}}
+
+  //- size
+  div.panel
+    h3| size
+  
+    div.margin-10
+      rb-input(value="正常")
+    
+    div.margin-10
+      rb-input(size="small", value="small")
+  
+  //- placeholder
+  div.panel
+    h3| placeholder
+  
+    div.margin-10
+      rb-input(placeholder="请输入用户名...")
+  
+  //- disalbed
+  div.panel
+    h3| disabled
+
+    div.margin-10
+      rb-input(value="disabled", disabled)
+  
+  //- readonly
+  div.panel
+    h3| readonly
+
+    div.margin-10
+      rb-input(value="readonly", readonly)
+  
+  //- maxlength
+  div.panel
+    h3| maxlength
+
+    div.margin-10
+      rb-input(value="0123456789", maxlength="10")
+  
+  //- icon and clearable
+  div.panel
+    h3| icon and clearable
+
+    div.margin-10
+      rb-input(value="icon", icon="ios-clock-outline",
+      @click="clickIcon")
+    
+    div.margin-10
+      rb-input(v-model="text", clearable)
+    
+    div.margin-10
+      rb-input(v-model="text", :loading="false")
+  
+  //- events
+  div.panel
+    h3| events
+
+    div.margin-10
+      rb-input(value="change", @change="change")
+    
+    div.margin-10
+      rb-input(value="focus", @focus="focus")
+    
+    div.margin-10
+      rb-input(value="blur", @blur="blur")
+
+block script
+  script.
+    new Vue({
+      el: '#app',
+      data () {
+        return {
+          text: '你好'
+        }
+      },
+      methods: {
+        clickIcon () {
+          console.log('click icon')
+        },
+        change (e) {
+          console.log(e)
+        },
+        focus () {
+          console.log('focus')
+        },
+        blur () {
+          console.log('blur')
+        }
+      }
+    })

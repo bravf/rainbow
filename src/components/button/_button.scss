@@ -1,0 +1,99 @@
+.rb-btn{
+  display: inline-block;
+  font: inherit;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 15px;
+  background-color: $color-00;
+  color: $color-20;
+  white-space: nowrap;
+  text-align: center;
+  border: 1px solid $color-00;
+  border-radius: $radius;
+  cursor: pointer;
+  outline: 0;
+  -webkit-appearance: none;
+
+  &:hover{
+    opacity: .6;
+  }
+
+  &:active{
+    opacity: 1;
+    transition: none;
+  }
+
+  .rb-icon{
+    margin-right: 3px;
+    font-size: 18px;
+    vertical-align: middle;
+  }
+
+  .rb-icon-only{
+    margin-right: 0;
+  }
+}
+
+.rb-btn-primary{
+  border-color: #C9C9C9;
+  background-color: #fff;
+  color: #555;
+}
+
+.rb-btn-normal{
+  background-color: $color-03;
+  border-color: $color-03;
+}
+
+.rb-btn-warm{
+  background-color: $color-10;
+  border-color: $color-10;
+}
+
+.rb-btn-danger{
+  background-color: $color-11;
+  border-color: $color-11;
+}
+
+.rb-btn-disabled{
+  border-color: #e6e6e6;
+  background-color: #FBFBFB;
+  color: #C9C9C9;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.rb-btn-small, .rb-btn-group-small .rb-btn{
+  height: 24px;
+  line-height: 24px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+.rb-btn-long{
+  display: block;
+  width: 100%;
+}
+
+.rb-btn-group{
+  overflow: hidden;
+  
+  .rb-btn{
+    float: left;
+  }
+
+  .rb-btn:not(:first-child){
+    margin-left: 1px;
+  } 
+  .rb-btn:first-child:not(:last-child){
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .rb-btn:last-child:not(:first-child){
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+  }
+  .rb-btn:not(:first-child):not(:last-child){
+    border-radius: 0;
+  }
+}

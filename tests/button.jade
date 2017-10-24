@@ -1,0 +1,58 @@
+extends ./_layout
+
+block title
+  | Button
+
+block content
+  div.margin-10
+    rb-button(type="primary")| 原始按钮
+    rb-button()| 默认按钮
+    rb-button(type="normal")| 百搭按钮
+    rb-button(type="warm")| 暖色按钮
+    rb-button(type="danger")| 警告按钮
+    rb-button(:disabled="true")| 禁用按钮
+  
+  div.margin-10
+    rb-button()| 默认按钮
+    rb-button(size="small")| 小型按钮
+  
+  div.margin-10
+    rb-button(:long="true")| block按钮
+  
+  div.margin-10
+    rb-button(html-type="submit")| submit按钮
+    rb-button(html-type="reset")| reset按钮
+  
+  div.margin-10
+    rb-button(icon="plus-round")| 添加
+    rb-button(icon="heart")
+  
+  div.margin-10
+    rb-button(:loading="true")| 新增
+
+  div.margin-10
+    rb-button-group
+      rb-button()| 前进
+      rb-button()| 后退
+  
+  div.margin-10
+    rb-button-group
+      rb-button()| 昨日
+      rb-button(disabled)| 今日
+      rb-button()| 明日
+  
+  div.margin-10
+    rb-button-group(size="small")
+      rb-button(type="primary")| 昨日
+      rb-button(type="primary")| 明日
+
+
+block script
+  script.
+    new Vue({
+      el: '#app',
+      data () {
+        return {
+        }
+      }
+    })

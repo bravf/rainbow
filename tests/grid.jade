@@ -1,0 +1,21 @@
+extends ./_layout
+
+block title
+  | Grid
+
+block content
+  rb-row(:gutter="10")
+    rb-col(:span="4")
+      div| hello
+    rb-col(:span="20")
+      div| world
+
+block script
+  script.
+    new Vue({
+      el: '#app',
+      data () {
+        return {
+        }
+      }
+    })

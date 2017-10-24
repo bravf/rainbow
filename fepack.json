@@ -1,0 +1,47 @@
+{
+    "server": {
+        "port": 8080
+    },
+    "release": {
+        "project": "rainbow",
+        "domain": "",
+
+        "cases": {
+            "dev": {
+                "watch": true,
+                "version": false,
+                "optimize": false,
+                "env": {
+                    "ENV": "LOCAL"
+                }
+            },
+            "qa": {
+                "watch": false,
+                "version": false,
+                "optimize": false
+            },
+            "www": {
+                "watch": false,
+                "version": true,
+                "optimize": true
+            }
+        },
+
+        "copy": [
+            "**/*.min.js",
+            "**/*.min.css",
+            "libs/**"
+        ],
+        "ignore": [
+            "fepack.json"
+        ],
+        "externals": {
+        },
+        "postcss": {
+        }
+    },
+    "deploy": {
+        "beRelease": "",
+        "feReleaseGit": ""
+    }
+}

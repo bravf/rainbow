@@ -1,0 +1,71 @@
+.rb-input-wrapper{
+  position: relative;
+
+  .rb-icon{
+    position: absolute;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .rb-input{
+    display: block;
+    font: inherit;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 32px;
+    height: 32px;
+    line-height: 1.3;
+    border: 1px solid #e6e6e6;
+    background-color: $color-20;
+    border-radius: $radius;
+    outline: 0;
+    -webkit-appearance: none;
+  
+    &:hover, &:focus{
+      border-color: $color-03;
+    }
+  
+    &:disabled{
+      cursor: not-allowed;
+      color: $color-27;
+      background-color: $color-21;
+  
+      &:hover{
+        border-color: #e6e6e6;
+      }
+    }
+  
+    &[readonly]{
+      &:hover, &:focus{
+        border-color: #e6e6e6;
+      }
+    }
+  }
+}
+.rb-input-wrapper-textarea{
+  .rb-input{
+    height: auto;
+    padding: 6px 10px;
+    resize: vertical;
+  }
+  
+}
+.rb-input-wrapper-small{
+  .rb-input{
+    height: 24px;
+    line-height: 24px;
+    font-size: 12px;
+    padding-right: 24px;
+  }
+  .rb-icon{
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 16px;
+  }
+}

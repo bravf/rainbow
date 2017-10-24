@@ -1,0 +1,41 @@
+.rb-radio{
+  margin-right: 8px;
+  cursor: pointer;
+
+  >.rb-icon{
+    &:hover{
+      color: $color-01;
+    }
+  }
+
+  span{
+    vertical-align: middle;
+  }
+
+  *{
+    margin: 0 2px;
+  }
+}
+
+.rb-radio-checked{
+  >.rb-icon{
+    color: $color-01;
+  }
+}
+
+.rb-radio-disabled{
+  cursor: not-allowed;
+  color: $color-27;
+
+  .rb-icon{
+    &:hover{
+      color: $color-27;
+    }
+  }
+}
+
+.rb-radio-group-vertical{
+  .rb-radio{
+    display: block;
+  }
+}

@@ -1,0 +1,31 @@
+.rb-row {
+  @include clear();
+  position: relative;
+}
+
+.rb-col {
+  float: left;
+}
+
+@for $i from 1 through 24 {
+  .rb-col-span-#{$i} {
+    width: 100% / (24 / $i);
+  }
+
+  .rb-col-offset-#{$i} {
+    margin-left: 100% / (24 / $i);
+  }
+}
+
+.rb-row-flex {
+  display: flex;
+
+  &:before,
+  &:after {
+    display: none;
+  }
+
+  .rb-col {
+    float: none;
+  }
+}

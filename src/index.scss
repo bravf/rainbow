@@ -1,0 +1,62 @@
+// colors 
+// 常用主色 
+$color-00: #009688;
+$color-01: #5FB878;
+$color-02: #393D49;
+$color-03: #1E9FFF;
+
+// 场景色 
+$color-10: #FFB800;
+$color-11: #FF5722;
+$color-12: #01AAED;
+$color-13: #2F4056;
+
+// 中性色
+$color-20: #ffffff;
+$color-21: #F0F0F0;
+$color-22: #f2f2f2;
+$color-23: #eeeeee;
+$color-24: #e2e2e2;
+$color-25: #dddddd;
+$color-26: #d2d2d2;
+$color-27: #c2c2c2;
+
+// 尺寸
+// 圆角
+$radius: 2px;
+$font-size: 12px;
+
+// mixin
+@mixin clear() {
+  &:before,
+  &:after {
+    content: ' ';
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+    visibility: hidden;
+    font-size: 0;
+    height: 0;
+  }
+}
+
+// 初始化
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  transition: all .2s;
+}
+body{
+  line-height: 24px;
+  font: $font-size "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+}
+
+// 引入组件
+@import 'components/grid/grid';
+@import 'components/icon/icon';
+@import 'components/button/button';
+@import 'components/input/input';
+@import 'components/radio/radio';
