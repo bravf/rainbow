@@ -1,0 +1,58 @@
+.r-checkbox{
+  position: relative;
+  margin-right: 8px;
+  cursor: pointer;
+
+  >.r-icon{
+    &:hover{
+      color: $color-01;
+    }
+  }
+
+  span{
+    vertical-align: middle;
+  }
+
+  *{
+    margin: 0 2px;
+  }
+}
+
+.r-checkbox-checked{
+  >.r-icon{
+    color: $color-01;
+  }
+}
+
+.r-checkbox-disabled{
+  cursor: not-allowed;
+  color: $color-27;
+
+  .r-icon{
+    &:hover{
+      color: $color-27;
+    }
+  }
+}
+
+.r-checkbox-indeterminate{
+  >.r-icon{
+    color: $color-01;
+  }
+
+  &::before{
+    content: ' ';
+    width: 9px;
+    height: 1px;
+    position: absolute;
+    left: 4px;
+    top: 5px;
+    border-bottom: 2px solid $color-01;
+  }
+}
+
+.r-checkbox-group-vertical{
+  .r-checkbox{
+    display: block;
+  }
+}

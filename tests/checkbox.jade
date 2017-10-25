@@ -1,0 +1,109 @@
+extends ./_layout
+
+block title
+  | checkbox
+
+block content
+  div.panel
+    h3| checkbox v-model单选
+    div.margin-10
+      r-checkbox(v-model="sex", label="男", :value="1")
+      r-checkbox(v-model="sex", label="女", :value="0")
+      r-checkbox(v-model="sex", label="其他", :value="2")
+      r-checkbox(v-model="sex", label="其他2", :value="3", disabled)
+      
+      div| {{sex}}
+  
+  div.panel
+    h3| checkbox v-model单选 自定义内容
+    div.margin-10
+      r-checkbox-group(v-model="sex")
+        r-checkbox(label="男", :value="1")
+          r-icon(type="man")
+          span| 男
+
+        r-checkbox(label="女", :value="0")
+          r-icon(type="woman")
+          span| 女
+
+        div| {{sex}}
+  
+  div.panel
+    h3| checkbox-group v-model单选
+    div.margin-10
+      r-checkbox-group(v-model="sex")
+        r-checkbox(label="男", :value="1")
+        r-checkbox(label="女", :value="0")
+
+        div| {{sex}}
+  
+  div.panel
+    h3| checkbox-group-vertical v-model单选
+    div.margin-10
+      r-checkbox-group(v-model="sex", vertical)
+        r-checkbox(label="男", :value="1")
+          r-icon(type="man")
+          span| 男
+
+        r-checkbox(label="女", :value="0")
+          r-icon(type="woman")
+          span| 女
+
+        div| {{sex}}
+  
+  div.panel
+    h3| checkbox v-model多选
+    div.margin-10
+      r-checkbox(label="北京", :value="1", v-model="cities")
+      r-checkbox(label="上海", :value="0", v-model="cities")
+
+      div| {{cities.join(',')}}
+  
+  div.panel
+    h3| checkbox-group v-model多选
+    div.margin-10
+      r-checkbox-group(v-model="cities")
+        r-checkbox(label="北京", :value="1")
+        r-checkbox(label="上海", :value="0")
+
+        div| {{cities.join(',')}}
+  
+  div.panel
+    h3| checkbox indeterminate
+    div.margin-10
+      r-checkbox(v-model="allCityCheck", :indeterminate="hasCityCheck")
+      r-checkbox-group(v-model="cities")
+        r-checkbox(label="北京", :value="1")
+        r-checkbox(label="上海", :value="0")
+
+        div| {{cities.join(',')}}
+
+block script
+  script.
+    new Vue({
+      el: '#app',
+      data () {
+        return {
+          sex: 0,
+          cities: [],
+        }
+      },
+      computed: {
+        allCityCheck: {
+          get () {
+            return this.cities.length == 2
+          },
+          set (value) {
+            if (value){
+              this.cities = [0, 1]
+            }
+            else {
+              this.cities = []
+            }
+          }
+        },
+        hasCityCheck () {
+          return this.cities.length > 0 && this.cities.length != 2
+        }
+      }
+    })

@@ -1,7 +1,7 @@
-.rb-input-wrapper{
+.r-input-wrapper{
   position: relative;
 
-  .rb-icon{
+  .r-icon{
     position: absolute;
     right: 0;
     width: 32px;
@@ -12,7 +12,7 @@
     cursor: pointer;
   }
 
-  .rb-input{
+  .r-input{
     display: block;
     font: inherit;
     width: 100%;
@@ -27,7 +27,7 @@
     -webkit-appearance: none;
   
     &:hover, &:focus{
-      border-color: $color-03;
+      border-color: $color-01;
     }
   
     &:disabled{
@@ -47,22 +47,22 @@
     }
   }
 }
-.rb-input-wrapper-textarea{
-  .rb-input{
+.r-input-wrapper-textarea{
+  .r-input{
     height: auto;
     padding: 6px 10px;
     resize: vertical;
   }
   
 }
-.rb-input-wrapper-small{
-  .rb-input{
+.r-input-wrapper-small{
+  .r-input{
     height: 24px;
     line-height: 24px;
     font-size: 12px;
     padding-right: 24px;
   }
-  .rb-icon{
+  .r-icon{
     width: 24px;
     height: 24px;
     line-height: 24px;

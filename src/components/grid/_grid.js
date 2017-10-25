@@ -1,6 +1,6 @@
 import {hx} from '../../common/_tools.js'
 
-var RbRow = Vue.extend({
+var RRow = Vue.extend({
   props: {
     gutter: Number,
     align: String,
@@ -27,13 +27,13 @@ var RbRow = Vue.extend({
     }
   },
   render (h) {
-    return hx('div.rb-row + rb-row-flex', {
+    return hx('div.r-row + r-row-flex', {
       style: this.style
     }, [this.$slots.default]).resolve(h)
   }
 })
 
-var RbCol = Vue.extend({
+var RCol = Vue.extend({
   props: {
     span: Number,
     offset: Number,
@@ -42,18 +42,18 @@ var RbCol = Vue.extend({
     cls () {
       var cls = []
       if (!isNaN(this.span) && this.span > 0 && this.span <= 24) {
-        cls.push(`rb-col-span-${this.span}`)
+        cls.push(`r-col-span-${this.span}`)
       }
 
       if (!isNaN(this.offset) && this.offset > 0 && this.offset <= 24) {
-        cls.push(`rb-col-offset-${this.offset}`)
+        cls.push(`r-col-offset-${this.offset}`)
       }
 
       return cls
     },
     style () {
       var style = {}
-      if (this.$parent instanceof RbRow) {
+      if (this.$parent instanceof RRow) {
         const gutter = this.$parent.gutter
         if (gutter > 0) {
           gutter = gutter / 2
@@ -64,11 +64,11 @@ var RbCol = Vue.extend({
     }
   },
   render (h) {
-    return hx(`div.rb-col + ${this.cls.join('+')}`, {
+    return hx(`div.r-col + ${this.cls.join('+')}`, {
       style: this.style,
     }, [this.$slots.default]).resolve(h)
   }
 })
 
-Vue.component('rb-row', RbRow)
-Vue.component('rb-col', RbCol)
+Vue.component('r-row', RRow)
+Vue.component('r-col', RCol)

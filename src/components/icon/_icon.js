@@ -1,6 +1,6 @@
 import {hx} from '../../common/_tools.js'
 
-var RbIcon = Vue.extend({
+var RIcon = Vue.extend({
   props: {
     type: String,
     size: [String, Number],
@@ -13,7 +13,7 @@ var RbIcon = Vue.extend({
       cls.push(`ion-${this.type}`)
 
       if (this.autoRotate){
-        cls.push('rb-icon-rotate')
+        cls.push('r-icon-rotate')
       }
 
       return cls
@@ -32,10 +32,10 @@ var RbIcon = Vue.extend({
     }
   },
   render (h) {
-    return hx(`i.rb-icon + ${this.cls.join('+')}`, {
+    return hx(`i.r-icon + ${this.cls.join('+')}`, {
       style: this.style
     }).resolve(h)
   }
 })
 
-Vue.component('rb-icon', RbIcon)
+Vue.component('r-icon', RIcon)

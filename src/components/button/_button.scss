@@ -1,4 +1,4 @@
-.rb-btn{
+.r-btn{
   display: inline-block;
   font: inherit;
   height: 32px;
@@ -23,39 +23,39 @@
     transition: none;
   }
 
-  .rb-icon{
+  .r-icon{
     margin-right: 3px;
     font-size: 18px;
     vertical-align: middle;
   }
 
-  .rb-icon-only{
+  .r-icon-only{
     margin-right: 0;
   }
 }
 
-.rb-btn-primary{
+.r-btn-primary{
   border-color: #C9C9C9;
   background-color: #fff;
   color: #555;
 }
 
-.rb-btn-normal{
+.r-btn-normal{
   background-color: $color-03;
   border-color: $color-03;
 }
 
-.rb-btn-warm{
+.r-btn-warm{
   background-color: $color-10;
   border-color: $color-10;
 }
 
-.rb-btn-danger{
+.r-btn-danger{
   background-color: $color-11;
   border-color: $color-11;
 }
 
-.rb-btn-disabled{
+.r-btn-disabled{
   border-color: #e6e6e6;
   background-color: #FBFBFB;
   color: #C9C9C9;
@@ -63,37 +63,37 @@
   opacity: 1;
 }
 
-.rb-btn-small, .rb-btn-group-small .rb-btn{
+.r-btn-small, .r-btn-group-small .r-btn{
   height: 24px;
   line-height: 24px;
   padding: 0 10px;
   font-size: 12px;
 }
 
-.rb-btn-long{
+.r-btn-long{
   display: block;
   width: 100%;
 }
 
-.rb-btn-group{
+.r-btn-group{
   overflow: hidden;
   
-  .rb-btn{
+  .r-btn{
     float: left;
   }
 
-  .rb-btn:not(:first-child){
+  .r-btn:not(:first-child){
     margin-left: 1px;
   } 
-  .rb-btn:first-child:not(:last-child){
+  .r-btn:first-child:not(:last-child){
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
   }
-  .rb-btn:last-child:not(:first-child){
+  .r-btn:last-child:not(:first-child){
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
   }
-  .rb-btn:not(:first-child):not(:last-child){
+  .r-btn:not(:first-child):not(:last-child){
     border-radius: 0;
   }
 }

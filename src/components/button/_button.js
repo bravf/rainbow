@@ -1,6 +1,6 @@
 import {hx} from '../../common/_tools.js'
 
-var RbButton = Vue.extend({
+var RButton = Vue.extend({
   props: {
     type: {
       type: String,
@@ -28,25 +28,25 @@ var RbButton = Vue.extend({
   computed: {
     cls () {
       var cls = []
-      cls.push(`rb-btn-${this.type}`)
+      cls.push(`r-btn-${this.type}`)
       
       if (this.disabled || this.loading){
-        cls.push('rb-btn-disabled')
+        cls.push('r-btn-disabled')
       }
 
       if (this.size === 'small'){
-        cls.push('rb-btn-small')
+        cls.push('r-btn-small')
       }
 
       if (this.long === true){
-        cls.push('rb-btn-long')
+        cls.push('r-btn-long')
       }      
 
       return cls
     }
   },
   render (h) {
-    var $btn = hx(`button.rb-btn + ${this.cls.join('+')}`, {
+    var $btn = hx(`button.r-btn + ${this.cls.join('+')}`, {
       domProps: {
         type: this.htmlType,
       },
@@ -59,9 +59,9 @@ var RbButton = Vue.extend({
     }
 
     if (icon){
-      var $icon = hx('rb-icon', {
+      var $icon = hx('r-icon', {
         'class': {
-          'rb-icon-only': $btnTxt ? false : true,
+          'r-icon-only': $btnTxt ? false : true,
         },
         props: {
           type: icon,
@@ -76,16 +76,16 @@ var RbButton = Vue.extend({
   }
 })
 
-var RbButtonGroup = Vue.extend({
+var RButtonGroup = Vue.extend({
   props: {
     size: String,
   },
   computed: {
     cls () {
-      var cls = ['rb-btn-group']
+      var cls = ['r-btn-group']
       
       if (this.size === 'small'){
-        cls.push('rb-btn-group-small')
+        cls.push('r-btn-group-small')
       }
       
       return cls
@@ -96,5 +96,5 @@ var RbButtonGroup = Vue.extend({
   }
 })
 
-Vue.component('rb-button', RbButton)
-Vue.component('rb-button-group', RbButtonGroup)
+Vue.component('r-button', RButton)
+Vue.component('r-button-group', RButtonGroup)

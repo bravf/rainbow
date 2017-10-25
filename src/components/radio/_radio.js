@@ -1,13 +1,16 @@
 import {hx} from '../../common/_tools.js'
 
-var RbRadio = Vue.extend({
+var RRadio = Vue.extend({
   model: {
     prop: 'checkedValue',
     event: 'input',
   },
   props: {
-    checkedValue: null,
-    value: null,
+    checkedValue: [String, Number, Boolean],
+    value: {
+      type: [String, Number, Boolean],
+      default: true,
+    },
     label: [String, Number],
     disabled: {
       type: Boolean,
@@ -16,20 +19,20 @@ var RbRadio = Vue.extend({
   },
   computed: {
     cls () {
-      var cls = ['rb-radio']
+      var cls = ['r-radio']
 
       if (this.checked){
-        cls.push('rb-radio-checked')
+        cls.push('r-radio-checked')
       }
       
       if (this.disabled){
-        cls.push('rb-radio-disabled')
+        cls.push('r-radio-disabled')
       }
 
       return cls
     },
     isGroupParent () {
-      return this.$parent instanceof RbRadioGroup
+      return this.$parent instanceof RRadioGroup
     },
     checked () {
       if (this.isGroupParent){
@@ -57,7 +60,7 @@ var RbRadio = Vue.extend({
     })
 
     $radio.push(
-      hx('rb-icon', {
+      hx('r-icon', {
         props: {
           type: this.checked ? 
             'ios-circle-filled' :
@@ -73,13 +76,13 @@ var RbRadio = Vue.extend({
   }
 })
 
-var RbRadioGroup = Vue.extend({
+var RRadioGroup = Vue.extend({
   model: {
     prop: 'checkedValue',
     event: 'input',
   },
   props: {
-    checkedValue: null,
+    checkedValue: [String, Number],
     vertical: {
       type: Boolean,
       default: false,
@@ -87,10 +90,10 @@ var RbRadioGroup = Vue.extend({
   },
   computed: {
     cls () {
-      var cls = ['rb-radio-group']
+      var cls = ['r-radio-group']
 
       if (this.vertical){
-        cls.push('rb-radio-group-vertical')
+        cls.push('r-radio-group-vertical')
       }
 
       return cls
@@ -103,5 +106,5 @@ var RbRadioGroup = Vue.extend({
   }
 })
 
-Vue.component('rb-radio', RbRadio)
-Vue.component('rb-radio-group', RbRadioGroup)
+Vue.component('r-radio', RRadio)
+Vue.component('r-radio-group', RRadioGroup)

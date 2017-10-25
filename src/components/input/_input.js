@@ -1,6 +1,6 @@
 import {hx} from '../../common/_tools.js'
 
-var RbInput = Vue.extend({
+var RInput = Vue.extend({
   props: {
     type: {
       type: String,
@@ -17,21 +17,11 @@ var RbInput = Vue.extend({
       type: Boolean,
       default: false,
     },
-    clearable: {
-      type: Boolean,
-      default: false,
-    },
     maxlength: [Number, String],
     icon: String,
     rows: {
       type: [Number, String],
       default: 2,
-    },
-
-    // 设置为true，则显示loading icon，主要用作ajax校验
-    loading: {
-      type: Boolean,
-      default: false,
     },
     // 暂时不做
     autosize: {
@@ -46,17 +36,17 @@ var RbInput = Vue.extend({
   },
   computed: {
     cls () {
-      var cls = ['rb-input-wrapper']
+      var cls = ['r-input-wrapper']
 
       if (this.type === 'textarea'){
-        cls.push('rb-input-wrapper-textarea')
+        cls.push('r-input-wrapper-textarea')
       }
       else {
         if (this.size === 'small'){
-          cls.push('rb-input-wrapper-small')
+          cls.push('r-input-wrapper-small')
         }
         else if (this.size === 'mini'){
-          cls.push('rb-input-wrapper-mini')
+          cls.push('r-input-wrapper-mini')
         }
       }
 
@@ -95,11 +85,11 @@ var RbInput = Vue.extend({
     
     if (this.type === 'textarea'){
       params.attrs.rows = this.rows
-      $input = hx(`textarea.rb-input`, params)
+      $input = hx(`textarea.r-input`, params)
     }
     else {
       params.domProps.type = this.type
-      $input = hx(`input.rb-input`, params)
+      $input = hx(`input.r-input`, params)
     }
 
     var icon = this.icon
@@ -109,31 +99,23 @@ var RbInput = Vue.extend({
       icon = 'ios-close-outline'
     }
     
-    if (this.loading){
-      icon = 'load-c'
-    }
-    
     if (icon){
-      $icon = hx('rb-icon', {
+      $icon = hx('r-icon', {
         props: {
           type: icon,
-          'auto-rotate': this.loading,
         },
       })
     }
 
-    return hx(`div.rb-input-wrapper + ${this.cls.join('+')}`, {
+    return hx(`div.r-input-wrapper + ${this.cls.join('+')}`, {
       on: {
         click ($$event) {
          var $$target = $$event.target
 
          if ($$target.tagName.toLowerCase() === 'i'){
            me.$emit('click')
-           
-           if (me.clearable){
-             me.$emit('input', '')
-           }
          }
+         
         }
       }
     })
@@ -143,4 +125,4 @@ var RbInput = Vue.extend({
   }
 })
 
-Vue.component('rb-input', RbInput)
+Vue.component('r-input', RInput)
