@@ -9,14 +9,8 @@ var RInput = Vue.extend({
     value: [String, Number],
     size: String,
     placeholder: String,
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    readonly: {
-      type: Boolean,
-      default: false,
-    },
+    disabled: Boolean,
+    readonly: Boolean,
     maxlength: [Number, String],
     icon: String,
     rows: {
@@ -104,21 +98,15 @@ var RInput = Vue.extend({
         props: {
           type: icon,
         },
+        nativeOn: {
+          click () {
+            me.$emit('click')
+          }
+        },
       })
     }
 
-    return hx(`div.r-input-wrapper + ${this.cls.join('+')}`, {
-      on: {
-        click ($$event) {
-         var $$target = $$event.target
-
-         if ($$target.tagName.toLowerCase() === 'i'){
-           me.$emit('click')
-         }
-         
-        }
-      }
-    })
+    return hx(`div.r-input-wrapper + ${this.cls.join('+')}`,)
       .push($icon)
       .push($input)
       .resolve(h)

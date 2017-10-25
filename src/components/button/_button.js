@@ -7,22 +7,13 @@ var RButton = Vue.extend({
       default: 'default',
     },
     size: String,
-    long: {
-      type: Boolean,
-      default: false,
-    },
+    long: Boolean,
     htmlType: {
       type: String,
       default: 'button',
     },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
+    disabled: Boolean,
+    loading: Boolean,
     icon: String,
   },
   computed: {
@@ -46,11 +37,17 @@ var RButton = Vue.extend({
     }
   },
   render (h) {
-    var $btn = hx(`button.r-btn + ${this.cls.join('+')}`, {
+    var params = {
       domProps: {
         type: this.htmlType,
       },
-    })
+    }
+
+    if (this.disabled || this.loading){
+      params.domProps['disabled'] = 'disabled'
+    }
+
+    var $btn = hx(`button.r-btn + ${this.cls.join('+')}`, params)
     var $btnTxt = this.$slots.default
 
     var icon = this.icon

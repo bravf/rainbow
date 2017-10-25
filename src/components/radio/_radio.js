@@ -12,10 +12,7 @@ var RRadio = Vue.extend({
       default: true,
     },
     label: [String, Number],
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
+    disabled: Boolean,
   },
   computed: {
     cls () {

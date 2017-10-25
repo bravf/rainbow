@@ -1,0 +1,86 @@
+.r-select{
+  &:hover{
+    .r-select-selection{
+      border-color: $color-01;
+    }
+  }
+}
+
+.r-select-clearable{
+  .ion-ios-close{
+    display: none;
+  }
+
+  .r-select-selection{
+    &:hover{
+      .ion-arrow-up-b, .ion-arrow-down-b{
+        display: none;
+      }
+      .ion-ios-close{
+        display: inline-block;
+      }
+    }
+  }
+}
+
+.r-select-selection{
+  position: relative;
+  cursor: pointer;
+  padding: 0 10px;
+  border: 1px solid #e6e6e6;
+  background-color: $color-20;
+  border-radius: $radius;
+
+  .r-icon{
+    color: $color-27;
+    position: absolute;
+    right: 10px;
+    font-size: 18px;
+    top: 50%;
+    margin-top: -11px;
+  }
+
+  input{
+    cursor: pointer;
+    width: 100%;
+    display: inline-block;
+    height: 32px;
+    line-height: 32px;
+    outline: 0;
+    border: none;
+    padding-right: 20px;
+  }
+}
+
+.r-select-dropdown{
+  border: 1px solid #e6e6e6;
+  background-color: $color-20;
+  border-radius: $radius;
+  margin-top: 2px;
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+.r-select-dropdown-list{
+  list-style: none;
+
+  li{
+    cursor: pointer;
+    list-style: none;
+    padding: 0 10px;
+    line-height: 32px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:hover{
+      background-color: $color-22;
+    }
+  }
+
+  .r-select-option-selected{
+    background-color: $color-01!important;
+    color: $color-20;
+  } 
+}
+

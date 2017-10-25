@@ -12,14 +12,8 @@ var RCheckbox = Vue.extend({
       default: true,
     },
     label: [String, Number],
-    indeterminate: {
-      type: Boolean,
-      default: false,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
+    indeterminate: Boolean,
+    disabled: Boolean,
   },
   computed: {
     cls () {

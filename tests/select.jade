@@ -1,0 +1,34 @@
+extends ./_layout
+
+block title
+  | Select
+
+block content
+  div.panel
+    h3| select
+    div.margin-10
+      r-select(
+        v-model="city", 
+        :clearable="true",
+        style="width: 200px")
+        
+        r-select-option(label="北京", :value="1")
+        r-select-option(label="上海", :value="2")
+        r-select-option(label="深圳", :value="3")
+        r-select-option(label="广州", :value="4")
+        r-select-option(label="天津", :value="5")
+        r-select-option(label="郑州", :value="6")
+        r-select-option(label="武汉", :value="7")
+
+      div| {{city}}
+  
+block script
+  script.
+    new Vue({
+      el: '#app',
+      data () {
+        return {
+          city: 2,
+        }
+      }
+    })
