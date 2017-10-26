@@ -1,0 +1,29 @@
+extends ./_layout
+
+block title
+  | Tag
+
+block content
+  div.panel
+    h3| select
+    div.margin-10
+      r-tag()
+        | 标签1
+      r-tag()
+        | 标签2
+      r-tag(name="标签3", closeable, @close="tagClose")
+        | 标签3
+
+block script
+  script.
+    new Vue({
+      el: '#app',
+      data () {
+        return {}
+      },
+      methods: {
+        tagClose (e, name) {
+          console.log(e, name)
+        }
+      }
+    })

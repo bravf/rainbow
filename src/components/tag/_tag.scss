@@ -1,0 +1,27 @@
+.r-tag{
+  display: inline-block;
+  height: 22px;
+  line-height: 22px;
+  margin: 2px 4px 2px 0;
+  padding: 0 8px;
+  border: 1px solid #e6e6e6;
+  border-radius: $radius;
+  background: $color-22;
+  vertical-align: middle;
+  opacity: 1;
+  overflow: hidden;
+  cursor: pointer;
+
+  .ion-ios-close-empty{
+    margin-left: 8px;
+    opacity: .66;
+
+    &:hover{
+      opacity: 1;
+    }
+  }
+
+  &:hover{
+    opacity: .85;
+  }
+}

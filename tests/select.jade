@@ -5,12 +5,13 @@ block title
 
 block content
   div.panel
-    h3| select
+    h3| select single
     div.margin-10
       r-select(
         v-model="city", 
         :clearable="true",
-        style="width: 200px")
+        filterable,
+        style="width: 220px")
         
         r-select-option(label="北京", :value="1")
         r-select-option(label="上海", :value="2")
@@ -18,17 +19,38 @@ block content
         r-select-option(label="广州", :value="4")
         r-select-option(label="天津", :value="5")
         r-select-option(label="郑州", :value="6")
-        r-select-option(label="武汉", :value="7")
+        r-select-option(label="武汉", :value="7", v-if="haha")
 
       div| {{city}}
+    
+  div.panel
+    h3| select multiple
+    div.margin-10
+      r-select(
+        v-model="cities", 
+        :clearable="true",
+        filterable,
+        style="width: 220px")
+        
+        r-select-option(label="北京", :value="1")
+        r-select-option(label="上海", :value="2")
+        r-select-option(label="深圳", :value="3")
+        r-select-option(label="广州", :value="4")
+        r-select-option(label="天津", :value="5")
+        r-select-option(label="郑州", :value="6")
+        r-select-option(label="武汉", :value="7", v-if="haha")
+
+      div| {{cities}}
   
 block script
   script.
-    new Vue({
+    x = new Vue({
       el: '#app',
       data () {
         return {
           city: 2,
+          cities: [2],
+          haha: true,
         }
       }
     })

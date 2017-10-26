@@ -96,6 +96,30 @@ function getScrollWidth(){
   return widthNoScroll - widthWithScroll
 }
 
+function globalClick(exclude, callback){
+  window.addEventListener('click', _=>{
+    var $$target = _.target
+
+    while ($$target.parentNode != null){
+      $$target = $$target.parentNode
+
+      if ($$target === exclude){
+        return false
+      }
+    }
+
+    callback()
+  }, false)
+}
+
+function getTextWidth(text, font){
+  var canvas = this.getTextWidth.canvas || (this.getTextWidth.canvas = document.createElement("canvas"))
+  var context = canvas.getContext("2d")
+  context.font = font
+  var metrics = context.measureText(text)
+  return metrics.width
+}
+
 export {
   isArray,
   hasChildren,
@@ -103,4 +127,6 @@ export {
   inArray,
   idxArray,
   getScrollWidth,
+  globalClick,
+  getTextWidth,
 }
