@@ -8,18 +8,31 @@ block content
     h3| select single
     div.margin-10
       r-select(
+        disabled,
         v-model="city", 
         :clearable="true",
-        filterable,
+        :filterable="true",
         style="width: 220px")
         
         r-select-option(label="北京", :value="1")
-        r-select-option(label="上海", :value="2")
+        
+        r-select-option(
+          label="上海",
+          :value="2",
+          disabled)
+
         r-select-option(label="深圳", :value="3")
         r-select-option(label="广州", :value="4")
         r-select-option(label="天津", :value="5")
         r-select-option(label="郑州", :value="6")
-        r-select-option(label="武汉", :value="7", v-if="haha")
+        r-select-option(label="武汉", :value="7")
+        r-select-option(label="北京2", :value="11")
+        r-select-option(label="上海2", :value="22")
+        r-select-option(label="深圳2", :value="33")
+        r-select-option(label="广州2", :value="44")
+        r-select-option(label="天津2", :value="55")
+        r-select-option(label="郑州2", :value="66")
+        r-select-option(label="武汉2", :value="77")
 
       div| {{city}}
     
@@ -27,9 +40,11 @@ block content
     h3| select multiple
     div.margin-10
       r-select(
+        disabled,
         v-model="cities", 
         :clearable="true",
-        filterable,
+        :filterable="false",
+        size="small",
         style="width: 220px")
         
         r-select-option(label="北京", :value="1")
@@ -38,7 +53,7 @@ block content
         r-select-option(label="广州", :value="4")
         r-select-option(label="天津", :value="5")
         r-select-option(label="郑州", :value="6")
-        r-select-option(label="武汉", :value="7", v-if="haha")
+        r-select-option(label="武汉", :value="7")
 
       div| {{cities}}
   
@@ -48,9 +63,11 @@ block script
       el: '#app',
       data () {
         return {
-          city: 2,
+          city: 7,
           cities: [2],
           haha: true,
+          hehe: 1,
+          hehe2: 2,
         }
       }
     })

@@ -15,6 +15,8 @@
   .ion-ios-close-empty{
     margin-left: 8px;
     opacity: .66;
+    position: relative;
+    top: -1px;
 
     &:hover{
       opacity: 1;

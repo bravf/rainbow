@@ -19,20 +19,31 @@ var RSelect = Vue.extend({
   },
   data () {
     return {
+      labelValue: [],
+      filterLabelValue: [],
       isExpand: false,
       word: null,
+      focusIdx: -1,
     }
   },
   computed: {
     cls () {
       var cls = ['r-select']
 
-      if (this.clearable){
+      if (!this.isMultiple && (this.size === 'small') ){
+        cls.push('r-select-small')
+      }
+
+      if (this.clearable && !this.disabled){
         cls.push('r-select-clearable')
       }
 
       if (this.isMultiple){
         cls.push('r-select-multiple')
+      }
+
+      if (this.disabled){
+        cls.push('r-select-disabled')
       }
 
       return cls
@@ -57,14 +68,14 @@ var RSelect = Vue.extend({
 
       this.$emit('input', value)
     },
-    _getWordWidth () {
+    _getInputWidth () {
       if (!this.$el){
         return 50
       }
 
       var $$input = this.$refs.input
       var style = window.getComputedStyle($$input)
-      var width = getTextWidth(this.word, `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`)
+      var width = getTextWidth(this.word || this.placeholder, `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`)
 
       return Math.min(width + 10, this.$el.getBoundingClientRect().width - 40)
     },
@@ -77,8 +88,13 @@ var RSelect = Vue.extend({
         if (componentOptions && (componentOptions.tag === 'r-select-option')){
           var value = componentOptions.propsData.value
           var label = componentOptions.propsData.label
-          labelValue.push({label, value})
-          
+          var disabled = componentOptions.propsData.disabled
+
+          if ( (disabled !== undefined) && (disabled !== false) ){
+            disabled = true
+          }
+
+          labelValue.push({label, value, disabled})
         }
       })
 
@@ -92,11 +108,12 @@ var RSelect = Vue.extend({
         return this.value === value
       }
     },
-    _optionClick (_value, _label) {
-      var data = {
-        label: _label,
-        value: _value,
+    _optionClick (data) {
+      if (data.disabled){
+        return
       }
+
+      var _value = data.value
 
       if (this.isMultiple){
         var value = [...this.value]
@@ -157,6 +174,96 @@ var RSelect = Vue.extend({
       })
       return filter
     },
+    _setScolltop (idx) {
+      var $options = []
+      this.$children.forEach($child=>{
+        if ($child instanceof RSelectOption){
+          $options.push($child)
+        }
+      })
+
+      var $option = $options[idx]
+
+      if (!$option){
+        return
+      }
+
+      var $$option = $option.$el
+      var $$dropdown = this.$refs.dropdown
+
+      var $$optionRect = $$option.getBoundingClientRect()
+      var $$dropdownRect = $$dropdown.getBoundingClientRect()
+
+      var bottomOverflowDistance = $$optionRect.bottom - $$dropdownRect.bottom
+      var topOverflowDistance = $$optionRect.top - $$dropdownRect.top
+
+      if (bottomOverflowDistance > 0) {
+        $$dropdown.scrollTop += bottomOverflowDistance;
+      }
+      if (topOverflowDistance < 0) {
+        $$dropdown.scrollTop += topOverflowDistance;
+      }
+    },
+    _keydown (e) {
+      var me = this
+      var key = e.key
+      
+      if (key === 'Backspace'){
+        if (me.isMultiple && (me.word === '' || me.word === null) ){
+          var _value = me.value[me.value.length - 1]
+          me._removeValue(_value)
+        }
+      }
+      else if (inArray(key, ['ArrowDown', 'ArrowUp'])){
+        var idx = me.focusIdx
+        var minIdx = 0
+        var maxIdx = me.filterLabelValue.length - 1
+       
+        if (key === 'ArrowDown'){
+          idx ++
+        }
+        else if (key === 'ArrowUp'){
+          idx --
+        }
+        idx = Math.min(maxIdx, Math.max(minIdx, idx))
+
+        me.focusIdx = idx
+        e.preventDefault()
+      }
+      else if (key === 'Enter'){
+        var data = me.filterLabelValue[me.focusIdx]
+        if (data){
+          me._optionClick(data)
+        }
+      }
+    },
+  },
+  watch: {
+    isExpand (val) {
+      if (!val){
+        this.focusIdx = -1
+      }
+      else {
+        var idx = -1
+        var values = this.labelValue.map(lv=>{
+          return lv.value
+        })
+
+        if (this.isMultiple){
+          idx = values.indexOf(this.value[0])
+        }
+        else {
+          idx = values.indexOf(this.value)
+        }
+
+        this.$nextTick(_=>{
+          this._setScolltop(idx)
+        })
+      }
+    },
+    focusIdx (val) {
+      this._setScolltop(val)
+    },
   },
   mounted () {
     globalClick(this.$el, _=>{
@@ -166,13 +273,22 @@ var RSelect = Vue.extend({
   },
   render (h) {console.log('select render')
     var me = this
-    var labelValue = this._getLabelValue()
+    var labelValue = this.labelValue = this._getLabelValue()
+    var filterLabelValue = this.filterLabelValue = this._getFilter(labelValue)
     var $select = hx(`div.${this.cls.join('+')}`)
     
     //- 选择框区域
     var $selection = hx('div.r-select-selection', {
+      attrs: {
+        // 添加tabindex，使得div可以相应键盘事件
+        tabindex: 100,
+      },
       on: {
         click () {
+          if (me.disabled){
+            return
+          }
+
           if (me.isMultiple){
             me.isExpand = true
           }
@@ -181,9 +297,12 @@ var RSelect = Vue.extend({
           }
 
           if (me.filterable){
-            me.$refs.input.focus()
+            me.$nextTick(_=>{
+              me.$refs.input.focus()
+            })
           }
-        }
+        },
+        keydown : this.filterable ? Function.prototype : this._keydown,
       }
     })
 
@@ -218,24 +337,20 @@ var RSelect = Vue.extend({
       on: {
         input (e) {
           me.word = e.target.value
-        }
+        },
+        keydown : this.filterable ? this._keydown : Function.prototype,
       },
       ref: 'input',
     }
 
     if (this.isMultiple){
-      var width =  this._getWordWidth() + 'px'
-
       if (!this.hasValue){
         inputParams.attrs['placeholder'] = this.placeholder
-        width = '100%'
       }
 
-      inputParams.style['width'] = width
       inputParams.domProps.value = me.word || ''
     }
     else {
-      inputParams.style.width = '100%'
       inputParams.attrs['placeholder'] = this.placeholder
 
       var inputValue = ''
@@ -251,11 +366,16 @@ var RSelect = Vue.extend({
       inputParams.domProps.value = inputValue
     }
 
-    if (!this.filterable){
+    if (this.disabled || !this.filterable){
       inputParams.attrs['readonly'] = 'readonly'
     }
     $selection.push(
-      hx('div.r-select-input-wrapper').push(
+      hx('div.r-select-input-wrapper', {
+        style: {
+          width: this._getInputWidth() + 'px',
+          display: (this.isMultiple && this.hasValue && !this.isExpand) ? 'none' : 'inline-block',
+        },
+      }).push(
         hx('input', inputParams)
       )
     )
@@ -277,7 +397,7 @@ var RSelect = Vue.extend({
     )
 
     // clearable
-    if (this.clearable){
+    if (this.clearable && !this.disabled){
       $selection.push(
         hx('r-icon', {
           props: {
@@ -285,14 +405,7 @@ var RSelect = Vue.extend({
           },
           nativeOn: {
             click (e) {
-              if (me.isMultiple){
-                me.$emit('input', [])
-              }
-              else {
-                me.$emit('input', '')
-              }
-              me.selected = []
-
+              me.$emit('input', me.isMultiple ? [] : '')
               me.isExpand = false
               e.stopPropagation()
             }
@@ -302,7 +415,6 @@ var RSelect = Vue.extend({
     }
 
     //- 列表区域
-    var filterLabelValue = this._getFilter(labelValue)
     var dropdownWidth = 10
 
     if (me.$el){
@@ -312,7 +424,8 @@ var RSelect = Vue.extend({
       style: {
         width: dropdownWidth + 'px',
         display: this.isExpand ? 'block' : 'none'
-      }
+      },
+      ref: 'dropdown',
     })
     var $dropdownList = hx('ul.r-select-dropdown-list')
 
@@ -326,16 +439,20 @@ var RSelect = Vue.extend({
     $dropdownList.push($notFound)
 
     // options
-    var $options = filterLabelValue.map(lv => {
+    var $options = filterLabelValue.map((lv, idx) => {
       var params = {
+        'class': {
+          'r-select-option-selected': this._isSelected(lv.value),
+          'r-select-option-focus': this.focusIdx === idx,
+        },
         props: {
           label: lv.label,
           value: lv.value,
-          selected: this._isSelected(lv.value),
+          disabled: lv.disabled,
         },
         nativeOn: {
           click () {
-            me._optionClick(lv.value, lv.label)
+            me._optionClick(lv)
           }
         },
       }
@@ -357,15 +474,13 @@ var RSelectOption = Vue.extend({
     value: [String, Number],
     label: String,
     disabled: Boolean,
-    selected: Boolean,
   },
   computed: {
     cls () {
       var cls = ['r-select-option']
-      var $parent = this.$parent
 
-      if (this.selected){
-        cls.push('r-select-option-selected')
+      if (this.disabled){
+        cls.push('r-select-option-disabled')
       }
 
       return cls
@@ -378,21 +493,5 @@ var RSelectOption = Vue.extend({
   }
 })
 
-var RSelectOptionGroup = Vue.extend({
-  props: {
-    label: String,
-  },
-  computed: {
-    cls () {
-      var cls = ['r-select-option-group']
-      return cls
-    },
-  },
-  render (h) {
-    var me = this
-  }
-})
-
 Vue.component('r-select', RSelect)
 Vue.component('r-select-option', RSelectOption)
-Vue.component('r-select-option-group', RSelectOptionGroup)

@@ -6,6 +6,37 @@
   }
 }
 
+.r-select-small{
+  .r-select-selection{
+    min-height: 24px;
+
+    .r-select-input-wrapper{
+      height: 16px;
+
+      input{
+        line-height: 16px;
+      }
+    }
+    
+  }
+}
+
+.r-select-disabled{
+  &:hover{
+    .r-select-selection{
+      border-color: #e6e6e6;
+    }
+  }
+  .r-select-selection, input{
+    cursor: not-allowed!important;
+    color: $color-27;
+    background-color: $color-21;
+  }
+  .r-tag{
+    cursor: not-allowed;
+  }
+}
+
 .r-select-clearable{
   .ion-ios-close{
     display: none;
@@ -26,11 +57,12 @@
 .r-select-selection{
   position: relative;
   cursor: pointer;
-  padding: 0 10px;
+  padding: 2px 10px 0 10px;
   border: 1px solid #e6e6e6;
   background-color: $color-20;
   border-radius: $radius;
   min-height: 32px;
+  outline: none;
 
   >.r-icon{
     color: $color-27;
@@ -42,17 +74,22 @@
   }
 
   .r-select-input-wrapper{
+    display: inline-block;
     margin-right: 20px;
+    vertical-align: middle;
+    height: 22px;
+    margin: 2px 0;
   }
 
   input{
     cursor: pointer;
     display: inline-block;
-    height: 29px;
-    line-height: 32px;
     outline: 0;
     border: none;
     overflow: visible;
+    width: 100%;
+    vertical-align: middle;
+    line-height: 22px;
   }
 }
 
@@ -60,7 +97,8 @@
   box-shadow: 0 1px 6px rgba(0,0,0,.2);
   background-color: $color-20;
   border-radius: $radius;
-  margin-top: 4px;
+  margin: 5px 0;
+  padding: 5px 0;
   max-height: 200px;
   overflow-y: auto;
   position: absolute;
@@ -84,20 +122,28 @@
     }
   }
 
+  .r-select-option-disabled{
+    color: #c3cbd6;
+    cursor: not-allowed;
+  }
+
+  .r-select-option-focus{
+    background-color: $color-22;
+    opacity: 0.8;
+  }
+
   .r-select-option-selected{
     background-color: $color-01;
     color: $color-20;
 
     &:hover{
       background-color: $color-01;
+      opacity: 0.8;
     }
   } 
 }
 
 .r-select-multiple{
-  .r-tag{
-    // margin-bottom: 0;
-  }
   .r-select-option-selected{
     background-color: $color-20;
     color: $color-01;
@@ -105,6 +151,9 @@
     &:hover{
       background-color: $color-22;
     }
+  }
+  .r-select-option-focus{
+    background-color: $color-22;
   }
 }
 
