@@ -3,7 +3,6 @@ import {isArray, inArray, hx, globalClick, getTextWidth} from '../../common/_too
 var RSelect = Vue.extend({
   props: {
     value: [String, Number, Array],
-    multiple: Boolean,
     disabled: Boolean,
     clearable: Boolean,
     filterable: Boolean,
@@ -82,7 +81,7 @@ var RSelect = Vue.extend({
     _getLabelValue () {
       var labelValue = []
       
-      this.$slots.default.forEach($slot=>{
+      ;(this.$slots.default || []).forEach($slot=>{
         var componentOptions = $slot.componentOptions
 
         if (componentOptions && (componentOptions.tag === 'r-select-option')){
@@ -134,8 +133,10 @@ var RSelect = Vue.extend({
       }
 
       this.word = null
-      if (this.isMultiple && this.filterable){
-        this.$refs.input.focus()
+      if (this.isMultiple){
+        if (this.filterable){
+          this.$refs.input.focus()
+        }
       }
       else {
         this.isExpand = false
@@ -271,7 +272,7 @@ var RSelect = Vue.extend({
       this.word = null
     })
   },
-  render (h) {console.log('select render')
+  render (h) {
     var me = this
     var labelValue = this.labelValue = this._getLabelValue()
     var filterLabelValue = this.filterLabelValue = this._getFilter(labelValue)
@@ -369,10 +370,16 @@ var RSelect = Vue.extend({
     if (this.disabled || !this.filterable){
       inputParams.attrs['readonly'] = 'readonly'
     }
+
+    var inputWrapperWidth = '100%'
+    if (this.isMultiple && (selectedLabelValue.length > 0) ){
+      inputWrapperWidth = this._getInputWidth() + 'px'
+    }
+
     $selection.push(
       hx('div.r-select-input-wrapper', {
         style: {
-          width: this._getInputWidth() + 'px',
+          width: inputWrapperWidth,
           display: (this.isMultiple && this.hasValue && !this.isExpand) ? 'none' : 'inline-block',
         },
       }).push(

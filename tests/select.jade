@@ -8,66 +8,220 @@ block content
     h3| select single
     div.margin-10
       r-select(
-        disabled,
-        v-model="city", 
-        :clearable="true",
-        :filterable="true",
-        style="width: 220px")
-        
-        r-select-option(label="北京", :value="1")
-        
+        v-model="currCity",
+        style="width:500px",
+      )
         r-select-option(
-          label="上海",
-          :value="2",
-          disabled)
-
-        r-select-option(label="深圳", :value="3")
-        r-select-option(label="广州", :value="4")
-        r-select-option(label="天津", :value="5")
-        r-select-option(label="郑州", :value="6")
-        r-select-option(label="武汉", :value="7")
-        r-select-option(label="北京2", :value="11")
-        r-select-option(label="上海2", :value="22")
-        r-select-option(label="深圳2", :value="33")
-        r-select-option(label="广州2", :value="44")
-        r-select-option(label="天津2", :value="55")
-        r-select-option(label="郑州2", :value="66")
-        r-select-option(label="武汉2", :value="77")
-
-      div| {{city}}
+          v-for="city in cities",
+          :label="city.label",
+          :value="city.value",
+          :key="city.value",
+        )
     
+    h3| select single clearable
+    div.margin-10
+      r-select(
+        v-model="currCity",
+        style="width:500px",
+        clearable,
+      )
+        r-select-option(
+          v-for="city in cities",
+          :label="city.label",
+          :value="city.value",
+          :key="city.value",
+        )
+    
+    h3| select single filterable
+    div.margin-10
+      r-select(
+        v-model="currCity",
+        style="width:500px",
+        filterable,
+      )
+        r-select-option(
+          v-for="city in cities",
+          :label="city.label",
+          :value="city.value",
+          :key="city.value",
+        )
+    
+    h3| select single disabled
+    div.margin-10
+      r-select(
+        v-model="currCity",
+        style="width:500px",
+        disabled,
+      )
+        r-select-option(
+          v-for="city in cities",
+          :label="city.label",
+          :value="city.value",
+          :key="city.value",
+        )
+    
+    h3| select single option disabled
+    div.margin-10
+      r-select(
+        v-model="currCity",
+        style="width:500px",
+      )
+        r-select-option(
+          v-for="city in cities",
+          :label="city.label",
+          :value="city.value",
+          :key="city.value",
+          :disabled="city.value==2? true:false",
+        )
+    
+    h3| select single small size
+    div.margin-10
+      r-select(
+        v-model="currCity",
+        style="width:500px",
+        size="small",
+      )
+        r-select-option(
+          v-for="city in cities",
+          :label="city.label",
+          :value="city.value",
+          :key="city.value",
+        )
+    
+    h3| select single placeholder
+    div.margin-10
+      r-select(
+        v-model="currCity",
+        style="width:500px",
+        placeholder="请选择城市",
+      )
+        r-select-option(
+          v-for="city in cities",
+          :label="city.label",
+          :value="city.value",
+          :key="city.value",
+        )
+    
+    h3| select single notFoundText
+    div.margin-10
+      r-select(
+        v-model="currCity",
+        style="width:500px",
+        not-found-text="无匹配城市",
+      )
+
+  //- multiple
   div.panel
     h3| select multiple
     div.margin-10
       r-select(
+        v-model="currCities",
+        style="width:500px",
+      )
+        r-select-option(
+          v-for="city in cities",
+          :label="city.label",
+          :value="city.value",
+          :key="city.value",
+        )
+    
+    h3| select multiple clearable
+    div.margin-10
+      r-select(
+        v-model="currCities",
+        style="width:500px",
+        clearable,
+      )
+        r-select-option(
+          v-for="city in cities",
+          :label="city.label",
+          :value="city.value",
+          :key="city.value",
+        )
+    
+    h3| select multiple filterable
+    div.margin-10
+      r-select(
+        v-model="currCities",
+        style="width:500px",
+        filterable,
+      )
+        r-select-option(
+          v-for="city in cities",
+          :label="city.label",
+          :value="city.value",
+          :key="city.value",
+        )
+    
+    h3| select multiple disabled
+    div.margin-10
+      r-select(
+        v-model="currCities",
+        style="width:500px",
         disabled,
-        v-model="cities", 
-        :clearable="true",
-        :filterable="false",
-        size="small",
-        style="width: 220px")
-        
-        r-select-option(label="北京", :value="1")
-        r-select-option(label="上海", :value="2")
-        r-select-option(label="深圳", :value="3")
-        r-select-option(label="广州", :value="4")
-        r-select-option(label="天津", :value="5")
-        r-select-option(label="郑州", :value="6")
-        r-select-option(label="武汉", :value="7")
+      )
+        r-select-option(
+          v-for="city in cities",
+          :label="city.label",
+          :value="city.value",
+          :key="city.value",
+        )
+    
+    h3| select multiple option disabled
+    div.margin-10
+      r-select(
+        v-model="currCities",
+        style="width:500px",
+      )
+        r-select-option(
+          v-for="city in cities",
+          :label="city.label",
+          :value="city.value",
+          :key="city.value",
+          :disabled="city.value==2? true:false",
+        )
+    
+    h3| select multiple placeholder
+    div.margin-10
+      r-select(
+        v-model="currCities",
+        style="width:500px",
+        placeholder="请选择城市",
+        clearable,
+      )
+        r-select-option(
+          v-for="city in cities",
+          :label="city.label",
+          :value="city.value",
+          :key="city.value",
+        )
+    
+    h3| select multiple notFoundText
+    div.margin-10
+      r-select(
+        v-model="currCities",
+        style="width:500px",
+        not-found-text="无匹配城市",
+      )
 
-      div| {{cities}}
   
 block script
   script.
+    var cities = []
+    for (var i=0; i<12; i++){
+      cities.push({
+        value: i,
+        label: '北京' + i,
+      })
+    }
+
     x = new Vue({
       el: '#app',
       data () {
         return {
-          city: 7,
-          cities: [2],
-          haha: true,
-          hehe: 1,
-          hehe2: 2,
+          cities: cities,
+          currCity: -1,
+          currCities: [],
         }
       }
     })

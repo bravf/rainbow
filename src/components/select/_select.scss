@@ -57,7 +57,7 @@
 .r-select-selection{
   position: relative;
   cursor: pointer;
-  padding: 2px 10px 0 10px;
+  padding: 2px 30px 0 10px;
   border: 1px solid #e6e6e6;
   background-color: $color-20;
   border-radius: $radius;
@@ -79,6 +79,7 @@
     vertical-align: middle;
     height: 22px;
     margin: 2px 0;
+    width: 100%;
   }
 
   input{
