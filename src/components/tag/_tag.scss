@@ -4,26 +4,33 @@
   line-height: 22px;
   margin: 2px 4px 2px 0;
   padding: 0 8px;
-  border: 1px solid #e6e6e6;
+  border: 1px solid $color-border;
   border-radius: $radius;
-  background: $color-22;
+  background: $color-white-dark;
   vertical-align: middle;
   opacity: 1;
   overflow: hidden;
-  cursor: pointer;
 
   .ion-ios-close-empty{
+    cursor: pointer;
     margin-left: 8px;
-    opacity: .66;
     position: relative;
     top: -1px;
-
-    &:hover{
-      opacity: 1;
-    }
   }
+}
 
-  &:hover{
-    opacity: .85;
+.r-tag-disabled{
+  cursor: not-allowed;
+  .ion-ios-close-empty{
+    cursor: not-allowed;
+  }
+}
+
+.r-tag-small{
+  height: 16px;
+  line-height: 16px;
+
+  .ion-ios-close-empty{
+    top: -2px;
   }
 }

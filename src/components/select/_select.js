@@ -29,7 +29,7 @@ var RSelect = Vue.extend({
     cls () {
       var cls = ['r-select']
 
-      if (!this.isMultiple && (this.size === 'small') ){
+      if (this.size === 'small'){
         cls.push('r-select-small')
       }
 
@@ -315,6 +315,8 @@ var RSelect = Vue.extend({
           props: {
             closeable: true,
             name: s.value,
+            type: me.size,
+            disabled: me.disabled,
           },
           on: {
             close (e, name) {
@@ -345,7 +347,7 @@ var RSelect = Vue.extend({
     }
 
     if (this.isMultiple){
-      if (!this.hasValue){
+      if (!selectedLabelValue.length){
         inputParams.attrs['placeholder'] = this.placeholder
       }
 
@@ -376,11 +378,16 @@ var RSelect = Vue.extend({
       inputWrapperWidth = this._getInputWidth() + 'px'
     }
 
+    var inputWrapperDisplay = 'inline-block'
+    if (this.isMultiple && (selectedLabelValue.length > 0) && !this.isExpand){
+      inputWrapperDisplay = 'none'
+    }
+
     $selection.push(
       hx('div.r-select-input-wrapper', {
         style: {
           width: inputWrapperWidth,
-          display: (this.isMultiple && this.hasValue && !this.isExpand) ? 'none' : 'inline-block',
+          display: inputWrapperDisplay,
         },
       }).push(
         hx('input', inputParams)

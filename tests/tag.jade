@@ -5,13 +5,22 @@ block title
 
 block content
   div.panel
-    h3| select
+    h3| Tag
     div.margin-10
       r-tag()
         | 标签1
       r-tag()
         | 标签2
       r-tag(name="标签3", closeable, @close="tagClose")
+        | 标签3
+    
+    h3| Tag small
+    div.margin-10
+      r-tag(type="small")
+        | 标签1
+      r-tag(type="small")
+        | 标签2
+      r-tag(type="small", name="标签3", closeable, @close="tagClose")
         | 标签3
 
 block script

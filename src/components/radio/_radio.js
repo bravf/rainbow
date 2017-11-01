@@ -46,6 +46,9 @@ var RRadio = Vue.extend({
     var $radio = hx(`label.${this.cls.join('+')}`, {
       on: {
         click () {
+          if (me.disabled){
+            return
+          }
           if (me.isGroupParent){
             me.$parent.$emit('input', me.value)
           }

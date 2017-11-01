@@ -93,6 +93,9 @@ var RCheckbox = Vue.extend({
     var $checkbox = hx(`label.${this.cls.join('+')}`, {
       on: {
         click () {
+          if (me.disabled){
+            return
+          }
           me._setCheckedValue()
         }
       }

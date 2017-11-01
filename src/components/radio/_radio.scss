@@ -4,7 +4,7 @@
 
   >.r-icon{
     &:hover{
-      color: $color-01;
+      color: $color-primary;
     }
   }
 
@@ -19,17 +19,17 @@
 
 .r-radio-checked{
   >.r-icon{
-    color: $color-01;
+    color: $color-primary;
   }
 }
 
 .r-radio-disabled{
   cursor: not-allowed;
-  color: $color-27;
-
-  .r-icon{
+  color: $color-white-dark;
+  
+  >.r-icon{
     &:hover{
-      color: $color-27;
+      color: $color-white-dark;
     }
   }
 }

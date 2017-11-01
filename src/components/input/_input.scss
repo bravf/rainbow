@@ -4,9 +4,9 @@
   .r-icon{
     position: absolute;
     right: 0;
-    width: 32px;
-    height: 32px;
-    line-height: 32px;
+    width: $height;
+    height: $height;
+    line-height: $height;
     text-align: center;
     font-size: 18px;
     cursor: pointer;
@@ -17,33 +17,27 @@
     font: inherit;
     width: 100%;
     padding-left: 10px;
-    padding-right: 32px;
-    height: 32px;
+    padding-right: $height;
+    height: $height;
     line-height: 1.3;
-    border: 1px solid #e6e6e6;
-    background-color: $color-20;
+    border: 1px solid $color-border;
+    background-color: $color-white;
     border-radius: $radius;
     outline: 0;
     -webkit-appearance: none;
   
-    &:hover, &:focus{
-      border-color: $color-01;
+    &:hover{
+      border-color: $color-gray;
+    }
+
+    &:focus{
+      border-color: $color-primary;
     }
   
     &:disabled{
       cursor: not-allowed;
-      color: $color-27;
-      background-color: $color-21;
-  
-      &:hover{
-        border-color: #e6e6e6;
-      }
-    }
-  
-    &[readonly]{
-      &:hover, &:focus{
-        border-color: #e6e6e6;
-      }
+      color: $color-gray;
+      background-color: $color-white-dark;
     }
   }
 }
@@ -57,15 +51,15 @@
 }
 .r-input-wrapper-small{
   .r-input{
-    height: 24px;
-    line-height: 24px;
+    height: $minHeight;
+    line-height: $minHeight;
     font-size: 12px;
-    padding-right: 24px;
+    padding-right: $minHeight;
   }
   .r-icon{
-    width: 24px;
-    height: 24px;
-    line-height: 24px;
+    width: $minHeight;
+    height: $minHeight;
+    line-height: $minHeight;
     font-size: 16px;
   }
 }

@@ -1,14 +1,15 @@
 .r-select{
   &:hover{
     .r-select-selection{
-      border-color: $color-01;
+      border-color: $color-primary;
     }
   }
 }
 
 .r-select-small{
   .r-select-selection{
-    min-height: 24px;
+    min-height: $minHeight;
+    padding-top: 1px;
 
     .r-select-input-wrapper{
       height: 16px;
@@ -24,16 +25,13 @@
 .r-select-disabled{
   &:hover{
     .r-select-selection{
-      border-color: #e6e6e6;
+      border-color: $color-border;
     }
   }
   .r-select-selection, input{
     cursor: not-allowed!important;
-    color: $color-27;
-    background-color: $color-21;
-  }
-  .r-tag{
-    cursor: not-allowed;
+    color: $color-gray;
+    background-color: $color-white-dark;
   }
 }
 
@@ -58,14 +56,14 @@
   position: relative;
   cursor: pointer;
   padding: 2px 30px 0 10px;
-  border: 1px solid #e6e6e6;
-  background-color: $color-20;
+  border: 1px solid $color-border;
+  background-color: $color-white;
   border-radius: $radius;
-  min-height: 32px;
+  min-height: $height;
   outline: none;
 
   >.r-icon{
-    color: $color-27;
+    color: $color-gray;
     position: absolute;
     right: 10px;
     font-size: 18px;
@@ -96,7 +94,7 @@
 
 .r-select-dropdown{
   box-shadow: 0 1px 6px rgba(0,0,0,.2);
-  background-color: $color-20;
+  background-color: $color-white;
   border-radius: $radius;
   margin: 5px 0;
   padding: 5px 0;
@@ -113,48 +111,47 @@
     cursor: pointer;
     list-style: none;
     padding: 0 10px;
-    line-height: 32px;
+    line-height: $height;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 
     &:hover{
-      background-color: $color-22;
+      background-color: $color-white-dark;
     }
   }
 
   .r-select-option-disabled{
-    color: #c3cbd6;
+    color: $color-gray-light;
+    background-color: $color-white!important;
     cursor: not-allowed;
   }
 
   .r-select-option-focus{
-    background-color: $color-22;
-    opacity: 0.8;
+    background-color: $color-white-dark;
   }
 
   .r-select-option-selected{
-    background-color: $color-01;
-    color: $color-20;
+    background-color: $color-primary;
+    color: $color-white;
 
     &:hover{
-      background-color: $color-01;
-      opacity: 0.8;
+      background-color: $color-primary;
     }
   } 
 }
 
 .r-select-multiple{
   .r-select-option-selected{
-    background-color: $color-20;
-    color: $color-01;
+    background-color: $color-white;
+    color: $color-primary;
 
     &:hover{
-      background-color: $color-22;
+      background-color: $color-white-dark;
     }
   }
   .r-select-option-focus{
-    background-color: $color-22;
+    background-color: $color-white-dark;
   }
 }
 

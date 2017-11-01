@@ -1,30 +1,34 @@
 // colors 
-// 常用主色 
-$color-00: #009688;
-$color-01: #5FB878;
-$color-02: #393D49;
-$color-03: #1E9FFF;
+$color-primary:             #4777E6;
+$color-info:                #6089ec;
+$color-success:             #00D397;
+$color-warning:             #FFCC01;
+$color-danger:              #FF4E4C;
 
-// 场景色 
-$color-10: #FFB800;
-$color-11: #FF5722;
-$color-12: #01AAED;
-$color-13: #2F4056;
+$color-black:               #000000;
+$color-black-light:         #222222;
+$color-black-light-extra:   #333333;
+$color-silver:              #666666;
+$color-silver-light:        #888888;
+$color-silver-light-extra:  #AAAAAA;
+$color-gray:                #BBBBBB;
+$color-gray-light:          #CCCCCC;
+$color-gray-light-extra:    #DDDDDD;
+$color-white-dark:          #EEEEEE;
+$color-white-light:         #F2F2F2;
+$color-white:               #FFFFFF;
 
-// 中性色
-$color-20: #ffffff;
-$color-21: #F0F0F0;
-$color-22: #f2f2f2;
-$color-23: #eeeeee;
-$color-24: #e2e2e2;
-$color-25: #dddddd;
-$color-26: #d2d2d2;
-$color-27: #c2c2c2;
+// Border
+$color-border:              $color-gray-light-extra;
+$color-border-hover:        $color-gray;
 
 // 尺寸
 // 圆角
 $radius: 0;//2px;
 $font-size: 12px;
+
+$height: 32px;
+$minHeight: 24px;
 
 // mixin
 @mixin clear() {
@@ -50,7 +54,6 @@ $font-size: 12px;
   transition: all .2s;
 }
 body{
-  line-height: 24px;
   font: $font-size "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
 

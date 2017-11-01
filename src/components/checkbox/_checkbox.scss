@@ -2,10 +2,11 @@
   position: relative;
   margin-right: 8px;
   cursor: pointer;
+  color: $color-black-light;
 
   >.r-icon{
     &:hover{
-      color: $color-01;
+      color: $color-primary;
     }
   }
 
@@ -20,24 +21,24 @@
 
 .r-checkbox-checked{
   >.r-icon{
-    color: $color-01;
+    color: $color-primary;
   }
 }
 
 .r-checkbox-disabled{
   cursor: not-allowed;
-  color: $color-27;
+  color: $color-gray-light;
 
   .r-icon{
     &:hover{
-      color: $color-27;
+      color: $color-gray-light;
     }
   }
 }
 
 .r-checkbox-indeterminate{
   >.r-icon{
-    color: $color-01;
+    color: $color-primary;
   }
 
   &::before{
@@ -47,7 +48,7 @@
     position: absolute;
     left: 4px;
     top: 5px;
-    border-bottom: 2px solid $color-01;
+    border-bottom: 2px solid $color-primary;
   }
 }
 

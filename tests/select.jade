@@ -181,6 +181,20 @@ block content
           :disabled="city.value==2? true:false",
         )
     
+    h3| select multiple small size
+    div.margin-10
+      r-select(
+        v-model="currCities",
+        style="width:500px",
+        size="small",
+      )
+        r-select-option(
+          v-for="city in cities",
+          :label="city.label",
+          :value="city.value",
+          :key="city.value",
+        )
+    
     h3| select multiple placeholder
     div.margin-10
       r-select(

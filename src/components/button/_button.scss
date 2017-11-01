@@ -1,14 +1,13 @@
 .r-btn{
   display: inline-block;
   font: inherit;
-  height: 32px;
-  line-height: 32px;
+  height: $height;
+  line-height: $height;
   padding: 0 15px;
-  background-color: $color-00;
-  color: $color-20;
+  color: $color-white;
   white-space: nowrap;
   text-align: center;
-  border: 1px solid $color-00;
+  border: 1px solid $color-border;
   border-radius: $radius;
   cursor: pointer;
   outline: 0;
@@ -35,37 +34,40 @@
 }
 
 .r-btn-primary{
-  border-color: #C9C9C9;
-  background-color: #fff;
-  color: #555;
+  border-color: $color-primary;
+  background-color: $color-primary;
 }
 
-.r-btn-normal{
-  background-color: $color-03;
-  border-color: $color-03;
-}
-
-.r-btn-warm{
-  background-color: $color-10;
-  border-color: $color-10;
+.r-btn-success{
+  background-color: $color-success;
+  border-color: $color-success;
 }
 
 .r-btn-danger{
-  background-color: $color-11;
-  border-color: $color-11;
+  background-color: $color-danger;
+  border-color: $color-danger;
+}
+
+.r-btn-warning{
+  background-color: $color-warning;
+  border-color: $color-warning;
+}
+
+.r-btn-default{
+  background-color: $color-white;
+  color: $color-black-light;
 }
 
 .r-btn-disabled{
-  border-color: #e6e6e6;
-  background-color: #FBFBFB;
-  color: #C9C9C9;
+  border-color: $color-border;
+  background-color: $color-white;
+  color: $color-gray-light;
   cursor: not-allowed;
-  opacity: 1;
 }
 
 .r-btn-small, .r-btn-group-small .r-btn{
-  height: 24px;
-  line-height: 24px;
+  height: $minHeight;
+  line-height: $minHeight;
   padding: 0 10px;
   font-size: 12px;
 }
@@ -84,16 +86,5 @@
 
   .r-btn:not(:first-child){
     margin-left: 1px;
-  } 
-  .r-btn:first-child:not(:last-child){
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
-  }
-  .r-btn:last-child:not(:first-child){
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-  }
-  .r-btn:not(:first-child):not(:last-child){
-    border-radius: 0;
   }
 }

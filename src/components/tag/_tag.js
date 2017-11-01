@@ -5,11 +5,21 @@ var RTag = Vue.extend({
     closeable: Boolean,
     color: String,
     name: [String, Number],
+    type: String,
+    disabled: Boolean,
   },
   computed: {
     cls () {
       var cls = []
-      cls.push(`r-tag`)
+      cls.push('r-tag')
+
+      if (this.type === 'small'){
+        cls.push('r-tag-small')
+      }
+
+      if (this.disabled){
+        cls.push('r-tag-disabled')
+      }
 
       return cls
     },
@@ -31,6 +41,9 @@ var RTag = Vue.extend({
           },
           nativeOn : {
             click (e) {
+              if (me.disabled){
+                return
+              }
               me.$emit('close', e, me.name)
             }
           },
