@@ -36,16 +36,16 @@
 }
 
 .r-select-clearable{
-  .ion-ios-close{
+  .r-select-close-icon{
     display: none;
   }
 
   .r-select-selection{
     &:hover{
-      .ion-arrow-up-b, .ion-arrow-down-b{
+      .r-select-arrow-icon{
         display: none;
       }
-      .ion-ios-close{
+      .r-select-close-icon{
         display: inline-block;
       }
     }

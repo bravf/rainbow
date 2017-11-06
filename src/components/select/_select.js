@@ -403,7 +403,7 @@ var RSelect = Vue.extend({
       arrowIcon = 'arrow-down-b'
     }
     $selection.push(
-      hx('r-icon', {
+      hx('r-icon.r-select-arrow-icon', {
         props: {
           type: arrowIcon,
         },
@@ -413,9 +413,9 @@ var RSelect = Vue.extend({
     // clearable
     if (this.clearable && !this.disabled){
       $selection.push(
-        hx('r-icon', {
+        hx('r-icon.r-select-close-icon', {
           props: {
-            type: 'ios-close',
+            type: 'close-circled',
           },
           nativeOn: {
             click (e) {

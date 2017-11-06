@@ -1,0 +1,45 @@
+.r-table-loading{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.5);
+
+  div{
+    width: 3px;
+    height: 20px;
+    margin: 0 2px;
+    animation: table-loading-animate 1.2s infinite ease-in-out;
+
+    &:nth-child(2) {
+      animation-delay: -1.1s;
+    }
+
+    &:nth-child(3) {
+      animation-delay: -1.0s;
+    }
+
+    &:nth-child(4) {
+      animation-delay: -0.9s;
+    }
+
+    &:nth-child(5) {
+      animation-delay: -0.8s;
+    }
+  }
+}
+
+@keyframes table-loading-animate {
+  0%, 40%, 100% {
+    background-color: lighten($color-primary, 20%);
+    transform: scaleY(0.4);
+  }
+  20% {
+    background-color: $color-primary;
+    transform: scaleY(1.0);
+  }
+}

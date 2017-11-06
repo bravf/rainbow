@@ -58,6 +58,7 @@ body{
 }
 
 // 引入组件
+@import 'components/loading/loading';
 @import 'components/grid/grid';
 @import 'components/icon/icon';
 @import 'components/button/button';
@@ -66,3 +67,4 @@ body{
 @import 'components/checkbox/checkbox';
 @import 'components/select/select';
 @import 'components/tag/tag';
+@import 'components/table/table';

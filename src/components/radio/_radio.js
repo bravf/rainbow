@@ -36,7 +36,7 @@ var RRadio = Vue.extend({
         return this.$parent.checkedValue === this.value
       }
       else {
-        return this.checkedValue === this.value
+        return (this.checkedValue === this.value) || (this.checkedValue === true)
       }
     },
   },
@@ -60,17 +60,22 @@ var RRadio = Vue.extend({
     })
 
     $radio.push(
-      hx('r-icon', {
+      hx('r-icon.r-radio-icon', {
         props: {
           type: this.checked ? 
-            'ios-circle-filled' :
-            'ios-circle-outline'
+            'android-radio-button-on' :
+            'android-radio-button-off'
         },
       })
     )
-    .push(
-      hx('span', {}, [this.$slots.default || this.label])
-    )
+
+    var label = this.$slots.default || this.label
+
+    if (label){
+      $radio.push(
+        hx('span', {}, [label])
+      )
+    }
 
     return $radio.resolve(h)
   }

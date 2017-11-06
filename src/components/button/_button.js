@@ -56,7 +56,7 @@ var RButton = Vue.extend({
     }
 
     if (icon){
-      var $icon = hx('r-icon', {
+      var $icon = hx('r-icon.r-button-icon', {
         'class': {
           'r-icon-only': $btnTxt ? false : true,
         },

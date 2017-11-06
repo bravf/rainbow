@@ -1,0 +1,112 @@
+extends ./_layout
+
+block title
+  | Table
+
+block content
+  div.panel
+    h3| Table
+    div.margin-10
+      r-table(
+        :data="data", 
+        width="500", 
+        ref="table", 
+        border, 
+        :show-header="true",
+        :sort-method="sort",
+        :sort-field="sortField",
+        :sort-dir="sortDir",
+        :loading="loading")
+        
+        r-table-column(
+          width="50",
+          type="checkbox",
+        )
+        r-table-column(
+          width="50",
+          type="index",
+        )
+        r-table-column(
+          title="姓名",
+          field="name",
+          width="80",
+          :ellipsis="true",
+        )
+        r-table-column(
+          title="数学",
+          field="math",
+          align="center",
+          :sortable="true"
+        )
+        r-table-column(
+          title="语文",
+          field="chinese",
+          align="center",
+          :sortable="true"
+        )
+        r-table-column(
+          title="操作",
+          align="center",
+          width="140",
+        )
+          template(slot-scope="scope")
+            r-button(
+              type="primary",
+              size="small",
+              @click.native="_alert(scope.data.id)",
+              v-if="test"
+            )| 查看
+            r-button(
+              size="small"
+            )| 编辑
+
+block script
+  script.
+    var data = []
+    for (var i=0; i<10; i++){
+      data.push({
+        id: i,
+        name: '张三测试测试测试测试' + i,
+        math: i * 10,
+        chinese: i* 10 + 5,
+      })
+    }
+    vm = new Vue({
+      el: '#app',
+      data () {
+        return {
+          data : data,
+          test: true,
+          sortField: 'math',
+          sortDir: 'asc',
+          loading: false,
+        }
+      },
+      methods: {
+        _alert (id) {
+          alert(id)
+        },
+        sort (dir, field) {
+          this.loading = true
+
+          setTimeout(_=>{
+            this.data.sort((a, b)=>{
+              var x = a[field] - b[field]
+
+              if (dir === 'asc'){
+                return x
+              }
+              else {
+                return -x
+              }
+            })
+
+            this.sortField = field
+            this.sortDir = dir
+
+            this.loading = false
+          }, 1000)
+          
+        }
+      }
+    })

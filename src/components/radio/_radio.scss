@@ -2,7 +2,7 @@
   margin-right: 8px;
   cursor: pointer;
 
-  >.r-icon{
+  .r-radio-icon{
     &:hover{
       color: $color-primary;
     }
@@ -18,18 +18,18 @@
 }
 
 .r-radio-checked{
-  >.r-icon{
+  .r-radio-icon{
     color: $color-primary;
   }
 }
 
 .r-radio-disabled{
   cursor: not-allowed;
-  color: $color-white-dark;
-  
-  >.r-icon{
+  color: $color-gray-light;
+
+  .r-radio-icon{
     &:hover{
-      color: $color-white-dark;
+      color: $color-gray-light;
     }
   }
 }

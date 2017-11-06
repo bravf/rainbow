@@ -62,11 +62,11 @@ var RInput = Vue.extend({
         maxlength: this.maxlength,
       },
       on: {
-        input ($$event) {
-          me.$emit('input', $$event.target.value)
+        input (e) {
+          me.$emit('input', e.target.value)
         },
-        change ($$event) {
-          me.$emit('change', $$event)
+        change (e) {
+          me.$emit('change', e)
         },
         focus () {
           me.$emit('focus')
@@ -94,13 +94,13 @@ var RInput = Vue.extend({
     }
     
     if (icon){
-      $icon = hx('r-icon', {
+      $icon = hx('r-icon.r-input-icon', {
         props: {
           type: icon,
         },
         nativeOn: {
-          click () {
-            me.$emit('click')
+          click (e) {
+            me.$emit('click', e)
           }
         },
       })

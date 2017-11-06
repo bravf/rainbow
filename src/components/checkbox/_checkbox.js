@@ -51,7 +51,7 @@ var RCheckbox = Vue.extend({
         return inArray(this.value, this.realCheckedValue)
       }
       else {
-        return this.value === this.realCheckedValue
+        return (this.value === this.realCheckedValue) || (this.realCheckedValue === true)
       }
     },
   },
@@ -102,7 +102,7 @@ var RCheckbox = Vue.extend({
     })
 
     $checkbox.push(
-      hx('r-icon', {
+      hx('r-icon.r-checkbox-icon', {
         props: {
           type: this.checked ? 
             'android-checkbox-outline' :
@@ -110,9 +110,13 @@ var RCheckbox = Vue.extend({
         },
       })
     )
-    .push(
-      hx('span', {}, [this.$slots.default || this.label])
-    )
+
+    var label = this.$slots.default || this.label
+    if (label){
+      $checkbox.push(
+        hx('span', {}, [label])
+      )
+    }
 
     return $checkbox.resolve(h)
   }
