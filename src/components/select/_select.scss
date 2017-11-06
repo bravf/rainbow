@@ -110,11 +110,12 @@
   li{
     cursor: pointer;
     list-style: none;
-    padding: 0 10px;
+    padding: 0 20px 0 10px;
     line-height: $height;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    position: relative;
 
     &:hover{
       background-color: $color-white-dark;
@@ -148,6 +149,15 @@
 
     &:hover{
       background-color: $color-white-dark;
+    }
+
+    &::after{
+      position: absolute;
+      right: 10px;
+      font-family: Ionicons;
+      content: '\F3FD';
+      font-size: 24px;
+      color: $color-primary;
     }
   }
   .r-select-option-focus{
