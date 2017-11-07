@@ -1,0 +1,106 @@
+.r-datepicker{
+  position: relative;
+}
+
+.r-datepicker-clearable{
+  .r-input-wrapper{
+    &:hover{
+      .ion-ios-calendar-outline{
+        &::before{
+          content: '\f405';
+        }
+      }
+    }
+  }
+}
+
+.r-datepicker-dropdown{
+  width: 218px;
+  background-color: $color-white;
+  position: absolute;
+  top: $height;
+  border: 1px solid $color-border;
+  margin-top: 2px;
+
+  .r-datepicker-dropdown-head{
+    text-align: center;
+    overflow: hidden;
+    height: $height;
+    line-height: $height;
+    border-bottom: 1px solid $color-border;
+
+    i{
+      cursor: pointer;
+      color: $color-gray;
+
+      &:hover{
+        color: $color-info;
+      }
+    }
+  }
+
+  .r-datepicker-head-prev-btn{
+    float: left;
+    padding-left: 10px;
+  }
+
+  .r-datepicker-head-next-btn{
+    float: right;
+    padding-right: 10px;
+  }
+
+  .r-datepicker-dropdown-body{
+    margin: 10px;
+
+    span{
+      position: relative;
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
+      text-align: center;
+      user-select: none;
+    }
+
+    .r-datepicker-item{
+      cursor: pointer;
+
+      &:hover{
+        background-color: $color-white-dark;
+      }
+    }
+
+    .r-datepicker-item-gray{
+      color: $color-gray;
+      cursor: pointer;
+    }
+
+    .r-datepicker-item-active{
+      background-color: $color-primary;
+      color: $color-white;
+
+      &:hover{
+        background-color: $color-primary;
+        color: $color-white;
+      }
+
+      &::after{
+        background-color: $color-white!important; 
+      }
+    }
+
+    .r-datepicker-item-today{
+      &::after{
+        content: '';
+        display: block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: $color-primary;
+        position: absolute;
+        top: 1px;
+        right: 1px;
+      }
+    }
+  }
+}

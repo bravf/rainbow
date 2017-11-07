@@ -1,0 +1,24 @@
+extends ./_layout
+
+block title
+  | datepicker
+
+block content
+  div.panel
+    h3| datepicker
+    div.margin-10
+      r-datepicker(
+        v-model="date",
+        placeholder="选择起飞时间",
+      )
+
+block script
+  script.
+    vm = new Vue({
+      el: '#app',
+      data () {
+        return {
+          date: ''
+        }
+      },
+    })

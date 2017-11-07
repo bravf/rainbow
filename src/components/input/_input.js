@@ -100,7 +100,7 @@ var RInput = Vue.extend({
         },
         nativeOn: {
           click (e) {
-            me.$emit('click', e)
+            me.$emit('click-icon', e)
           }
         },
       })
