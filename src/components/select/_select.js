@@ -176,34 +176,12 @@ var RSelect = Vue.extend({
       return filter
     },
     _setScolltop (idx) {
-      var $options = []
-      this.$children.forEach($child=>{
-        if ($child instanceof RSelectOption){
-          $options.push($child)
-        }
-      })
-
-      var $option = $options[idx]
-
-      if (!$option){
-        return
-      }
-
-      var $$option = $option.$el
       var $$dropdown = this.$refs.dropdown
 
-      var $$optionRect = $$option.getBoundingClientRect()
-      var $$dropdownRect = $$dropdown.getBoundingClientRect()
-
-      var bottomOverflowDistance = $$optionRect.bottom - $$dropdownRect.bottom
-      var topOverflowDistance = $$optionRect.top - $$dropdownRect.top
-
-      if (bottomOverflowDistance > 0) {
-        $$dropdown.scrollTop += bottomOverflowDistance;
-      }
-      if (topOverflowDistance < 0) {
-        $$dropdown.scrollTop += topOverflowDistance;
-      }
+      // 32 item高度
+      // 200 列表容器高度
+      // 5 列表容器上padding
+      $$dropdown.scrollTop = 32 * (idx + 1) - 200 + 5
     },
     _keydown (e) {
       var me = this
