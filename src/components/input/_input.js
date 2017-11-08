@@ -39,9 +39,6 @@ var RInput = Vue.extend({
         if (this.size === 'small'){
           cls.push('r-input-wrapper-small')
         }
-        else if (this.size === 'mini'){
-          cls.push('r-input-wrapper-mini')
-        }
       }
 
       return cls

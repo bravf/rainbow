@@ -1,4 +1,4 @@
-import {isArray, hx, globalClick} from '../../common/_tools.js'
+import {isArray, hx, globalClick, paddingZero} from '../../common/_tools.js'
 
 var RDatepicker = Vue.extend({
   props: {
@@ -9,6 +9,19 @@ var RDatepicker = Vue.extend({
     },
     disabled: Boolean,
     clearable: Boolean,
+    disabledDate: {
+      type: Function,
+      default: function (){}
+    },
+
+    // 枚举
+    // a: yyyy-MM-dd
+    // b: yyyy/MM/dd
+    format: {
+      type: String,
+      default: 'a',
+    },
+    size: String,
   },
   computed: {
     cls () {
@@ -16,6 +29,10 @@ var RDatepicker = Vue.extend({
 
       if (this.clearable){
         cls.push('r-datepicker-clearable')
+      }
+
+      if (this.size == 'small'){
+        cls.push('r-datepicker-small')
       }
 
       return cls
@@ -177,7 +194,7 @@ var RDatepicker = Vue.extend({
           year: prevMonth.year,
           month: prevMonth.month,
           day: prevMonthDayCount-firstDay + i,
-          cls: 'r-datepicker-item-gray'
+          cls: ['r-datepicker-item-gray']
         })
       }
 
@@ -206,7 +223,7 @@ var RDatepicker = Vue.extend({
           year: year,
           month: month,
           day: i + 1,
-          cls: cls.join('+')
+          cls: cls
         })
       }
 
@@ -216,16 +233,44 @@ var RDatepicker = Vue.extend({
           year: nextMonth.year,
           month: nextMonth.month,
           day: i + 1,
-          cls: 'r-datepicker-item-gray'
+          cls: ['r-datepicker-item-gray']
         })
       }
 
       cells.forEach(cell=>{
+        var isDisabled = false
+
+        if (me.disabledDate){
+          isDisabled = !!me.disabledDate(new Date(cell.year, cell.month, cell.day, 23, 59, 59))
+        }
+
+        // 如果禁用，去掉item样式
+        if (isDisabled){
+          var idx = cell.cls.indexOf('r-datepicker-item')
+          if (idx != -1){
+            cell.cls.splice(idx, 1)
+          }
+        }
+
         $body.push(
-          hx(`span.${cell.cls}`, {
+          hx(`span.${cell.cls.join('+')}`, {
+            'class': {
+              'r-datepicker-item-disabled': isDisabled
+            },
             on: {
               click () {
-                me.$emit('input', `${cell.year}-${cell.month + 1}-${cell.day}`)
+                var month = paddingZero(cell.month + 1, 2)
+                var day = paddingZero(cell.day, 2)
+                var value = ''
+
+                if (me.format == 'b'){
+                  value = `${cell.year}/${month}/${day}`
+                }
+                else {
+                  value = `${cell.year}-${month}-${day}`
+                }
+
+                me.$emit('input', value)
                 me.isExpand = false
               }
             }
@@ -248,6 +293,7 @@ var RDatepicker = Vue.extend({
         readonly: 'readonly',
         placeholder: this.placeholder,
         disabled: this.disabled,
+        size: this.size,
       },
       nativeOn: {
         click () {

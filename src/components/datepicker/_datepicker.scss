@@ -14,6 +14,12 @@
   }
 }
 
+.r-datepicker-small{
+  .r-datepicker-dropdown{
+    top: $minHeight;
+  }  
+}
+
 .r-datepicker-dropdown{
   width: 218px;
   background-color: $color-white;
@@ -21,6 +27,7 @@
   top: $height;
   border: 1px solid $color-border;
   margin-top: 2px;
+  z-index: 10;
 
   .r-datepicker-dropdown-head{
     text-align: center;
@@ -66,7 +73,8 @@
       cursor: pointer;
 
       &:hover{
-        background-color: $color-white-dark;
+        background-color: $color-info;
+        color: $color-white;
       }
     }
 
@@ -101,6 +109,12 @@
         top: 1px;
         right: 1px;
       }
+    }
+    
+    .r-datepicker-item-disabled{
+      background-color: $color-white-dark;
+      cursor: not-allowed;
+      color: $color-gray;
     }
   }
 }

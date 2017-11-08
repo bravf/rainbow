@@ -120,6 +120,19 @@ function getTextWidth(text, font){
   return metrics.width
 }
 
+function paddingZero(me, len){
+  me = me.toString()
+
+  if (me.length >= len){
+    return me 
+  }
+
+  var arr = []
+  arr.length = len - me.length + 1
+
+  return arr.join('0') + me
+}
+
 export {
   isArray,
   hasChildren,
@@ -129,4 +142,5 @@ export {
   getScrollWidth,
   globalClick,
   getTextWidth,
+  paddingZero,
 }
