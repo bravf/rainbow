@@ -1,0 +1,86 @@
+.r-timepicker{
+  position: relative;
+}
+
+.r-timepicker-clearable{
+  .r-input-wrapper{
+    &:hover{
+      .ion-ios-clock-outline{
+        &::before{
+          content: '\f405';
+        }
+      }
+    }
+  }
+}
+
+.r-timepicker-small{
+  .r-timepicker-dropdown{
+    top: $minHeight;
+  }  
+}
+
+.r-timepicker-dropdown{
+  position: absolute;
+  top: $height;
+  border: 1px solid $color-border;
+  border-right: 0;
+  margin-top: 2px;
+  z-index: 10;
+  background-color: $color-white;
+  overflow: hidden;
+
+  .r-timepicker-col{
+    float: left;
+    height: $height * 5;
+    overflow: hidden;
+    width: $height + 14;
+    position: relative;
+    border-right: 1px solid $color-border;
+
+    &:hover{
+      overflow-y: scroll;
+    }
+  }
+
+
+  ul, li{
+    list-style: none;
+  }
+
+  ul{
+    width: $height;
+    padding-bottom: $height * 4;
+  }
+
+  li{
+    text-align: left;
+    padding-left: 12px;
+    height: $height;
+    line-height: $height;
+    width: $height + 14;
+  }
+
+  .r-timepicker-item{
+    cursor: pointer;
+
+    &:hover{
+      background-color: $color-white-dark;
+    }
+  }
+
+  .r-timepicker-item-disabled{
+    color: $color-gray;
+    cursor: not-allowed;
+  }
+
+  .r-timepicker-item-active{
+    background-color: $color-primary;
+    color: $color-white;
+
+    &:hover{
+      background-color: $color-primary;
+      color: $color-white;
+    }
+  }
+}

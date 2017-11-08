@@ -27,7 +27,7 @@ var RDatepicker = Vue.extend({
     cls () {
       var cls = ['r-datepicker']
 
-      if (this.clearable){
+      if (this.clearable && !this.disabled){
         cls.push('r-datepicker-clearable')
       }
 
@@ -311,7 +311,7 @@ var RDatepicker = Vue.extend({
       },
     }
 
-    if (this.clearable){
+    if (this.clearable && !this.disabled){
       inputOptions['on'] = {
         'click-icon' (e) {
           me.$emit('input', '')
