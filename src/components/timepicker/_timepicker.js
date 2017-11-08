@@ -50,19 +50,17 @@ var RTimepicker = Vue.extend({
   },
   methods: {
     _syncValue () {
-      if (this.value){
-        var format = this.format
-        var values = this.value.split(':')
+      var format = this.format
+      var values = this.value.split(':')
 
-        if ( (format == 'a') || (format == 'b') ){
-          this.hour = values[0] || 0
-          this.minute = values[1] || 0
-          this.second = values[2] || 0
-        }
-        else if (format == 'c'){
-          this.minute = values[0] || 0
-          this.second = values[1] || 0
-        }
+      if ( (format == 'a') || (format == 'b') ){
+        this.hour = values[0] || 0
+        this.minute = values[1] || 0
+        this.second = values[2] || 0
+      }
+      else if (format == 'c'){
+        this.minute = values[0] || 0
+        this.second = values[1] || 0
       }
     },
     _getDropdown () {
