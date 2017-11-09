@@ -37,20 +37,30 @@
 }
 
 .r-checkbox-indeterminate{
-  .r-checkbox-icon{
-    color: $color-primary;
-    position: relative;
+  position: relative;
+  color: $color-primary;
 
-    &::after{
-      content: ' ';
-      width: 9px;
-      height: 1px;
-      position: absolute;
-      left: 2px;
-      top: 9px;
-      border-bottom: 2px solid $color-primary;
-    }
+  &:after{
+    font-family: Ionicons;
+    content: "\f209";
+    position: absolute;
+    top: 2px;
+    left: 2px;
   }
+  // .r-checkbox-icon{
+  //   color: $color-primary;
+  //   position: relative;
+
+  //   &::after{
+  //     content: ' ';
+  //     width: 9px;
+  //     height: 1px;
+  //     position: absolute;
+  //     left: 2px;
+  //     top: 9px;
+  //     border-bottom: 2px solid $color-primary;
+  //   }
+  // }
 }
 
 .r-checkbox-group-vertical{
