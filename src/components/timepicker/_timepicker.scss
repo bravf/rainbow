@@ -34,7 +34,7 @@
     float: left;
     height: $height * 5;
     overflow: hidden;
-    width: $height + 14;
+    width: $height + 20;
     position: relative;
     border-right: 1px solid $color-border;
 
@@ -58,7 +58,7 @@
     padding-left: 12px;
     height: $height;
     line-height: $height;
-    width: $height + 14;
+    width: $height + 20;
   }
 
   .r-timepicker-item{
