@@ -60,20 +60,6 @@ block content
           :key="city.value",
         )
     
-    h3| select single option disabled
-    div.margin-10
-      r-select(
-        v-model="currCity",
-        style="width:500px",
-      )
-        r-select-option(
-          v-for="city in cities",
-          :label="city.label",
-          :value="city.value",
-          :key="city.value",
-          :disabled="city.value==2? true:false",
-        )
-    
     h3| select single small size
     div.margin-10
       r-select(
@@ -165,20 +151,6 @@ block content
           :label="city.label",
           :value="city.value",
           :key="city.value",
-        )
-    
-    h3| select multiple option disabled
-    div.margin-10
-      r-select(
-        v-model="currCities",
-        style="width:500px",
-      )
-        r-select-option(
-          v-for="city in cities",
-          :label="city.label",
-          :value="city.value",
-          :key="city.value",
-          :disabled="city.value==2? true:false",
         )
     
     h3| select multiple small size
