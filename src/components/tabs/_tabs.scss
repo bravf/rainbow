@@ -1,0 +1,39 @@
+.r-tabs{
+  position: relative;
+}
+
+.r-tabs-head{
+  border-bottom: 1px solid $color-border;
+  // overflow: hidden;
+  margin-bottom: 10px;
+  white-space: nowrap;
+  height: $height;
+}
+
+.r-tabs-tab{
+  display: inline-block;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  padding: 0 10px;
+  margin-right: 4px;
+  border: 1px solid $color-border;
+  border-bottom: 0;
+  height: $height - 1;
+  line-height: $height - 1;
+  background-color: $color-white;
+
+  .r-icon{
+    margin-right: 5px;
+  }
+}
+
+.r-tabs-tab-active{
+  color: $color-info;
+  border-top-color: $color-primary;
+  height: $height;
+}
+
+.r-tabs-pane{
+  display: none;
+}

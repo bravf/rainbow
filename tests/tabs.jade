@@ -1,0 +1,40 @@
+extends ./_layout
+
+block title
+  | tabs
+
+block content
+  r-tabs(style="margin:10px;", v-model="tabsValue")
+    r-tab-pane(
+      name="pane1",
+      label="macOS",
+      icon="social-apple"
+    )
+      div| macOS
+    
+    r-tab-pane(
+      name="pane2",
+      label="Windows",
+      icon="social-windows"
+    )
+      div| Windows
+    
+    r-tab-pane(
+      name="pane3",
+      label="Linux",
+      v-if="test",
+      icon="social-tux"
+    )
+      div| Linux
+
+block script
+  script.
+    vm = new Vue({
+      el: '#app',
+      data () {
+        return {
+          test: true,
+          tabsValue: ''
+        }
+      }
+    })

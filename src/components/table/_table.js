@@ -45,7 +45,7 @@ var RTable = Vue.extend({
       var confs = []
       
       if (!this.$slots.default){
-        return conf
+        return
       }
 
       var propList = ['type', 'title', 'field', 'width', 'align', 'sortable', 'sortMethod', 'ellipsis']
@@ -68,7 +68,7 @@ var RTable = Vue.extend({
 
         confs.push(conf)
       })
-console.log(confs)
+
       this.columnConfs = confs
     },
     _getThead () {
@@ -347,9 +347,6 @@ console.log(confs)
       .push(this._getLoading())
       .resolve(h)
   },
-  mounted () {
-    this._getColumnConfs()
-  }
 })
 
 var RTableColumn = Vue.extend({
@@ -375,7 +372,13 @@ var RTableColumn = Vue.extend({
       return cls
     }
   },
-  render (h){
+  mounted () {
+    this.$parent._getColumnConfs()
+  },
+  beforeDestroy () {
+    this.$parent._getColumnConfs()
+  },
+  render () {
 
   }
 })
