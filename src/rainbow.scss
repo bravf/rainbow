@@ -56,6 +56,11 @@ $minHeight: 24px;
 body{
   font: $font-size "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
+a{
+  color: $color-info;
+  text-decoration: none;
+  outline: 0;
+}
 
 // 引入组件
 @import 'components/loading/loading';
@@ -70,3 +75,4 @@ body{
 @import 'components/table/table';
 @import 'components/datepicker/datepicker';
 @import 'components/timepicker/timepicker';
+@import 'components/card/card';

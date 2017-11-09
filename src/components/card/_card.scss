@@ -1,0 +1,27 @@
+.r-card{
+  border: 1px solid $color-border;
+  position: relative;
+}
+
+.r-card-hover{
+  &:hover{
+    box-shadow: 0 1px 6px rgba(0,0,0,.2);
+  }
+}
+
+.r-card-head{
+  height: $height;
+  line-height: $height;
+  padding: 0 10px;
+  border-bottom: 1px solid $color-border;
+}
+
+.r-card-extra{
+  position: absolute;
+  right: 10px;
+  top: 7px;
+}
+
+.r-card-body{
+  padding: 10px;
+}

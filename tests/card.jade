@@ -1,0 +1,29 @@
+extends ./_layout
+
+block title
+  | card
+
+block content
+  r-card(
+    style="margin: 10px; width:200px;"
+  )
+    p(slot="title")
+      | 标准卡片
+    
+    a(href="#", slot="extra")
+      r-icon(type="ios-loop-strong")
+      | 换一换
+    
+    p| 卡片内容
+    p| 卡片内容
+    p| 卡片内容
+
+block script
+  script.
+    new Vue({
+      el: '#app',
+      data () {
+        return {
+        }
+      }
+    })
