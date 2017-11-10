@@ -23,9 +23,9 @@ var RCheckbox = Vue.extend({
         cls.push('r-checkbox-checked')
       }
       else {
-        if (this.indeterminate){
-          cls.push('r-checkbox-indeterminate')
-        }
+        // if (this.indeterminate){
+        //   cls.push('r-checkbox-indeterminate')
+        // }
       }
       
       if (this.disabled){

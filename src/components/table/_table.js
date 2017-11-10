@@ -104,7 +104,7 @@ var RTable = Vue.extend({
             })
           }
 
-          $thContent = hx('r-checkbox', {
+          $thContent = hx('r-checkbox.r-table-checkbox', {
             props: {
               checkedValue: isAllChecked,
               indeterminate: indeterminate,
@@ -190,7 +190,7 @@ var RTable = Vue.extend({
               tdContent.children = [dataIdx]
             }
             else if (conf.type == 'checkbox'){
-              tdContent = hx('r-checkbox', {
+              tdContent = hx('r-checkbox.r-table-checkbox', {
                 props: {
                   checkedValue: data.__checked === true
                 },
@@ -208,7 +208,7 @@ var RTable = Vue.extend({
               })
             }
             else if (conf.type == 'radio'){
-              tdContent = hx('r-radio', {
+              tdContent = hx('r-radio.r-table-radio', {
                 props: {
                   checkedValue: data.__checked === true,
                 },

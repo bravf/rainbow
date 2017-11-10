@@ -73,6 +73,12 @@
   }
 }
 
+.r-table-checkbox, .r-table-radio{
+  .r-icon{
+    font-size: 18px;
+  }
+}
+
 .r-table-border{
   th, td{
     border-right: 1px solid $color-border;
