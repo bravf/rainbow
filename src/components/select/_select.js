@@ -108,9 +108,9 @@ var RSelect = Vue.extend({
       }
     },
     _optionClick (data) {
-      // if (data.disabled){
-      //   return
-      // }
+      if (data.disabled){
+        return
+      }
 
       var _value = data.value
 
@@ -440,7 +440,7 @@ var RSelect = Vue.extend({
         props: {
           label: lv.label,
           value: lv.value,
-          // disabled: lv.disabled,
+          disabled: lv.disabled,
         },
         nativeOn: {
           click () {
@@ -465,15 +465,15 @@ var RSelectOption = Vue.extend({
   props: {
     value: [String, Number],
     label: String,
-    // disabled: Boolean,
+    disabled: Boolean,
   },
   computed: {
     cls () {
       var cls = ['r-select-option']
 
-      // if (this.disabled){
-      //   cls.push('r-select-option-disabled')
-      // }
+      if (this.disabled){
+        cls.push('r-select-option-disabled')
+      }
 
       return cls
     },

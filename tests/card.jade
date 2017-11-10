@@ -14,9 +14,18 @@ block content
       r-icon(type="ios-loop-strong")
       span(style="vertical-align: middle;")| 换一换
     
-    p| 卡片内容
-    p| 卡片内容
-    p| 卡片内容
+    r-card(
+    )
+      p(slot="title")
+        | 标准卡片
+      
+      a(href="#", slot="extra")
+        r-icon(type="ios-loop-strong")
+        span(style="vertical-align: middle;")| 换一换
+      
+      p| 卡片内容
+      p| 卡片内容
+      p| 卡片内容
 
 block script
   script.
