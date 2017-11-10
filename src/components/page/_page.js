@@ -55,7 +55,11 @@ var RPage = Vue.extend({
         value: this.value,
         filterable: true,
         placeholder: '...',
+        notFoundText: '...',
         size: this.size,
+      },
+      style: {
+        width: Math.max(0, pageTotal.toString().length - 2) * 10 + 60 + 'px'
       },
       on: {
         input (value) {

@@ -6,10 +6,9 @@ block title
 block content
   div.panel
     h3| Table
-    div.margin-10
+    div.margin-10(style="width:500px;")
       r-table(
         :data="data", 
-        width="500", 
         ref="table", 
         border, 
         :show-header="true",
@@ -60,6 +59,14 @@ block content
             r-button(
               size="small"
             )| 编辑
+      
+      r-page(
+        style="margin: 10px 0; text-align:right",
+        v-model="page.currPage",
+        :total="page.total",
+        :show-total="true",
+        :page-size="10000"
+      )
 
 block script
   script.
@@ -81,6 +88,11 @@ block script
           sortField: 'math',
           sortDir: 'asc',
           loading: false,
+
+          page: {
+            currPage: 1,
+            total: 34500,
+          }
         }
       },
       methods: {

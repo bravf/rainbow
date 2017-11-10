@@ -116,6 +116,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     position: relative;
+    text-align: left;
 
     &:hover{
       background-color: $color-white-dark;
