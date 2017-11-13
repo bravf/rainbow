@@ -14,6 +14,10 @@
   -webkit-appearance: none;
   vertical-align: middle;
 
+  span{
+    vertical-align: top;
+  }
+
   &:hover{
     opacity: .6;
   }
@@ -24,13 +28,13 @@
   }
 
   .r-button-icon{
-    margin-right: 3px;
+    margin: 0 3px;
     font-size: 18px;
-    vertical-align: middle;
+    vertical-align: top;
   }
 
   .r-icon-only{
-    margin-right: 0;
+    margin: 0;
   }
 }
 

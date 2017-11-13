@@ -15,6 +15,13 @@ var RButton = Vue.extend({
     disabled: Boolean,
     loading: Boolean,
     icon: String,
+
+    // icon位置，默认before
+    // 枚举: before, after
+    iconPos: {
+      type: String,
+      default: 'before'
+    }
   },
   computed: {
     cls () {
@@ -48,15 +55,16 @@ var RButton = Vue.extend({
     }
 
     var $btn = hx(`button.r-btn + ${this.cls.join('+')}`, params)
-    var $btnTxt = this.$slots.default
+    var $btnTxt = hx('span', {}, [this.$slots.default])
 
+    var $icon = null
     var icon = this.icon
     if (this.loading){
       icon = 'load-c'
     }
 
     if (icon){
-      var $icon = hx('r-icon.r-button-icon', {
+      $icon = hx('r-icon.r-button-icon', {
         'class': {
           'r-icon-only': $btnTxt ? false : true,
         },
@@ -65,10 +73,14 @@ var RButton = Vue.extend({
           'auto-rotate': this.loading,
         },
       })
-      $btn.push($icon)
     }
 
-    $btn.push($btnTxt)
+    var $children = [$icon, $btnTxt]
+    if (this.iconPos === 'after'){
+      var $children = [$btnTxt, $icon]
+    }
+
+    $btn.push($children)
     return $btn.resolve(h)
   }
 })

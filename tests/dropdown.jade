@@ -1,0 +1,59 @@
+extends ./_layout
+
+block title
+  | dropdown
+
+block content
+  div.panel
+    h3| dropdown
+  
+    div.margin-10
+      r-dropdown(
+        label="下拉菜单"
+      )
+        r-dropdown-item(
+          href="http://baidu.com",
+          target="_blank"
+        )| 百度
+        r-dropdown-item(
+          @click.native="hello"
+        )| 360
+        r-dropdown-item(
+          href="https://www.sogou.com/"
+        )| 搜狗
+  
+  div.panel
+    h3|  small
+  
+    div.margin-10
+      r-dropdown(
+        label="下拉菜单",
+        size="small"
+      )
+        r-dropdown-item(
+          href="http://baidu.com",
+          target="_blank"
+        )| 百度
+        r-dropdown-item(
+          @click.native="hello"
+        )| 360
+        r-dropdown-item(
+          href="https://www.sogou.com/"
+        )| 搜狗
+
+block script
+  script.
+    new Vue({
+      el: '#app',
+      data () {
+        return {
+          currPage: 1,
+          total: 23400,
+        }
+      },
+      methods: {
+        hello () {
+          alert(this.total)
+        }
+      }
+    })
