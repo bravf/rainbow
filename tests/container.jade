@@ -4,7 +4,7 @@ block title
   | container
 
 block content
-  r-container()
+  r-container(style="height:100%")
     r-header()
       r-row(align-items="center")
         r-col(:span="4", style="text-align:center")
@@ -52,25 +52,12 @@ block content
               r-icon(type="settings")
               |综合设置
 
-    r-container(style="margin: 10px 20px;")
+    r-container(style="margin: 20px;")
       r-aside()
         r-menu(
           mode="vertical",
           v-model="activeMenu"
         )
-          //- r-menu-group(title="使用")
-          //-   r-menu-item(
-          //-     name="3-1",
-          //-     href="http://baidu.com",
-          //-     target="_blank"
-          //-   )
-          //-     | 新增和启动
-          //-   r-menu-item(name="3-2")| 活跃分期
-          //-   r-menu-item(name="3-3")| 时段分析
-
-          //- r-menu-group(title="留存")
-          //-   r-menu-item(name="3-4")| 用户留存
-          //-   r-menu-item(name="3-5")| 流失用户
             
           r-menu-item(name="1")
             r-icon(type="ios-paper")
@@ -108,7 +95,67 @@ block content
 
       r-container()
         r-main()
-          div| 呵呵
+          r-table(
+            :data="data", 
+            ref="table", 
+            :border="false", 
+            :show-header="true",
+            :sort-method="sort",
+            :sort-field="sortField",
+            :sort-dir="sortDir",
+            :loading="loading")
+            
+            r-table-column(
+              width="50",
+              type="checkbox",
+            )
+            r-table-column(
+              width="50",
+              type="index",
+            )
+            r-table-column(
+              title="姓名",
+              field="name",
+              width="80",
+              :ellipsis="true",
+            )
+            r-table-column(
+              title="数学",
+              field="math",
+              align="center",
+              :sortable="true"
+            )
+            r-table-column(
+              title="语文",
+              field="chinese",
+              align="center",
+              :sortable="true"
+            )
+            r-table-column(
+              title="操作",
+              align="center",
+              width="140",
+              v-if="test"
+            )
+              template(slot-scope="scope")
+                r-button(
+                  type="primary",
+                  size="small",
+                  @click.native="_alert(scope.data.id)",
+                  v-if="test"
+                )| 查看
+                r-button(
+                  size="small"
+                )| 编辑
+          
+          r-page(
+            style="margin: 10px 0; text-align:right",
+            v-model="page.currPage",
+            :total="page.total",
+            :show-total="true",
+            :page-size="10000"
+          )
+
       
         r-footer(
           style="text-align:center;"
@@ -117,11 +164,57 @@ block content
 
 block script
   script.
+    var data = []
+    for (var i=0; i<10; i++){
+      data.push({
+        id: i,
+        name: '张三测试测试测试测试' + i,
+        math: i * 10,
+        chinese: i* 10 + 5,
+      })
+    }
     new Vue({
       el: '#app',
       data () {
         return {
-          activeMenu: ''
+          activeMenu: '3-1',
+          data : data,
+          test: true,
+          sortField: 'math',
+          sortDir: 'asc',
+          loading: false,
+
+          page: {
+            currPage: 1,
+            total: 34500,
+          }
+        }
+      },
+      methods: {
+        _alert (id) {
+          alert(id)
+        },
+        sort (dir, field) {
+          this.loading = true
+
+          setTimeout(_=>{
+            this.data.sort((a, b)=>{
+              var x = a[field] - b[field]
+
+              if (dir === 'asc'){
+                return x
+              }
+              else {
+                return -x
+              }
+            })
+
+            this.sortField = field
+            this.sortDir = dir
+
+            this.loading = false
+          }, 1000)
+          
         }
       }
     })

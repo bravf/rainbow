@@ -102,10 +102,10 @@ var RSubMenu = Vue.extend({
       if (isActive){
         // 如果记录的menu value和当前menu value不同，则强制展开，并同步value
         if (this.menuValue !== this.menu.value){
-          this.menuValue = this.menu.value
           this.isExpand = true
         }
       }
+      this.menuValue = this.menu.value
     }
 
     var $title = hx('div.r-sub-menu-title', {
