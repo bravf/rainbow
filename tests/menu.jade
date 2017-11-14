@@ -4,10 +4,8 @@ block title
   | menu
 
 block content
-  div.panel
-    h3| menu vertical
-  
-    div.margin-10
+  div(style="padding: 0 10px;")
+    div
       r-menu(
         mode="horizontal",
         v-model="activeMenu"
@@ -46,10 +44,8 @@ block content
           r-icon(type="settings")
           |综合设置
     
-  div.panel
-    h3| menu vertical
-  
-    div.margin-10
+  div(style="padding: 0 10px;")
+    div
       r-menu(
         mode="vertical",
         v-model="activeMenu"

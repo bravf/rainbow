@@ -60,7 +60,7 @@
     margin: 5px 0;
     padding: 5px 0;
     background-color: $color-white;
-    border: 1px solid $color-border;
+    box-shadow: 0 1px 6px rgba(0,0,0,.2);
     overflow: hidden;
     width: auto;
     left: 0;
@@ -124,8 +124,8 @@
   }
 
   >.r-menu-item, .r-sub-menu{
-    height: 50px;
-    line-height: 50px;
+    height: 48px;
+    line-height: 48px;
     user-select: none;
 
     a{
