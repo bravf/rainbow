@@ -1,4 +1,6 @@
 import {isArray, inArray, hx} from '../../common/_tools.js'
+import instance from '../../common/_instance.js'
+import { RFormItem } from '../form/_form'
 
 var RCheckbox = Vue.extend({
   model: {
@@ -54,6 +56,9 @@ var RCheckbox = Vue.extend({
         return (this.value === this.realCheckedValue) || (this.realCheckedValue === true)
       }
     },
+    formItem () {
+      return instance.getParent(this, RFormItem)
+    },
   },
   methods: {
     _setCheckedValue () {
@@ -97,6 +102,10 @@ var RCheckbox = Vue.extend({
             return
           }
           me._setCheckedValue()
+          
+          if (me.formItem){
+            me.formItem.validate()
+          }
         }
       }
     })

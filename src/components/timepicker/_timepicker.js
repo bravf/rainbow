@@ -1,4 +1,6 @@
 import {hx, paddingZero, globalClick, inArray} from '../../common/_tools.js'
+import instance from '../../common/_instance.js'
+import { RFormItem } from '../form/_form'
 
 var RTimepicker = Vue.extend({
   props: {
@@ -38,6 +40,9 @@ var RTimepicker = Vue.extend({
       }
 
       return cls
+    },
+    formItem () {
+      return instance.getParent(this, RFormItem)
     },
   },
   data () {
@@ -200,6 +205,11 @@ var RTimepicker = Vue.extend({
     second () {
       this._setScrollTop('second')
     },
+    value () {
+      if (this.formItem){
+        this.formItem.validate()
+      }
+    }
   },
   render (h) {
     console.log('timepicker render')
@@ -214,6 +224,7 @@ var RTimepicker = Vue.extend({
         placeholder: this.placeholder,
         disabled: this.disabled,
         size: this.size,
+        shouldValidate: false,
       },
       nativeOn: {
         click () {

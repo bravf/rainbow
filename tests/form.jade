@@ -1,0 +1,161 @@
+extends ./_layout
+
+block title
+  | form
+
+block content
+  div.panel
+    h3| form
+  
+    div.margin-10
+      r-form(
+        label-width="100",
+        :model="formItem",
+        :rules="ruleValidate",
+        ref="myForm"
+      )
+        
+        r-form-item(label="输入框", prop="input")
+          r-input(
+            v-model="formItem.input",
+            placeholder="请输入"
+          )
+        
+        r-form-item(label="选择器", prop="select")
+          r-select(
+            v-model="formItem.select",
+            clearable,
+          )
+            r-select-option(label="北京市", value="0")
+            r-select-option(label="上海市", value="1")
+            r-select-option(label="深圳市", value="2")
+
+        r-form-item(label="日期控件")
+          r-row(align-items="center")
+            r-col(span="11")
+              r-form-item(prop="date")
+                r-datepicker(v-model="formItem.date", clearable)
+
+            r-col(span="2", style="text-align:center")
+              |-
+
+            r-col(span="11")
+              r-form-item(prop="time")
+                r-timepicker(v-model="formItem.time", clearable)
+        
+        r-form-item(label="单选框", prop="radio")
+          r-radio-group(v-model="formItem.radio")
+            r-radio(label="男", value="male")
+            r-radio(label="女", value="remale")
+        
+        r-form-item(label="多选框", prop="checkbox")
+          r-checkbox-group(v-model="formItem.checkbox")
+            r-checkbox(label="吃饭", value="吃饭")
+            r-checkbox(label="睡觉", value="睡觉")
+            r-checkbox(label="跑步", value="跑步")
+            r-checkbox(label="看电影", value="看电影")
+        
+        r-form-item(label="文本域")
+          r-input(
+            v-model="formItem.textarea",
+            type="textarea"
+          )
+        
+        r-form-item(style="margin-left: 100px;")
+          r-button(type="primary", @click.native="submit")| 提交
+          r-button(style="margin-left: 8px")| 取消
+
+block script
+  script.
+    new Vue({
+      el: '#app',
+      data () {
+        return {
+          formItem: {
+            input: '',
+            select: '',
+            radio: '',
+            checkbox: [],
+            switch: true,
+            date: '',
+            time: '',
+            textarea: ''
+          },
+          ruleValidate: {
+            input: [
+              {
+                validate: this.required,
+                message: '输入不能为空'
+              },
+              {
+                validate: function (value, callback){
+                  if (/^\d+$/.test(value.trim())){
+                    callback(true)
+                  }
+                  else {
+                    callback(false, '请输入数字')
+                  }
+                }
+              }
+            ],
+            select: [
+              {
+                validate: this.required,
+                message: '选择不能为空'
+              }
+            ],
+            radio: [
+              {
+                validate: this.required,
+                message: 'radio不能为空'
+              }
+            ],
+            checkbox: [
+              {
+                validate: this.required,
+                message: 'checkbox不能为空'
+              }
+            ],
+            date: [
+              {
+                validate: this.required,
+                message: 'date不能为空'
+              }
+            ],
+            time: [
+              {
+                validate: this.required,
+                message: 'time不能为空'
+              }
+            ]
+          }
+        }
+      },
+      methods: {
+        required (value, callback) {
+          if (value instanceof Array){
+            if (value.length > 0){
+              callback(true)
+            }
+            else {
+              callback(false)
+            }
+          }
+          else {
+            if (value.trim().length > 0){
+              callback(true)
+            }
+            else {
+              callback(false)
+            }
+          }
+          
+        },
+
+        submit () {
+          this.$refs.myForm.validate(_=>{
+            console.log(_)
+          })
+        }
+      }
+    })

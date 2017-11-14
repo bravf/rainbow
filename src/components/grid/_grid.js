@@ -2,7 +2,7 @@ import {hx} from '../../common/_tools.js'
 
 var RRow = Vue.extend({
   props: {
-    gutter: Number,
+    gutter: [Number, String],
     alignItems: String,
     justifyContent: String,
   },
@@ -35,8 +35,8 @@ var RRow = Vue.extend({
 
 var RCol = Vue.extend({
   props: {
-    span: Number,
-    offset: Number,
+    span: [Number, String],
+    offset: [Number, String],
   },
   computed: {
     cls () {

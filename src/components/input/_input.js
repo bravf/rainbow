@@ -1,4 +1,6 @@
 import {hx} from '../../common/_tools.js'
+import instance from '../../common/_instance.js'
+import { RFormItem } from '../form/_form'
 
 var RInput = Vue.extend({
   props: {
@@ -8,7 +10,10 @@ var RInput = Vue.extend({
     },
     value: [String, Number],
     size: String,
-    placeholder: String,
+    placeholder: {
+      type: String,
+      default: '请输入',
+    },
     disabled: Boolean,
     readonly: Boolean,
     maxlength: [Number, String],
@@ -27,6 +32,11 @@ var RInput = Vue.extend({
       type: Boolean,
       default: false,
     },
+    // 是否触发校验，默认触发，当rinput被其他组件使用时候选择关闭
+    shouldValidate: {
+      type: Boolean,
+      default: true,
+    },
   },
   computed: {
     cls () {
@@ -42,6 +52,9 @@ var RInput = Vue.extend({
       }
 
       return cls
+    },
+    formItem () {
+      return instance.getParent(this, RFormItem)
     }
   },
   render (h) {
@@ -70,6 +83,9 @@ var RInput = Vue.extend({
         },
         blur () {
           me.$emit('blur')
+          if (me.shouldValidate && me.formItem){
+            me.formItem.validate()
+          }
         },
       },
     }

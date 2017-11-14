@@ -1,4 +1,6 @@
 import {hx} from '../../common/_tools.js'
+import instance from '../../common/_instance.js'
+import { RFormItem } from '../form/_form'
 
 var RRadio = Vue.extend({
   model: {
@@ -39,6 +41,9 @@ var RRadio = Vue.extend({
         return (this.checkedValue === this.value) || (this.checkedValue === true)
       }
     },
+    formItem () {
+      return instance.getParent(this, RFormItem)
+    }
   },
   render (h) {
     var me = this
@@ -54,6 +59,10 @@ var RRadio = Vue.extend({
           }
           else {
             me.$emit('input', me.value)
+          }
+
+          if (me.formItem){
+            me.formItem.validate()
           }
         }
       }

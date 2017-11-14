@@ -1,4 +1,6 @@
 import {isArray, inArray, hx, globalClick, getTextWidth} from '../../common/_tools.js'
+import instance from '../../common/_instance.js'
+import {RFormItem} from '../form/_form';
 
 var RSelect = Vue.extend({
   props: {
@@ -58,6 +60,9 @@ var RSelect = Vue.extend({
         return this.value !== undefined
       }
     },
+    formItem () {
+      return instance.getParent(this, RFormItem)
+    }
   },
   methods: {
     _removeValue (_value) {
@@ -243,6 +248,11 @@ var RSelect = Vue.extend({
     focusIdx (val) {
       this._setScolltop(val)
     },
+    value () {
+      if (this.formItem){
+        this.formItem.validate()
+      }
+    }
   },
   mounted () {
     globalClick(this.$el, _=>{

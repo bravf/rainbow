@@ -1,4 +1,6 @@
 import {isArray, hx, globalClick, paddingZero} from '../../common/_tools.js'
+import instance from '../../common/_instance.js'
+import { RFormItem } from '../form/_form'
 
 var RDatepicker = Vue.extend({
   props: {
@@ -23,6 +25,13 @@ var RDatepicker = Vue.extend({
     },
     size: String,
   },
+  watch: {
+    value () {
+      if (this.formItem){
+        this.formItem.validate()
+      }
+    }
+  },
   computed: {
     cls () {
       var cls = ['r-datepicker']
@@ -36,7 +45,10 @@ var RDatepicker = Vue.extend({
       }
 
       return cls
-    }
+    },
+    formItem () {
+      return instance.getParent(this, RFormItem)
+    },
   },
   data () {
     return {
@@ -294,6 +306,7 @@ var RDatepicker = Vue.extend({
         placeholder: this.placeholder,
         disabled: this.disabled,
         size: this.size,
+        shouldValidate: false,
       },
       nativeOn: {
         click () {
