@@ -5,17 +5,6 @@
   position: relative;
   font-size: 14px;
 
-  &:after{
-    content: '';
-    display: block;
-    width: 100%;
-    height: 1px;
-    background: $color-border;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-  }
-
   >.r-menu-item, .r-sub-menu{
     height: inherit;
     line-height: inherit;
@@ -105,27 +94,14 @@
 
 // 垂直模式
 .r-menu-vertical{
-  width: 160px;
+  max-width: 300px;
   background-color: $color-white;
   position: relative;
   font-size: 14px;
 
-  &:after{
-    content: '';
-    display: block;
-    width: 1px;
-    height: 100%;
-    background: $color-border;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    z-index: 1;
-  }
-
-  >.r-menu-item, .r-sub-menu{
-    height: 48px;
-    line-height: 48px;
+  .r-menu-item, .r-sub-menu{
+    height: 40px;
+    line-height: 40px;
     user-select: none;
 
     a{
@@ -154,9 +130,15 @@
     }
   }
 
-  .r-menu-group-title{
-    font-size: 12px;
-    color: $color-silver;
+  .r-menu-group{
+    .r-menu-group-title{
+      font-size: 12px;
+      color: $color-silver;
+      padding-left: 20px;
+    }
+    .r-menu-item{
+      padding-left: 30px;
+    }
   }
 
   .r-sub-menu{
@@ -179,10 +161,6 @@
       .ion-ios-arrow-down, .ion-ios-arrow-up{
         float: right;
       }
-    }
-
-    .r-menu-group-title{
-      padding-left: 20px;
     }
   }
 

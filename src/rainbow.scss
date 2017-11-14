@@ -5,7 +5,7 @@ $color-success:             #00D397;
 $color-warning:             #FFCC01;
 $color-danger:              #FF4E4C;
 
-$color-black:               #000000;
+$color-black:               #314659;
 $color-black-light:         #222222;
 $color-black-light-extra:   #333333;
 $color-silver:              #666666;
@@ -55,6 +55,8 @@ $minHeight: 24px;
 }
 body{
   font: $font-size "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  color: $color-black;
+  background-color: $color-white-dark;
 }
 a{
   color: $color-info;
@@ -84,3 +86,4 @@ ul, li{
 @import 'components/page/page';
 @import 'components/dropdown/dropdown';
 @import 'components/menu/menu';
+@import 'components/container/container';

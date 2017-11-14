@@ -3,18 +3,18 @@ import {hx} from '../../common/_tools.js'
 var RRow = Vue.extend({
   props: {
     gutter: Number,
-    align: String,
-    justify: String,
+    alignItems: String,
+    justifyContent: String,
   },
   computed: {
     style (){
       var style = {}
-      if (this.align) {
-        style.align = this.align
+      if (this.alignItems) {
+        style.alignItems = this.alignItems
       }
 
-      if (this.justify) {
-        style.justify = this.justify
+      if (this.justifyContent) {
+        style.justifyContent = this.justifyContent
       }
 
       const gutter = this.gutter
