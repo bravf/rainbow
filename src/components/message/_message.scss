@@ -1,0 +1,38 @@
+.r-message{
+  position: fixed;
+  top: 20px;
+  background: $color-white;
+  box-shadow: 0 1px 6px rgba(194, 109, 109, 0.2);
+  left: 50%;
+  transform: translate(-50%, 0);
+  padding: 10px 20px;
+  max-width: 60%;
+
+  // 这个值假设比modal的大
+  z-index: 10000;
+
+  span{
+    vertical-align: middle;
+    margin-left: 10px;
+  }
+}
+
+.r-message-success{
+  background: $color-success-bg;
+  color: $color-success;
+}
+
+.r-message-info{
+  background: $color-msg-bg;
+  color: $color-msg;
+}
+
+.r-message-warning{
+  background: $color-warning-bg;
+  color: $color-warning;
+}
+
+.r-message-error{
+  background: $color-danger-bg;
+  color: $color-danger;
+}

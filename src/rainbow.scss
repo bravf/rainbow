@@ -1,9 +1,16 @@
 // colors 
 $color-primary:             #4777E6;
 $color-info:                #6089ec;
-$color-success:             #00D397;
-$color-warning:             #FFCC01;
-$color-danger:              #FF4E4C;
+
+$color-msg:                 #878d99;
+$color-success:             #67c23a;
+$color-warning:             #eb9e05;
+$color-danger:              #fa5555;
+
+$color-msg-bg:              #f3f4f5;
+$color-success-bg:          #f0f9eb;
+$color-warning-bg:          oldlace;
+$color-danger-bg:           #fee;        
 
 $color-black:               #314659;
 $color-black-light:         #222222;
@@ -89,3 +96,4 @@ ul, li{
 @import 'components/container/container';
 @import 'components/form/form';
 @import 'components/modal/modal';
+@import 'components/message/message';

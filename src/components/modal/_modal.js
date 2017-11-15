@@ -156,7 +156,6 @@ var RAlert = Vue.extend({
     }
   }
 })
-Vue.component('r-alert', RAlert)
 
 var getAlert = function (){
   var alert = null
@@ -166,7 +165,7 @@ var getAlert = function (){
       return alert
     }
 
-    alert = new RAlert()
+    alert = new RAlert
  
     alert.$mount(document.createElement('div'))
     document.body.appendChild(alert.$el)
@@ -223,7 +222,6 @@ var RConfirm = Vue.extend({
     }
   }
 })
-Vue.component('r-confirm', RConfirm)
 
 var getConfirm = function (){
   var confirm = null

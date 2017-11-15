@@ -28,10 +28,6 @@ block content
       p| 对话框内容
       p| 对话框内容
       p| 对话框内容
-
-      div(slot="footer")
-        r-button()| 取消
-        r-button(type="primary", @click.native="$alert('哈哈')")| 确定
     
     r-modal(
       v-model="isShow2",
@@ -41,7 +37,7 @@ block content
       p| 对话框内容2
       p| 对话框内容2
       p| 对话框内容2
-      r-button(@click.native="isShow=true")
+      r-button(@click.native="isShow=true")| 点击
 
       div(slot="footer")
         r-button()| 取消
@@ -64,11 +60,13 @@ block script
             content: '确定测试confirm?',
             onOk () {
               this.$alert('点击了确定', '', ()=>{
-                alert('呵呵')
+                this.$message('点击了确定', 'success')
               })
             },
             onCancel () {
-              this.$alert('点击了取消')
+              this.$alert('点击了取消', '', ()=>{
+                this.$message('点击了取消', 'warning')
+              })
             }
           })
         },
