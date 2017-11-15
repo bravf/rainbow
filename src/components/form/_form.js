@@ -73,6 +73,12 @@ var RForm = Vue.extend({
 
         })
       })
+    },
+
+    resetValidate () {
+      this._getItems().forEach(item=>{
+        item.errorMsg = ''
+      })
     }
   },
   render (h) {
@@ -88,6 +94,7 @@ export var RFormItem = Vue.extend({
     label: String,
     prop: String,
     rules: Array,
+    required: Boolean,
   },
   data () {
     return {
@@ -95,6 +102,15 @@ export var RFormItem = Vue.extend({
     }
   },
   computed: {
+    cls () {
+      var cls = ['r-form-item']
+
+      if (this.required){
+        cls.push('r-form-item-required')
+      }
+
+      return cls
+    },
     form () {
       return instance.getParent(this, RForm)
     },
@@ -133,7 +149,13 @@ export var RFormItem = Vue.extend({
       var doneCount = 0
 
       this.realRules.forEach(rule=>{
-        rule.validate(this.form.model[this.prop], (isOk, msg)=>{
+        var value = instance.getPropByPath(this.form.model, this.prop).get()
+
+        if (rule.loadingMsg){
+          this.errorMsg = rule.loadingMsg
+        }
+
+        rule.validate(value, (isOk, msg)=>{
           doneCount ++
 
           // 如果还没结束
@@ -141,7 +163,7 @@ export var RFormItem = Vue.extend({
             // 如果校验失败
             if (!isOk){
               isError = true
-              this.errorMsg = msg || rule.message
+              this.errorMsg = msg || rule.msg
               callback(false)
               return
             }
@@ -158,7 +180,7 @@ export var RFormItem = Vue.extend({
   },
   render (h) {
     var me = this
-    var $wrapper = hx('div.r-form-item')
+    var $wrapper = hx(`div.${this.cls.join('+')}`)
 
     // label
     var width = 'auto'

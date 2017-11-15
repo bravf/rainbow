@@ -15,11 +15,16 @@ block content
         ref="myForm"
       )
         
-        r-form-item(label="输入框", prop="input")
+        r-form-item(
+          label="输入框", 
+          prop="input",
+          required
+        )
+          
           r-input(
             v-model="formItem.input",
             placeholder="请输入"
-          )
+          ) 
         
         r-form-item(label="选择器", prop="select")
           r-select(
@@ -61,9 +66,43 @@ block content
             type="textarea"
           )
         
+        r-form-item(label="异步验证", prop="ajaxValue")
+          r-input(
+            v-model="formItem.ajaxValue"
+          )
+
+        r-form-item(
+          v-for="(item, index) in formItem.tels.items",
+          :key="index",
+          :label="'电话' + (index + 1)",
+          :prop="'tels.items[' + index + '].value'",
+          :rules="[{validate: required, msg:'不能为空'}]"
+        )
+          r-row()
+            r-col(span="18")
+              r-input(
+                v-model="item.value"
+              )
+            r-col(span="4", offset="1")
+              r-button(
+                @click.native="delTel(item)"
+              )| 删除
+        
         r-form-item(style="margin-left: 100px;")
-          r-button(type="primary", @click.native="submit")| 提交
-          r-button(style="margin-left: 8px")| 取消
+          r-button(
+            type="primary",
+            @click.native="addTel"
+          )| 添加电话
+        
+        r-form-item(style="margin-left: 100px;")
+          r-button(
+            type="primary", 
+            @click.native="submit")| 提交
+
+          r-button(
+            style="margin-left: 8px",
+            @click.native="resetValidate"
+          )| 取消验证
 
 block script
   script.
@@ -79,13 +118,17 @@ block script
             switch: true,
             date: '',
             time: '',
-            textarea: ''
+            textarea: '',
+            tels: {
+              items: [{value:''}]
+            },
+            ajaxValue: ''
           },
           ruleValidate: {
             input: [
               {
                 validate: this.required,
-                message: '输入不能为空'
+                msg: '输入不能为空'
               },
               {
                 validate: function (value, callback){
@@ -101,31 +144,52 @@ block script
             select: [
               {
                 validate: this.required,
-                message: '选择不能为空'
+                msg: '选择不能为空'
               }
             ],
             radio: [
               {
                 validate: this.required,
-                message: 'radio不能为空'
+                msg: 'radio不能为空'
               }
             ],
             checkbox: [
               {
                 validate: this.required,
-                message: 'checkbox不能为空'
+                msg: 'checkbox不能为空'
               }
             ],
             date: [
               {
                 validate: this.required,
-                message: 'date不能为空'
+                msg: 'date不能为空'
               }
             ],
             time: [
               {
                 validate: this.required,
-                message: 'time不能为空'
+                msg: 'time不能为空',
+              }
+            ],
+            ajaxValue: [
+              {
+                validate (value, callback) {
+                  if (value.trim().length === 0){
+                    callback(false, '不能为空')
+                    return
+                  }
+
+                  setTimeout(_=>{
+                    if (value == 'ajax'){
+                      callback(true)
+                    }
+                    else {
+                      callback(false)
+                    }
+                  }, 1000)
+                },
+                msg: '远程验证失败',
+                loadingMsg: '请求ing....',
               }
             ]
           }
@@ -152,10 +216,25 @@ block script
           
         },
 
+        addTel () {
+          this.formItem.tels.items.push({
+            value: ''
+          })
+        },
+
+        delTel (item) {
+          var idx = this.formItem.tels.items.indexOf(item)
+          this.formItem.tels.items.splice(idx, 1)
+        },
+
         submit () {
           this.$refs.myForm.validate(_=>{
             console.log(_)
           })
+        },
+
+        resetValidate () {
+          this.$refs.myForm.resetValidate()
         }
       }
     })
