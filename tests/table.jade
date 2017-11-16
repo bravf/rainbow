@@ -31,6 +31,12 @@ block content
           width="80",
           :ellipsis="true",
         )
+          template(slot-scope="scope")
+            r-tooltip()
+              span {{scope.data.name}}
+              div(slot="content")
+                | {{scope.data.name}}
+
         r-table-column(
           title="数学",
           field="math",

@@ -5,8 +5,7 @@
   .r-dropdown-list{
     background-color: $color-white;
     position: absolute;
-    // border: 1px solid $color-border;
-    box-shadow: 0 1px 6px rgba(0,0,0,.2);
+    box-shadow: $popup-shadow;
     margin: 5px 0;
     padding: 5px 0;
     max-height: 200px;

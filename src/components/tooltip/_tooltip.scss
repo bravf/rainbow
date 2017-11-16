@@ -1,0 +1,15 @@
+.r-tooltip-popup{
+  transition: all 0s;
+  position: absolute;
+  display: block;
+  top: 300px;
+  left: 30px;
+  padding: 4px;
+
+  .r-tooltip-popup-inner{
+    padding: 5px 10px;
+    border: 1px solid $color-border;
+    background-color: $color-white-dark;
+    height: 100%;
+  }
+}

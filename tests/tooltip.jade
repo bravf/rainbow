@@ -1,0 +1,73 @@
+extends ./_layout
+
+block title
+  | tooltip
+
+block content
+  div.panel(style="padding-left: 400px;")
+    h3| tooltip
+    div.margin-10
+      r-tooltip(:content="tip", placement="bottom")
+        r-button| bottom
+      
+    div.margin-10
+      r-tooltip(:content="tip", placement="bottom-start")
+        r-button| bottom-start
+    
+    div.margin-10
+      r-tooltip(:content="tip", placement="bottom-end")
+        r-button| bottom-end
+    
+    div.margin-10
+      r-tooltip(:content="tip", placement="top")
+        r-button| top
+    
+    div.margin-10
+      r-tooltip(:content="tip", placement="top-start")
+        r-button| top-start
+      
+    div.margin-10
+      r-tooltip(:content="tip", placement="top-end")
+        r-button| top-end
+    
+    div.margin-10
+      r-tooltip(:content="tip", placement="left")
+        r-button| left
+    
+    div.margin-10
+      r-tooltip(:content="tip", placement="left-start")
+        r-button| left-start
+    
+    div.margin-10
+      r-tooltip(:content="tip", placement="left-end")
+        r-button| left-end
+      
+    div.margin-10
+      r-tooltip(:content="tip", placement="right")
+        r-button| right
+    
+    div.margin-10
+      r-tooltip(:content="tip", placement="right-start")
+        r-button| right-start
+        div(slot="content")
+          |多行信息
+          br
+          |第二行信息
+    
+    div.margin-10
+      r-tooltip(:content="tip", placement="right-end")
+        r-button(title="tip")| right-end
+
+      
+block script
+  script.
+    vm = new Vue({
+      el: '#app',
+      data () {
+        return {
+          tip: 'hello'
+        }
+      },
+      methods: {
+      }
+    })

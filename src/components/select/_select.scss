@@ -93,7 +93,7 @@
 }
 
 .r-select-dropdown{
-  box-shadow: 0 1px 6px rgba(0,0,0,.2);
+  box-shadow: $popup-shadow;
   background-color: $color-white;
   border-radius: $radius;
   margin: 5px 0;

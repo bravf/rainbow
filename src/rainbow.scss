@@ -34,6 +34,9 @@ $color-border-hover:        $color-gray;
 $radius: 0;//2px;
 $font-size: 12px;
 
+// 阴影
+$popup-shadow: 0 1px 6px rgba(0,0,0,.2);
+
 $height: 32px;
 $minHeight: 24px;
 
@@ -97,3 +100,4 @@ ul, li{
 @import 'components/form/form';
 @import 'components/modal/modal';
 @import 'components/message/message';
+@import 'components/tooltip/tooltip';

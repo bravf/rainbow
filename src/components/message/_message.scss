@@ -2,7 +2,7 @@
   position: fixed;
   top: 20px;
   background: $color-white;
-  box-shadow: 0 1px 6px rgba(194, 109, 109, 0.2);
+  box-shadow: $popup-shadow;
   left: 50%;
   transform: translate(-50%, 0);
   padding: 10px 20px;
