@@ -10,7 +10,8 @@ var RTooltip = Vue.extend({
   },
   data () {
     return {
-      popup: null
+      popup: null,
+      hideTimer: null,
     }
   },
   mounted () {
@@ -26,13 +27,31 @@ var RTooltip = Vue.extend({
 
     // 绑定鼠标事件
     this.$el.addEventListener('mouseenter', _=>{
-      this.popup.show()
+      this._showPopup()
     })
     this.$el.addEventListener('mouseleave', _=>{
-      this.popup.hide()
+      this._hidePopup()
+    })
+
+    this.popup.$el.addEventListener('mouseenter', _=>{
+      this._showPopup()
+    })
+    this.popup.$el.addEventListener('mouseleave', _=>{
+      this._hidePopup()
     })
   },
   methods: {
+    _showPopup () {
+      clearTimeout(this.hideTimer)
+      this.popup.show()
+    },
+    _hidePopup () {
+      clearTimeout(this.hideTimer)
+
+      this.hideTimer = setTimeout(_ => {
+        this.popup.hide()
+      }, 10)
+    },
     _setPopupContent () {
       if (!this.popup){
         return
