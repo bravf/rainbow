@@ -15,16 +15,6 @@ var RTooltip = Vue.extend({
     }
   },
   mounted () {
-    this.popup = new RTooltipPopup({
-      data: {
-        content: this.$slots.content,
-        placement: this.placement,
-        targetEl: this.$el,
-      }
-    })
-    this.popup.$mount(document.createElement('div'))
-    document.body.appendChild(this.popup.$el)
-
     // 绑定鼠标事件
     this.$el.addEventListener('mouseenter', _=>{
       this._showPopup()
@@ -32,18 +22,39 @@ var RTooltip = Vue.extend({
     this.$el.addEventListener('mouseleave', _=>{
       this._hidePopup()
     })
-
-    this.popup.$el.addEventListener('mouseenter', _=>{
-      this._showPopup()
-    })
-    this.popup.$el.addEventListener('mouseleave', _=>{
-      this._hidePopup()
-    })
   },
   methods: {
+    _createPopup () {
+      if (this.popup){
+        return
+      }
+
+      this.popup = new RTooltipPopup({
+        data: {
+          content: this.$slots.content,
+          placement: this.placement,
+          targetEl: this.$el,
+        }
+      })
+      this.popup.$mount(document.createElement('div'))
+      document.body.appendChild(this.popup.$el)
+  
+      this.popup.$el.addEventListener('mouseenter', _=>{
+        this._showPopup()
+      })
+      this.popup.$el.addEventListener('mouseleave', _=>{
+        this._hidePopup()
+      })
+    },
     _showPopup () {
       clearTimeout(this.hideTimer)
-      this.popup.show()
+
+      this._createPopup()
+      this._setPopupContent()
+
+      this.$nextTick(_=>{
+        this.popup.show()
+      })
     },
     _hidePopup () {
       clearTimeout(this.hideTimer)
@@ -60,7 +71,6 @@ var RTooltip = Vue.extend({
     }
   },
   render (h) {
-    this._setPopupContent()
     return this.$slots.default[0]
   }
 })
@@ -151,7 +161,7 @@ var RTooltipPopup = Vue.extend({
       this.left = Math.max(left, 0)
     }
   },
-  render (h) {
+  render (h) {console.log('render')
     var $wrapper = hx('div.r-tooltip-popup', {
       style: {
         top: this.top + 'px',
