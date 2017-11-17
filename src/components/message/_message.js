@@ -25,7 +25,7 @@ var RMessage = Vue.extend({
   },
   methods: {
     show (msg, type) {
-      this.msg = msg || ''
+      this.msg = msg
       this.type = type || 'info'
       this.isShow = true
 
