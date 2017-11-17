@@ -24,6 +24,11 @@
                 "watch": false,
                 "version": true,
                 "optimize": true
+            },
+            "dist": {
+                "watch": false,
+                "www": "../dist",
+                "optimize": true
             }
         },
 
