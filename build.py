@@ -27,7 +27,7 @@ def releaseDist():
 
     #删除其他文件
     os.chdir(os.path.join(currPath, bakTmp, project))
-    exeCmd('rm -rf libs; rm -rf src; rm -rf tests; rm -rf build.py; rm -rf README.html')
+    exeCmd('rm -rf src; rm -rf tests; rm -rf build.py; rm -rf README.html')
 
     #npm publish
     exeCmd('npm publish')
