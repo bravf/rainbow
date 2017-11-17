@@ -23,7 +23,8 @@ block content
           
           r-input(
             v-model="formItem.input",
-            placeholder="请输入"
+            placeholder="请输入",
+            trim
           ) 
         
         r-form-item(label="选择器", prop="select")
@@ -132,7 +133,7 @@ block script
               },
               {
                 validate: function (value, callback){
-                  if (/^\d+$/.test(value.trim())){
+                  if (/^\d+$/.test(value)){
                     callback(true)
                   }
                   else {
@@ -206,7 +207,7 @@ block script
             }
           }
           else {
-            if (value.trim().length > 0){
+            if (value.length > 0){
               callback(true)
             }
             else {
@@ -228,6 +229,7 @@ block script
         },
 
         submit () {
+          console.log(JSON.stringify(this.formItem))
           this.$refs.myForm.validate(_=>{
             console.log(_)
           })

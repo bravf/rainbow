@@ -37,6 +37,8 @@ var RInput = Vue.extend({
       type: Boolean,
       default: true,
     },
+    // 是否trim
+    trim: Boolean,
   },
   computed: {
     cls () {
@@ -78,11 +80,16 @@ var RInput = Vue.extend({
         change (e) {
           me.$emit('change', e)
         },
-        focus () {
-          me.$emit('focus')
+        focus (e) {
+          me.$emit('focus', e)
         },
-        blur () {
-          me.$emit('blur')
+        blur (e) {
+          me.$emit('blur', e)
+
+          if (me.trim){
+            me.$emit('input', e.target.value.trim())
+          }
+
           if (me.shouldValidate && me.formItem){
             me.formItem.validate()
           }
