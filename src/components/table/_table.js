@@ -1,4 +1,5 @@
 import {hx, isArray} from '../../common/_tools.js'
+import instance from '../../common/_instance.js'
 
 var RTable = Vue.extend({
   props: {
@@ -181,10 +182,21 @@ var RTable = Vue.extend({
 
       if (this.data && this.data.length){
         this.data.forEach( (data, dataIdx) =>{
-          var $tr = hx('tr')
+          var $tr = hx('tr', {
+            on: {
+              click (e) {
+                me.$emit('row-click', data, e)
+              }
+            }
+          })
 
           columnConfs.forEach(conf=>{
-            var tdContent = hx('span', {}, [data[conf.field]])
+            var tdContentValue = ''
+            
+            if (conf.field) {
+              tdContentValue = instance.getPropByPath(data, conf.field).get()
+            }
+            var tdContent = hx('span', {}, [tdContentValue])
 
             if (conf.type == 'index'){
               tdContent.children = [dataIdx]

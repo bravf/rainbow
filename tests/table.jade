@@ -15,7 +15,9 @@ block content
         :sort-method="sort",
         :sort-field="sortField",
         :sort-dir="sortDir",
-        :loading="loading")
+        :loading="loading",
+        @row-click="rowClick"
+      )
         
         r-table-column(
           width="50",
@@ -41,11 +43,12 @@ block content
           title="数学",
           field="math",
           align="center",
-          :sortable="true"
+          :sortable="true",
+          v-if="test"
         )
         r-table-column(
           title="语文",
-          field="chinese",
+          field="chinese.value",
           align="center",
           :sortable="true"
         )
@@ -82,7 +85,9 @@ block script
         id: i,
         name: '张三测试测试测试测试' + i,
         math: i * 10,
-        chinese: i* 10 + 5,
+        chinese: {
+          value: i* 10 + 5
+        },
       })
     }
     vm = new Vue({
@@ -126,6 +131,9 @@ block script
             this.loading = false
           }, 1000)
           
+        },
+        rowClick (data, e) {
+          this.$message(data.id)
         }
       }
     })

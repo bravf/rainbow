@@ -161,7 +161,7 @@ var RTooltipPopup = Vue.extend({
       this.left = Math.max(left, 0)
     }
   },
-  render (h) {console.log('render')
+  render (h) {
     var $wrapper = hx('div.r-tooltip-popup', {
       style: {
         top: this.top + 'px',
