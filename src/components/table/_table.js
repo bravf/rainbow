@@ -333,8 +333,6 @@ var RTable = Vue.extend({
     }
   },
   render (h) {
-    console.log('table render')
-
     this.renderHook
 
     var $tableWrapper = hx(`div.${this.cls.join('+')}`, {

@@ -1,6 +1,9 @@
 function isArray (o){
   return Object.prototype.toString.call(o) === '[object Array]'
 }
+function isObject (o) {
+  return Object.prototype.toString.call(o) === '[object Object]'
+}
 
 function hasChildren(obj){
   return isArray(obj.children) && obj.children.length > 0
@@ -17,6 +20,10 @@ function idxArray(val, key, objList){
     }
   }
   return -1
+}
+
+function deepClone(obj) {
+  return JSON.parse(JSON.stringify(obj))
 }
 
 
@@ -135,6 +142,7 @@ function paddingZero(me, len){
 
 export {
   isArray,
+  isObject,
   hasChildren,
   hx,
   inArray,
@@ -143,4 +151,5 @@ export {
   globalClick,
   getTextWidth,
   paddingZero,
+  deepClone,
 }

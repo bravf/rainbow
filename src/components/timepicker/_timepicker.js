@@ -212,7 +212,6 @@ var RTimepicker = Vue.extend({
     }
   },
   render (h) {
-    console.log('timepicker render')
     var me = this
     var $wrapper = hx(`div.${this.cls.join('+')}`)
 

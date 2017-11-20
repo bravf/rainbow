@@ -42,14 +42,14 @@ block content
         r-table-column(
           title="数学",
           field="math",
-          align="center",
+          align="right",
           :sortable="true",
           v-if="test"
         )
         r-table-column(
           title="语文",
           field="chinese.value",
-          align="center",
+          align="right",
           :sortable="true"
         )
         r-table-column(
@@ -70,7 +70,6 @@ block content
             )| 编辑
       
       r-page(
-        style="margin: 10px 0; text-align:right",
         v-model="page.currPage",
         :total="page.total",
         :show-total="true",

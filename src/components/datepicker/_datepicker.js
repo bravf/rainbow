@@ -294,7 +294,6 @@ var RDatepicker = Vue.extend({
     }
   },
   render (h) {
-    console.log('datepicker render')
     var me = this
     var $wrapper = hx(`div.${this.cls.join('+')}`)
 

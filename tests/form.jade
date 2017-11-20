@@ -97,13 +97,12 @@ block content
         
         r-form-item(style="margin-left: 100px;")
           r-button(
-            type="primary", 
-            @click.native="submit")| 提交
-
+            @click.native="reset"
+          )| reset
           r-button(
             style="margin-left: 8px",
-            @click.native="resetValidate"
-          )| 取消验证
+            type="primary", 
+            @click.native="submit")| 提交
 
 block script
   script.
@@ -235,8 +234,9 @@ block script
           })
         },
 
-        resetValidate () {
-          this.$refs.myForm.resetValidate()
+        reset () {
+          //- this.$refs.myForm.resetValidate()
+          this.$refs.myForm.reset()
         }
       }
     })

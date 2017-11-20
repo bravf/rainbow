@@ -33,7 +33,7 @@
       }
 
       .r-table-sort-active{
-        color: $color-black;
+        color: $color-success;
       }
 
       .ion-arrow-up-b{
@@ -52,8 +52,8 @@
     border-bottom: 1px solid $color-border;
 
     >div{
-      padding-left: 18px;
-      padding-right: 18px;
+      padding-left: 10px;
+      padding-right: 10px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: normal;

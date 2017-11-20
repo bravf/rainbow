@@ -1,4 +1,4 @@
-import {hx} from '../../common/_tools.js'
+import {hx, isObject, isArray, deepClone} from '../../common/_tools.js'
 import instance from '../../common/_instance.js'
 
 var RForm = Vue.extend({
@@ -11,6 +11,15 @@ var RForm = Vue.extend({
     model: Object,
     rules: Object,
   },
+  data () {
+    return {
+      oldModel: {}
+    }
+  },
+  created () {
+    this.oldModel = deepClone(this.model)
+  },
+
   computed: {
     cls () {
       var cls = ['r-form']
@@ -75,9 +84,34 @@ var RForm = Vue.extend({
       })
     },
 
+    _resetObject (obj, oldObj) {
+      for (var prop in obj){
+        var val = obj[prop]
+        var oldVal = oldObj[prop]
+
+        if (isObject(val)){
+          this._resetObject(val, oldVal)
+        }
+        else {
+          obj[prop] = deepClone(oldVal)
+        }
+      }
+    },
+
     resetValidate () {
       this._getItems().forEach(item=>{
         item.errorMsg = ''
+      })
+    },
+
+    resetModel () {
+      this._resetObject(this.model, this.oldModel)
+    },
+
+    reset () {
+      this.resetModel()
+      this.$nextTick(_=>{
+        this.resetValidate()
       })
     }
   },
