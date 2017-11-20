@@ -100,10 +100,6 @@ var RModal = Vue.extend({
       hx('div.r-modal-wrapper', zindexStyle).push($modal)
     )
 
-    if (this.value){
-      document.body.style.overflow = 'hidden'
-    }
-
     return $wrapper.resolve(h)
   },
 
