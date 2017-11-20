@@ -13,6 +13,7 @@ var RProgress = Vue.extend({
       type: Number,
       default: 10,
     },
+    hideInfo: Boolean,
   },
   data () {
     return {
@@ -34,6 +35,10 @@ var RProgress = Vue.extend({
       var cls = ['r-progress']
 
       cls.push('r-progress-' + this.status2)
+
+      if (this.hideInfo){
+        cls.push('r-progress-hide-info')
+      }
 
       return cls
     },
@@ -59,29 +64,31 @@ var RProgress = Vue.extend({
         })
       )
     )
-    
-    var textContent = this.percentText
-    if (this.status2 === 'wrong'){
-      textContent = hx('r-icon', {
-        props: {
-          type: 'ios-close'
-        }
-      })
-    }
-    else if (this.status2 === 'success'){
-      textContent = hx('r-icon', {
-        props: {
-          type: 'ios-checkmark'
-        }
-      })
-    }
 
-    var $text = hx('div.r-progress-text')
-    .push(
-      hx('div.r-progress-text-inner', {}, [textContent])
-    )
+    $wrapper.push($outer)
     
-    return $wrapper.push($outer).push($text).resolve(h)
+    if (!this.hideInfo){
+      var textContent = this.percentText
+      var isWrong = this.status2 === 'wrong'
+      var isSuccess = this.status2 === 'success'
+
+      if (isWrong || isSuccess){
+        textContent = hx('r-icon', {
+          props: {
+            type: isWrong ? 'ios-close' : 'ios-checkmark'
+          }
+        })
+      }
+
+      var $text = hx('div.r-progress-text')
+      .push(
+        hx('div.r-progress-text-inner', {}, [textContent])
+      )
+
+      $wrapper.push($text)
+    }
+    
+    return $wrapper.resolve(h)
   }
 })
 

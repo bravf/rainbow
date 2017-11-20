@@ -39,8 +39,10 @@
         width: 100%
     }
   }
+}
 
-  .r-progress-active{
+.r-progress-active{
+  .r-progress-bg{
     &::before{
       content: '';
       opacity: 0;
@@ -53,10 +55,27 @@
       animation: r-progress-active 2s ease-in-out infinite;
     }
   }
-  .r-progress-success{
+}
+.r-progress-success{
+  .r-progress-bg{
     background-color: $color-success;
   }
-  .r-progress-wrong{
+  .r-icon{
+    color: $color-success;
+  }
+}
+.r-progress-wrong{
+  .r-progress-bg{
     background-color: $color-danger;
+  }
+  .r-icon{
+    color: $color-danger;
+  }
+}
+
+.r-progress-hide-info{
+  .r-progress-outer{
+    padding-right: 0;
+    margin-right: 0;
   }
 }
