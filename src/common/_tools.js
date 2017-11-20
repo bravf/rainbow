@@ -23,6 +23,9 @@ function idxArray(val, key, objList){
 }
 
 function deepClone(obj) {
+  if (obj === undefined){
+    return undefined
+  }
   return JSON.parse(JSON.stringify(obj))
 }
 
