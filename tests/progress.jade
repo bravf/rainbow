@@ -1,0 +1,25 @@
+extends ./_layout
+
+block title
+  | progress
+
+block content
+  div.panel
+    h3| progress
+  
+    r-progress(:percent="percent")
+    r-progress(:percent="percent", status="active")
+    r-progress(:percent="percent", status="wrong")
+    r-progress(:percent="percent", status="success")
+    
+
+block script
+  script.
+    vm = new Vue({
+      el: '#app',
+      data () {
+        return {
+          percent: 10
+        }
+      }
+    })

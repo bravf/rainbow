@@ -1,0 +1,62 @@
+.r-progress{
+  display: inline-block;
+  width: 100%;
+  position: relative;
+
+  .r-progress-outer{
+    display: inline-block;
+    width: 100%;
+    padding-right: 55px;
+    margin-right: -55px;
+  }
+  .r-progress-inner{
+    display: inline-block;
+    width: 100%;
+    background-color: $color-white-dark;
+    vertical-align: middle;
+  }
+  .r-progress-bg{
+    position: relative;
+    background-color: $color-primary;
+    transition: all .2s linear;
+  }
+  .r-progress-text{
+    display: inline-block;
+    margin-left: 5px;
+    text-align: left;
+    font-size: 1em;
+    vertical-align: middle;
+  }
+
+  @keyframes r-progress-active {
+    0% {
+        opacity: .3;
+        width: 0
+    }
+
+    100% {
+        opacity: 0;
+        width: 100%
+    }
+  }
+
+  .r-progress-active{
+    &::before{
+      content: '';
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #fff;
+      animation: r-progress-active 2s ease-in-out infinite;
+    }
+  }
+  .r-progress-success{
+    background-color: $color-success;
+  }
+  .r-progress-wrong{
+    background-color: $color-danger;
+  }
+}
