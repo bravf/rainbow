@@ -65,3 +65,9 @@
     text-align: right;
   }
 }
+
+.r-confirm-global, .r-alert-global{
+  p{
+    word-break: break-all;
+  }
+}

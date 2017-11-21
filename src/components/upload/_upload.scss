@@ -1,0 +1,87 @@
+.r-upload{
+
+  .r-upload-select{
+    display: inline-block;
+  }
+
+  .r-upload-input{
+    display: none;
+  }
+
+  .r-upload-list{
+    margin-top: 8px;
+  }
+  
+  .r-upload-list-file{
+    padding: 4px;
+    overflow: hidden;
+    position: relative;
+
+    >span{
+      cursor: pointer;
+
+      span{
+        vertical-align: middle;
+        margin-left: 4px;
+      }
+    }
+
+    .r-upload-list-remove{
+      float: right;
+      cursor: pointer;
+      margin-right: 4px;
+      display: none;
+    }
+
+    &:hover{
+      background-color: $color-white-dark;
+      color: $color-primary; 
+
+      .r-upload-list-remove{
+        display: inline-block;
+      }
+    }
+  }
+
+  .r-upload-list-image{
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    border: 1px solid $color-border;
+    overflow: hidden;
+    background-color: $color-white;
+    position: relative;
+    margin-right: 4px;
+
+    img{
+      width: 100%;
+      height: 100%;
+    }
+
+    .r-upload-list-image-cover{
+      display: none;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.6); 
+
+      i{
+        color: $color-white;
+        font-size: 20px;
+        cursor: pointer;
+        display: inline;
+        margin: 0 2px;
+      }
+    }
+
+    &:hover{
+      .r-upload-list-image-cover{
+        display: block;
+      }
+    }
+  }
+}
