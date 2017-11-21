@@ -95,6 +95,15 @@ block content
             @click.native="addTel"
           )| 添加电话
         
+
+        r-form-item(prop="images", required, label="上传图片")
+          r-upload(
+            v-model="formItem.images",
+            action="//jsonplaceholder.typicode.com/posts/",
+            :on-success="onSuccess",
+          )
+            r-button(icon="ios-cloud-upload-outline")| 上传文件
+
         r-form-item(style="margin-left: 100px;")
           r-button(
             @click.native="reset"
@@ -122,7 +131,8 @@ block script
             tels: {
               items: [{value:''}]
             },
-            ajaxValue: ''
+            ajaxValue: '',
+            images: [],
           },
           ruleValidate: {
             input: [
@@ -191,6 +201,12 @@ block script
                 msg: '远程验证失败',
                 loadingMsg: '请求ing....',
               }
+            ],
+            images: [
+              {
+                validate: this.required,
+                msg: '图片不能为空'
+              }
             ]
           }
         }
@@ -237,6 +253,13 @@ block script
         reset () {
           //- this.$refs.myForm.resetValidate()
           this.$refs.myForm.reset()
+        },
+
+        onSuccess (res, file) {
+          this.formItem.images.push({
+            name: file.name,
+            url: res.id
+          })
         }
       }
     })
