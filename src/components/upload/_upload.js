@@ -163,7 +163,9 @@ var RUpload = Vue.extend({
         tempFileList.splice(tempFileList.indexOf(_file), 1)
 
         if (this.onSuccess){
-          this.onSuccess(res, _file)
+          if (! (this.limit && (this.value.length >= this.limit)) ){
+            this.onSuccess(res, _file)
+          }
         }
       }
     },

@@ -16,7 +16,7 @@ block content
         :multiple="true",
         :on-preview="onPreview",
         :before-upload="beforeUpload",
-        :limit="3"
+        :limit="5"
       )
         r-button(icon="ios-cloud-upload-outline")| 上传文件
     
@@ -25,7 +25,6 @@ block content
     div.margin-10
 
       r-upload(
-        :limit="3"
         ref="upload2",
         v-model="images",
         action="//jsonplaceholder.typicode.com/posts/",
