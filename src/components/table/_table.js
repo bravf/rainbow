@@ -216,6 +216,11 @@ var RTable = Vue.extend({
                     }
                     me.renderHook ++
                   }
+                },
+                nativeOn: {
+                  click (e) {
+                    e.stopPropagation()
+                  }
                 }
               })
             }
@@ -239,6 +244,11 @@ var RTable = Vue.extend({
 
                     me.radioData = data
                     me.renderHook ++
+                  }
+                },
+                nativeOn: {
+                  click (e) {
+                    e.stopPropagation()
                   }
                 }
               })
