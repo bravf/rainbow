@@ -189,7 +189,7 @@ var RUpload = Vue.extend({
       }
     },
     handlePreview (file){
-      if (file.status != 'uploading'){
+      if (this.onPreview && (file.status != 'uploading') ){
         this.onPreview(file)
       }
     },
