@@ -9,6 +9,10 @@ function hasChildren(obj){
   return isArray(obj.children) && obj.children.length > 0
 }
 
+function isChildren(obj){
+  return isArray(obj) && obj.length > 0
+}
+
 function inArray(obj, objList){
   return objList.indexOf(obj) !== -1
 }
@@ -147,6 +151,7 @@ export {
   isArray,
   isObject,
   hasChildren,
+  isChildren,
   hx,
   inArray,
   idxArray,

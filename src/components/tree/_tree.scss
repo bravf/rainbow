@@ -1,0 +1,52 @@
+.r-tree{
+  font-size: 14px;
+
+  li {
+    margin: 8px 0;
+    white-space: nowrap;
+
+    ul {
+      display: none;
+      padding-left: 18px;
+    }
+  }
+
+  .r-tree-item{
+    .r-checkbox{
+      margin-right: 5px;
+    }
+  }
+
+  .r-tree-item-open{
+    >ul{
+      display: block;
+    }
+
+    >.r-tree-item-arrowWrapper{
+      >.r-icon{
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  .r-tree-item-arrowWrapper{
+    cursor: pointer;
+    margin-right: 5px;
+  }
+
+  .r-tree-item-text{
+    cursor: pointer;
+    padding: 0 4px;
+  }
+
+  .r-tree-item-selected{
+    background-color: #d6ebff;
+  }
+
+  .r-tree-item-no-children{
+    i{
+      color: transparent;
+    }
+    cursor: default;
+  }
+}
