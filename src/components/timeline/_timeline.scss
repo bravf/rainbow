@@ -1,0 +1,83 @@
+.r-timeline-item{
+  padding-bottom: 12px;
+  position: relative;
+}
+
+.r-timeline-item-line{
+  height: 100%;
+  border-left: 1px solid $color-border;
+  position: absolute;
+  left: 6px;
+  top: 0;
+}
+
+.r-timeline-item-head{
+  width: 13px;
+  height: 13px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  position: absolute;
+}
+
+.r-timeline-item-content{
+  padding: 1px 1px 10px 24px;
+  position: relative;
+  top: -3px;
+}
+
+// 最后一项隐藏竖线
+.r-timeline-item:last-child{
+  .r-timeline-item-line{
+    display: none;
+  }
+}
+
+// 如果pending模式，倒数第二条线改成dotted模式
+.r-timeline-pending{
+  .r-timeline-item:nth-last-of-type(2){
+    .r-timeline-item-line{
+      border-left: 1px dotted $color-border;
+    }
+    .r-timeline-item-content{
+      min-height: 48px;
+    }
+  }
+} 
+
+.r-timeline-item-head-custom{
+  width: 40px;
+  height: auto;
+  margin-top: 6px;
+  padding: 3px 0;
+  text-align: center;
+  line-height: 1;
+  border: 0;
+  border-radius: 0;
+  font-size: 14px;
+  position: absolute;
+  left: -13px;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.r-timeline-item-blue{
+  .r-timeline-item-head{
+    border-color: $color-primary;
+    color: $color-primary;
+  }
+}
+
+.r-timeline-item-red{
+  .r-timeline-item-head{
+    border-color: $color-danger;
+    color: $color-danger;
+  }
+}
+
+.r-timeline-item-green{
+  .r-timeline-item-head{
+    border-color: $color-success;
+    color: $color-success;
+  }
+}

@@ -1,0 +1,31 @@
+extends ./_layout
+
+block title
+  | timeline
+
+block content
+  div.panel
+    h3| timeline
+  
+    div.margin-10
+      r-timeline(pending)
+        r-timeline-item(color="green")
+          r-icon(type="trophy", slot="dot")
+          span| 发布1.0版本
+
+        r-timeline-item()| 发布2.0版本
+        r-timeline-item()| 发布3.0版本
+        r-timeline-item(color="red")
+          a(href="#")| 查看更多
+
+block script
+  script.
+    new Vue({
+      el: '#app',
+      data () {
+        return {
+          currPage: 1,
+          total: 23400,
+        }
+      }
+    })

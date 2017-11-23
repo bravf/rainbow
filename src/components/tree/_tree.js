@@ -297,7 +297,7 @@ var RTree = Vue.extend({
       return checkeds
     }
   },
-  render (h) {console.log('tree render')
+  render (h) {
     this.renderHook
     var $wrapper = hx('div.r-tree')
 
