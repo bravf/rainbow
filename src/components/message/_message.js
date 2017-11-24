@@ -25,13 +25,15 @@ var RMessage = Vue.extend({
   },
   methods: {
     show (msg, type) {
+      clearTimeout(this.timer)
+      
       this.msg = msg
       this.type = type || 'info'
       this.isShow = true
 
-      // 重设定时器
-      clearTimeout(this.timer)
-      
+      this.hide()
+    },
+    hide () {
       this.timer = setTimeout(_=>{
         this.isShow = false
       }, this.duration)
@@ -39,9 +41,18 @@ var RMessage = Vue.extend({
   },
   render (h) {
     var me = this
+
     var $wrapper = hx(`div.${this.cls.join('+')}`, {
       style: {
         display: this.isShow ? 'block' : 'none'
+      },
+      on: {
+        mouseenter () {
+          clearTimeout(me.timer)
+        },
+        mouseleave () {
+          me.hide()
+        }
       }
     })
 
