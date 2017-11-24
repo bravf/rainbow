@@ -4,61 +4,27 @@ block title
   | container
 
 block content
-  r-container(style="height:100%")
-    r-header()
-      r-row(align-items="center")
-        r-col(:span="4", style="text-align:center")
-          h1()| Rainbow
+  r-app
+    r-row(slot="header", align-items="center")
+      r-col(:span="4", style="text-align:center")
+        h1()| Rainbow
 
-        r-col(:span="6")
-          r-input(placeholder="搜索组件...")
+      r-col(:span="6")
+        r-select(
+          placeholder="搜索组件...", 
+          filterable,
+          v-model="componentValue")
+          
+          r-select-option(label="Grid栅格")
+          r-select-option(label="Container布局")
+          r-select-option(label="Input输入框")
+          r-select-option(label="Radio单选框")
 
-        r-col(:span="14")
-          r-menu(
-            mode="horizontal",
-            v-model="activeMenu"
-          )
-            r-menu-item(name="1")
-              r-icon(type="ios-paper")
-              | 内容管理
-
-            r-menu-item(name="2")
-              r-icon(type="ios-people")
-              | 用户管理
-            
-            r-sub-menu(name="3")
-              template(slot="title")
-                r-icon(type="stats-bars")
-                | 统计分析
-              
-              r-menu-group(title="使用")
-                r-menu-item(
-                  name="3-1",
-                  href="http://baidu.com",
-                  target="_blank"
-                )
-                  | 新增和启动
-                r-menu-item(name="3-2")| 活跃分期
-                r-menu-item(name="3-3")| 时段分析
-
-              r-menu-group(title="留存")
-                r-menu-item(name="3-4")| 用户留存
-                r-menu-item(name="3-5")| 流失用户
-
-            r-menu-item(
-              name="4", 
-              href="http://baidu.com"
-            )
-              r-icon(type="settings")
-              |综合设置
-
-    r-container(style="margin: 20px;")
-      r-aside()
+      r-col(:span="14")
         r-menu(
-          mode="vertical",
-          v-model="activeMenu"
+          mode="horizontal",
+          v-model="activeMenu",
         )
-            
           r-menu-item(name="1")
             r-icon(type="ios-paper")
             | 内容管理
@@ -93,74 +59,197 @@ block content
             r-icon(type="settings")
             |综合设置
 
-      r-container()
-        r-main()
-          r-table(
-            :data="data", 
-            ref="table", 
-            :border="false", 
-            :show-header="true",
-            :sort-method="sort",
-            :sort-field="sortField",
-            :sort-dir="sortDir",
-            :loading="loading")
-            
-            r-table-column(
-              width="50",
-              type="checkbox",
-            )
-            r-table-column(
-              width="50",
-              type="index",
-            )
-            r-table-column(
-              title="姓名",
-              field="name",
-              width="80",
-              :ellipsis="true",
-            )
-            r-table-column(
-              title="数学",
-              field="math",
-              align="center",
-              :sortable="true"
-            )
-            r-table-column(
-              title="语文",
-              field="chinese",
-              align="center",
-              :sortable="true"
-            )
-            r-table-column(
-              title="操作",
-              align="center",
-              width="140",
-              v-if="test"
-            )
-              template(slot-scope="scope")
-                r-button(
-                  type="primary",
-                  size="small",
-                  @click.native="_alert(scope.data.id)",
-                  v-if="test"
-                )| 查看
-                r-button(
-                  size="small"
-                )| 编辑
-          
-          r-page(
-            style="margin: 10px 0; text-align:right",
-            v-model="page.currPage",
-            :total="page.total",
-            :show-total="true",
-            :page-size="10000"
-          )
+    r-menu(
+      slot="aside",
+      mode="vertical",
+      v-model="activeMenu",
+      expand
+    )
 
+      r-menu-item(name="1")
+        | 快速上手
       
-        r-footer(
-          style="text-align:center;"
+      //- Basic
+      r-sub-menu(name="2")
+        template(slot="title")
+          | Basic
+        
+        r-menu-item(name="2-1")
+          r-icon(type="ios-grid-view-outline")
+          | Grid 栅格
+        
+        r-menu-item(name="2-2")
+          r-icon(type="ios-browsers-outline")
+          | Container布局
+        
+        r-menu-item(name="2-3")
+          r-icon(type="social-youtube-outline")
+          | Button 按钮
+
+        r-menu-item(name="2-4")
+          r-icon(type="ios-heart-outline")
+          | Icon 图标
+
+      //- Form
+      r-sub-menu(name="3")
+        template(slot="title")
+          | Form
+        
+        r-menu-item(name="3-1")
+          r-icon(type="ios-compose-outline")
+          | Input 输入框
+        
+        r-menu-item(name="3-2")
+          r-icon(type="ios-circle-filled")
+          | Radio 单选框
+        
+        r-menu-item(name="3-3")
+          r-icon(type="android-checkbox-outline")
+          | Checkbox 多选框
+
+        r-menu-item(name="3-4")
+          r-icon(type="ios-grid-view")
+          | Table 表格
+
+        r-menu-item(name="3-5")
+          r-icon(type="ios-arrow-down")
+          | Select 选择器
+        
+        r-menu-item(name="3-6")
+          r-icon(type="ios-calendar-outline")
+          | DatePicker 日期选择器
+        
+        r-menu-item(name="3-7")
+          r-icon(type="ios-clock-outline")
+          | TimePicker 时间选择器
+        
+        r-menu-item(name="3-8")
+          r-icon(type="ios-cloud-upload-outline")
+          | Upload 上传
+        
+        r-menu-item(name="3-9")
+          r-icon(type="ios-list-outline")
+          | Form 表单
+      
+      //- View
+      r-sub-menu(name="4")
+        template(slot="title")
+          | View
+        
+        r-menu-item(name="4-1")
+          r-icon(type="ios-browsers-outline")
+          | Card 卡片
+        
+        r-menu-item(name="4-2")
+          r-icon(type="ios-information-outline")
+          | Message 全局提示
+        
+        r-menu-item(name="4-3")
+          r-icon(type="ios-chatbubble-outline")
+          | Modal 对话框
+
+        r-menu-item(name="4-4")
+          r-icon(type="android-remove")
+          | Progress 进度条
+        
+        r-menu-item(name="4-5")
+          r-icon(type="android-more-vertical")
+          | Timeline 时间轴
+        
+        r-menu-item(name="4-6")
+          r-icon(type="ios-pricetags-outline")
+          | Tag 标签
+        
+        r-menu-item(name="4-7")
+          r-icon(type="chatbox-working")
+          | Tooltip 文字提示
+        
+        r-menu-item(name="4-8")
+          r-icon(type="icon-network")
+          | Tree 树形控件
+      
+      //- Navigation
+      r-sub-menu(name="5")
+        template(slot="title")
+          | Navigation
+        
+        r-menu-item(name="5-1")
+          r-icon(type="navicon-round")
+          | Menu 导航菜单
+        
+        r-menu-item(name="5-2")
+          r-icon(type="social-windows-outline")
+          | Tabs标签页
+        
+        r-menu-item(name="5-3")
+          r-icon(type="arrow-down-b")
+          | Dropdown 下拉菜单
+
+        r-menu-item(name="5-4")
+          r-icon(type="ios-book-outline")
+          | Page 分页
+          
+    div(slot="main")
+      r-table(
+        :data="data", 
+        ref="table", 
+        :border="false", 
+        :show-header="true",
+        :sort-method="sort",
+        :sort-field="sortField",
+        :sort-dir="sortDir",
+        :loading="loading")
+        
+        r-table-column(
+          width="50",
+          type="checkbox",
         )
-          p(style="height:60px;line-height:60px;")| Rainbow UI By Bravfing at 2017.10
+        r-table-column(
+          width="50",
+          type="index",
+        )
+        r-table-column(
+          title="姓名",
+          field="name",
+          width="80",
+          :ellipsis="true",
+        )
+        r-table-column(
+          title="数学",
+          field="math",
+          align="center",
+          :sortable="true"
+        )
+        r-table-column(
+          title="语文",
+          field="chinese",
+          align="center",
+          :sortable="true"
+        )
+        r-table-column(
+          title="操作",
+          align="center",
+          width="140",
+          v-if="test"
+        )
+          template(slot-scope="scope")
+            r-button(
+              type="primary",
+              size="small",
+              @click.native="_alert(scope.data.id)",
+              v-if="test"
+            )| 查看
+            r-button(
+              size="small"
+            )| 编辑
+      
+      r-page(
+        style="margin: 10px 0; text-align:right",
+        v-model="page.currPage",
+        :total="page.total",
+        :show-total="true",
+        :page-size="10000"
+      )
 
 block script
   script.
@@ -173,10 +262,11 @@ block script
         chinese: i* 10 + 5,
       })
     }
-    new Vue({
+    vm = new Vue({
       el: '#app',
       data () {
         return {
+          componentValue: '',
           activeMenu: '3-1',
           data : data,
           test: true,

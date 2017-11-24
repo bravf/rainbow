@@ -63,6 +63,9 @@ $minHeight: 24px;
   margin: 0;
   transition: all .2s;
 }
+html, body{
+  height: 100%;
+}
 body{
   font: $font-size "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   color: $color-black;
@@ -105,3 +108,4 @@ ul, li{
 @import 'components/upload/upload';
 @import 'components/tree/tree';
 @import 'components/timeline/timeline';
+@import 'components/app/app';

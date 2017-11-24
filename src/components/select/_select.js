@@ -109,7 +109,7 @@ var RSelect = Vue.extend({
         return inArray(value, this.value)
       }
       else {
-        return this.value === value
+        return (value !== undefined) && (this.value === value)
       }
     },
     _optionClick (data) {
@@ -148,6 +148,10 @@ var RSelect = Vue.extend({
       }
     },
     _getSelected (labelValue) {
+      if (this.value === undefined){
+        return []
+      }
+
       var value = this.value
       if (!isArray(value)){
         value = [value]

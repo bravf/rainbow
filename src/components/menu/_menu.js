@@ -9,6 +9,7 @@ var RMenu = Vue.extend({
       default: 'vertical'
     },
     value: [String, Number],
+    expand: Boolean,
   },
   data () {
     return {
@@ -78,6 +79,9 @@ var RSubMenu = Vue.extend({
       isExpand: null,
       menuValue: ''
     }
+  },
+  created () {
+    this.isExpand = this.menu.expand
   },
   computed: {
     menu () {

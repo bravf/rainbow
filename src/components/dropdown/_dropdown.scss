@@ -10,7 +10,7 @@
     padding: 5px 0;
     max-height: 200px;
     overflow-y: auto;
-    z-index: 1;
+    z-index: 10000;
 
     li{
       cursor: pointer;
