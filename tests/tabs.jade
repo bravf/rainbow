@@ -11,13 +11,15 @@ block content
       icon="social-apple"
     )
       div| macOS
+      r-input(v-model="input")
+      {{input}}
     
     r-tab-pane(
       name="pane2",
       label="Windows",
       icon="social-windows"
     )
-      div| Windows
+      div| Windows1
     
     r-tab-pane(
       name="pane3",
@@ -34,7 +36,8 @@ block script
       data () {
         return {
           test: true,
-          tabsValue: ''
+          tabsValue: '',
+          input: ''
         }
       }
     })

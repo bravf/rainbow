@@ -50,7 +50,6 @@ var RTabs = Vue.extend({
     }
   },
   render (h) {
-    console.log('tabs render')
     var me = this
     var $wrapper = hx(`div.${this.cls.join('+')}`, {})
       .push(
@@ -131,6 +130,9 @@ var RTabPane = Vue.extend({
     this.$parent._getPaneConfs()
   },
   beforeDestroy () {
+    this.$parent._getPaneConfs()
+  },
+  updated () {
     this.$parent._getPaneConfs()
   },
   render () {
