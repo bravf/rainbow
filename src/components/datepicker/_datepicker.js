@@ -271,6 +271,10 @@ var RDatepicker = Vue.extend({
             },
             on: {
               click () {
+                if (isDisabled){
+                  return
+                }
+                
                 var month = paddingZero(cell.month + 1, 2)
                 var day = paddingZero(cell.day, 2)
                 var value = ''
