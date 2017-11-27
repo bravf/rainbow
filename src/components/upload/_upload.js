@@ -15,13 +15,12 @@ var RUpload = Vue.extend({
     multiple: Boolean,
     name: {
       type: String,
-      default: 'name'
+      default: 'file'
     },
     withCredentials: Boolean,
-    showUploadList: true,
     accept: String,
     beforeUpload: Function,
-    onProcess: Function,
+    onProgress: Function,
     onSuccess: {
       type: Function,
       required: true,
@@ -146,8 +145,8 @@ var RUpload = Vue.extend({
     handleProgress (e, file) {
       var _file = this.getFile(file)
       
-      if (this.onProcess){
-        this.onProgress && this.onProgress(e, _file)
+      if (this.onProgress){
+        this.onProgress(e, _file)
       }
       
       _file.percent = e.percent || 0
