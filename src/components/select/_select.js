@@ -307,7 +307,7 @@ var RSelect = Vue.extend({
           props: {
             closeable: true,
             name: s.value,
-            type: me.size,
+            size: me.size,
             disabled: me.disabled,
           },
           on: {

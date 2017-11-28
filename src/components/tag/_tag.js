@@ -5,7 +5,7 @@ var RTag = Vue.extend({
     closeable: Boolean,
     color: String,
     name: [String, Number],
-    type: String,
+    size: String,
     disabled: Boolean,
   },
   computed: {
@@ -13,7 +13,7 @@ var RTag = Vue.extend({
       var cls = []
       cls.push('r-tag')
 
-      if (this.type === 'small'){
+      if (this.size === 'small'){
         cls.push('r-tag-small')
       }
 
