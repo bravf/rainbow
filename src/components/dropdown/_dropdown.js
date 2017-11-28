@@ -65,7 +65,7 @@ var RRropdown = Vue.extend({
   }
 })
 
-var RRropdownItem = Vue.extend({
+var RDropdownItem = Vue.extend({
   props: {
     href: String,
     target: String,
@@ -99,5 +99,5 @@ var RRropdownItem = Vue.extend({
   }
 })
 
-Vue.component('r-dropdown-item', RRropdownItem)
+Vue.component('r-dropdown-item', RDropdownItem)
 Vue.component('r-dropdown', RRropdown)
