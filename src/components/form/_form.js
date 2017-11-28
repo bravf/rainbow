@@ -110,7 +110,7 @@ var RForm = Vue.extend({
 
     reset () {
       this.resetModel()
-      this.$nextTick(_=>{
+      setTimeout(_=>{
         this.resetValidate()
       })
     }
