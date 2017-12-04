@@ -36,11 +36,16 @@
     overflow: hidden;
     width: $height + 20;
     position: relative;
+    border-top: 1px solid $color-border;
     border-right: 1px solid $color-border;
 
     &:hover{
       overflow-y: scroll;
     }
+  }
+
+  .r-timepicker-col:last-child{
+    border-right: 0;
   }
 
 

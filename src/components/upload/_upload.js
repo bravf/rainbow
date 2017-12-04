@@ -360,7 +360,10 @@ var RUpload = Vue.extend({
     })
 
     $list.push($finishedList).push($uploadingList)
-    $wrapper.push($list)
+
+    if ($list.children.length > 0){
+      $wrapper.push($list)
+    }
 
     return $wrapper.resolve(h)
   }
