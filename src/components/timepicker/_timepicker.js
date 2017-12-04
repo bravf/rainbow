@@ -78,9 +78,14 @@ var RTimepicker = Vue.extend({
         }
       })
 
+      var $titles = []
       var items = []
 
       if (format == 'a' || format == 'b'){
+        $titles.push(
+          hx('span', {}, ['时'])
+        )
+
         for (var i=0; i<24; i++){
           items.push({
             value: i,
@@ -89,6 +94,10 @@ var RTimepicker = Vue.extend({
         }
       }
 
+      $titles.push(
+        hx('span', {}, ['分'])
+      )
+      
       for (var i=0; i<60; i++){
         items.push({
           value: i,
@@ -97,6 +106,10 @@ var RTimepicker = Vue.extend({
       }
 
       if (format == 'a' || format == 'c'){
+        $titles.push(
+          hx('span', {}, ['秒'])
+        )
+
         for (var i=0; i<60; i++){
           items.push({
             value: i,
@@ -104,6 +117,12 @@ var RTimepicker = Vue.extend({
           })
         }
       }
+
+      $dropdown.push(
+        hx('div.r-timepicker-titles').push(
+          $titles
+        )
+      )
 
       var currType, $col, $ul
 

@@ -24,12 +24,18 @@ var RDatepicker = Vue.extend({
       default: 'a',
     },
     size: String,
+
+    // 设置一个开始时间，用来模拟范围
+    startDate: String,
   },
   watch: {
     value () {
       if (this.formItem){
         this.formItem.validate()
       }
+    },
+    startDate () {
+      this.$emit('input', '')
     }
   },
   computed: {
@@ -251,9 +257,14 @@ var RDatepicker = Vue.extend({
 
       cells.forEach(cell=>{
         var isDisabled = false
+        var _date = new Date(cell.year, cell.month, cell.day, 23, 59, 59)
 
         if (me.disabledDate){
-          isDisabled = !!me.disabledDate(new Date(cell.year, cell.month, cell.day, 23, 59, 59))
+          isDisabled = !!me.disabledDate(_date)
+        }
+
+        if (me.startDate){
+          isDisabled = +(new Date(me.startDate)) > +_date
         }
 
         // 如果禁用，去掉item样式

@@ -32,7 +32,7 @@ block content
         v-model="endDate",
         placeholder="结束时间",
         clearable,
-        :disabled-date="disabledDate2",
+        :start-date="startDate",
         format="b",
         size="small",
       )
@@ -49,9 +49,9 @@ block script
         }
       },
       watch: {
-        startDate () {
-          this.endDate = ''
-        }
+        //- startDate () {
+        //-   this.endDate = ''
+        //- }
       },
       methods: {
         disabledDate (date) {
@@ -60,7 +60,7 @@ block script
           return +date < +today
         },
         disabledDate2 (date) {
-          return +date <= +(new Date(this.startDate + ' 23:59:59'))
+          return +date < +(new Date(this.startDate + ' 23:59:59'))
         }
       }
     })

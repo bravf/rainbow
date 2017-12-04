@@ -83,4 +83,14 @@
       color: $color-white;
     }
   }
+
+  .r-timepicker-titles{
+    span{
+      display: inline-block;
+      width: 52px;
+      height: $height;
+      line-height: $height;
+      padding-left: 12px;
+    }
+  }
 }
