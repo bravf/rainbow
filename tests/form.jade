@@ -246,8 +246,11 @@ block script
 
         submit () {
           console.log(JSON.stringify(this.formItem))
-          this.$refs.myForm.validate(_=>{
+          this.$refs.myForm.validate( (_, errItem)=>{
             console.log(_)
+            if (_ === false){
+              console.log(errItem)
+            }
           })
         },
 

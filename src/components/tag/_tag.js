@@ -3,7 +3,12 @@ import {hx} from '../../common/_tools.js'
 var RTag = Vue.extend({
   props: {
     closeable: Boolean,
-    color: String,
+    // 枚举，可选值
+    // primary、success、info、warning、danger
+    type: {
+      type: String,
+      default: 'info',
+    },
     name: [String, Number],
     size: String,
     disabled: Boolean,
@@ -12,6 +17,8 @@ var RTag = Vue.extend({
     cls () {
       var cls = []
       cls.push('r-tag')
+
+      cls.push('r-tag-' + this.type)
 
       if (this.size === 'small'){
         cls.push('r-tag-small')

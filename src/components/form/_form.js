@@ -71,7 +71,7 @@ var RForm = Vue.extend({
             // 如果校验失败
             if (!isOk){
               isError = true
-              callback(false)
+              callback(false, item)
               return
             }
 

@@ -24,7 +24,7 @@ var RSelect = Vue.extend({
       filterLabelValue: [],
       isExpand: false,
       word: null,
-      focusIdx: -1,
+      focusIdx: 0,
     }
   },
   computed: {
@@ -229,7 +229,7 @@ var RSelect = Vue.extend({
   watch: {
     isExpand (val) {
       if (!val){
-        this.focusIdx = -1
+        this.focusIdx = 0
       }
       else {
         var idx = -1
