@@ -72,12 +72,6 @@ var RTimepicker = Vue.extend({
       var me = this
       var format = this.format
 
-      var $dropdown = hx('div.r-timepicker-dropdown', {
-        style: {
-          display: this.isExpand ? 'block' : 'none'
-        }
-      })
-
       var $titles = []
       var items = []
 
@@ -117,6 +111,13 @@ var RTimepicker = Vue.extend({
           })
         }
       }
+
+      var $dropdown = hx('div.r-timepicker-dropdown', {
+        style: {
+          display: this.isExpand ? 'block' : 'none',
+          width: $titles.length * 52 + 'px'
+        }
+      })
 
       $dropdown.push(
         hx('div.r-timepicker-titles').push(
@@ -283,6 +284,8 @@ var RTimepicker = Vue.extend({
   },
   mounted () {
     globalClick(this.$el, _=>{
+      // 解决移动端不失去焦点，从而无法再次点击问题
+      this.$el.querySelector('.r-input').blur()
       this.isExpand = false
     })
   }

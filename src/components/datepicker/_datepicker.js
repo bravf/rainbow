@@ -361,6 +361,8 @@ var RDatepicker = Vue.extend({
   },
   mounted () {
     globalClick(this.$el, _=>{
+      // 解决移动端不失去焦点，从而无法再次点击问题
+      this.$el.querySelector('.r-input').blur()
       this.isExpand = false
     })
   },

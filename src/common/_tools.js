@@ -111,9 +111,9 @@ function getScrollWidth(){
 }
 
 function globalClick(exclude, callback){
-  window.addEventListener('click', _=>{
+  var func = _=>{
     var $$target = _.target
-
+    
     while ($$target.parentNode != null){
       $$target = $$target.parentNode
 
@@ -123,6 +123,16 @@ function globalClick(exclude, callback){
     }
 
     callback()
+  }
+
+  // pc 端
+  window.addEventListener('click', _=>{
+    func(_)
+  })
+
+  // 移动端
+  window.addEventListener('touchstart', _=>{
+    func(_)
   }, false)
 }
 

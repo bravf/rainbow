@@ -9,7 +9,7 @@ block content
   
     div.margin-10
       r-form(
-        label-width="100",
+        label-width="70",
         :model="formItem",
         :rules="ruleValidate",
         ref="myForm"
@@ -89,7 +89,7 @@ block content
                 @click.native="delTel(item)"
               )| 删除
         
-        r-form-item(style="margin-left: 100px;")
+        r-form-item(style="margin-left: 70px;")
           r-button(
             type="primary",
             @click.native="addTel"
@@ -101,11 +101,12 @@ block content
             v-model="formItem.images",
             action="//jsonplaceholder.typicode.com/posts/",
             :on-success="onSuccess",
+            :on-error="onError",
             list-type="image"
           )
             r-button(icon="ios-cloud-upload-outline")| 上传文件
 
-        r-form-item(style="margin-left: 100px;")
+        r-form-item(style="margin-left: 70px;")
           r-button(
             @click.native="reset"
           )| reset
@@ -264,6 +265,10 @@ block script
             name: file.name,
             url: res.id
           })
+        },
+
+        onError () {
+          this.$message('上传图片失败', 'error')
         }
       }
     })

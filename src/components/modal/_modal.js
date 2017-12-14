@@ -117,7 +117,7 @@ Vue.component('r-modal', RModal)
 // 全局注入alert
 var RAlert = Vue.extend({
   template: `
-    <r-modal v-model="value" :title="title" width="420" class="r-alert-global">
+    <r-modal v-model="value" :title="title" width="300" class="r-alert-global">
       <p>{{content}}</p>
       <div slot="footer">
         <r-button @click.native="okClick">确定</r-button>
@@ -173,7 +173,7 @@ var getAlert = function (){
 // 全局注入confirm
 var RConfirm = Vue.extend({
   template: `
-    <r-modal v-model="value" :title="title" width="420" class="r-confirm-global">
+    <r-modal v-model="value" :title="title" width="300" class="r-confirm-global">
       <p>{{content}}</p>
       <div slot="footer">
         <r-button @click.native="cancelClick">取消</r-button>
