@@ -1,4 +1,4 @@
-import {hx} from '../../common/_tools.js'
+import {hx, isdef} from '../../common/_tools.js'
 import instance from '../../common/_instance.js'
 import { RFormItem } from '../form/_form'
 
@@ -65,7 +65,7 @@ var RInput = Vue.extend({
 
     var params = {
       domProps: {
-        value: this.value || '',
+        value: isdef(this.value) ? this.value : '',
         placeholder: this.placeholder || '',
       },
       attrs: {

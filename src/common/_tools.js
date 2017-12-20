@@ -157,6 +157,10 @@ function paddingZero(me, len){
   return arr.join('0') + me
 }
 
+function isdef(o){
+  return o !== undefined
+}
+
 export {
   isArray,
   isObject,
@@ -170,4 +174,5 @@ export {
   getTextWidth,
   paddingZero,
   deepClone,
+  isdef,
 }
