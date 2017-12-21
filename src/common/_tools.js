@@ -122,7 +122,10 @@ function globalClick(exclude, callback){
       }
     }
 
-    callback()
+    try{
+      callback()
+    }
+    catch (ex){}
   }
 
   // pc 端

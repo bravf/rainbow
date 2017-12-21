@@ -27,7 +27,7 @@ block content
             trim
           ) 
         
-        r-form-item(label="选择器", prop="select")
+        r-form-item(label="选择器", prop="select", v-if="boool")
           r-select(
             v-model="formItem.select",
             clearable,
@@ -121,6 +121,7 @@ block script
       el: '#app',
       data () {
         return {
+          boool: true,
           formItem: {
             input: '',
             select: '',
