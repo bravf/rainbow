@@ -47,11 +47,6 @@ var RModal = Vue.extend({
         'z-index': this.zindex,
       }
     }
-    
-    // mask
-    $wrapper.push(
-      hx('div.r-modal-mask', zindexStyle)
-    )
 
     // modal
     var $modal = hx('div.r-modal', {
@@ -97,7 +92,7 @@ var RModal = Vue.extend({
     }
 
     $wrapper.push(
-      hx('div.r-modal-wrapper', zindexStyle).push($modal)
+      hx('div.r-modal-wrapper + r-modal-mask', zindexStyle).push($modal)
     )
 
     return $wrapper.resolve(h)
