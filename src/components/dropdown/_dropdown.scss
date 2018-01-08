@@ -2,6 +2,17 @@
   position: relative;
   display: inline-block;
 
+  .r-dropdown-btn{
+    .r-icon{
+      margin-left: 4px;
+    }
+
+    color: $color-black;
+    &:hover{
+      color: $color-info;
+    }
+  }
+
   .r-dropdown-list{
     background-color: $color-white;
     position: absolute;
@@ -11,6 +22,7 @@
     max-height: 200px;
     overflow-y: auto;
     z-index: 10000;
+    width: 100%;
 
     li{
       cursor: pointer;

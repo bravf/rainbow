@@ -1,5 +1,9 @@
 .r-timepicker{
   position: relative;
+
+  input{
+    cursor: pointer;
+  }
 }
 
 .r-timepicker-clearable{

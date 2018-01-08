@@ -27,13 +27,8 @@ var RRropdown = Vue.extend({
     var me = this
     var $wrapper = hx(`div.${this.cls.join('+')}`)
 
-    var $btn = hx('r-button', {
-      props: {
-        icon: this.isExpand ? 'ios-arrow-up' : 'ios-arrow-down',
-        iconPos: 'after',
-        size: this.size,
-      },
-      nativeOn: {
+    var $btn = hx('a.r-dropdown-btn', {
+      on: {
         click () {
           if (me.isExpand !== true){
             me.isExpand = true
@@ -44,10 +39,17 @@ var RRropdown = Vue.extend({
         }
       }
     }, [this.label])
+      .push(
+        hx('r-icon', {
+          props: {
+            type: this.isExpand ? 'arrow-up-b' : 'arrow-down-b',
+          }
+        })
+      )
 
     var $list = hx('div.r-dropdown-list', {
       style: {
-        display: this.isExpand ? 'block' : 'none'
+        display: this.isExpand ? 'block' : 'none',
       }
     }).push(
       hx('ul', {}, [this.$slots.default])
