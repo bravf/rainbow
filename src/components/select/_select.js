@@ -65,12 +65,16 @@ var RSelect = Vue.extend({
     }
   },
   methods: {
+    _emitChange (value) {
+      this.$emit('input', value)
+      this.$emit('change', value)
+    },
     _removeValue (_value) {
       var value = [...this.value]
       var idx = value.indexOf(_value)
       value.splice(idx, 1)
 
-      this.$emit('input', value)
+      this._emitChange(value)
     },
     _getInputWidth () {
       if (!this.$el){
@@ -126,15 +130,15 @@ var RSelect = Vue.extend({
           var idx = value.indexOf(_value)
 
           value.splice(idx, 1)
-          this.$emit('input', value)
+          this._emitChange(value)
         }
         else {
           value.push(_value)
-          this.$emit('input', value)
+          this._emitChange(value)
         }
       }
       else {
-        this.$emit('input', _value)
+        this._emitChange(_value)
       }
 
       this.word = null
@@ -414,7 +418,7 @@ var RSelect = Vue.extend({
           },
           nativeOn: {
             click (e) {
-              me.$emit('input', me.isMultiple ? [] : '')
+              me._emitChange(me.isMultiple ? [] : '')
               me.isExpand = false
               e.stopPropagation()
             }
