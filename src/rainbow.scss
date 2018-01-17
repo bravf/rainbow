@@ -78,6 +78,11 @@ a{
   outline: 0;
 }
 
+// 重置 placeholder 颜色
+input::placeholder, textarea::placeholder {
+  color: #a3b1bf;
+}
+
 ul, li{
   list-style: none;
 }
