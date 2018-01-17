@@ -18,7 +18,7 @@
     font: inherit;
     width: 100%;
     padding-left: 10px;
-    padding-right: $height;
+    padding-right: 10px;
     height: $height;
     line-height: 1.3;
     border: 1px solid $color-border;
@@ -62,5 +62,10 @@
     height: $minHeight;
     line-height: $minHeight;
     font-size: 16px;
+  }
+}
+.r-input-wrapper-has-icon{
+  .r-input{
+    padding-right: $height;
   }
 }

@@ -107,6 +107,7 @@ var RInput = Vue.extend({
     }
 
     var icon = this.icon
+    var cls = this.cls
     var $icon
 
     if (this.clearable){
@@ -114,6 +115,8 @@ var RInput = Vue.extend({
     }
     
     if (icon){
+      cls.push('r-input-wrapper-has-icon')
+
       $icon = hx('r-icon.r-input-icon', {
         props: {
           type: icon,
@@ -126,7 +129,7 @@ var RInput = Vue.extend({
       })
     }
 
-    return hx(`div.r-input-wrapper + ${this.cls.join('+')}`,)
+    return hx(`div.r-input-wrapper + ${cls.join('+')}`)
       .push($icon)
       .push($input)
       .resolve(h)
