@@ -257,6 +257,7 @@ var RTable = Vue.extend({
               if (conf.scopeSlot){
                 tdContent = conf.scopeSlot({
                   data: data,
+                  index: dataIdx
                 })
               }
             }
