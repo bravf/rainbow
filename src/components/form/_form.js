@@ -50,7 +50,10 @@ var RForm = Vue.extend({
             }
           }
 
-          this._getItemsLoop(child, items)
+          // 不处理嵌套 form
+          if (! (child instanceof RForm)){
+            this._getItemsLoop(child, items)
+          }
         })
       }
     },
