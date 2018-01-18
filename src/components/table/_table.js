@@ -199,7 +199,7 @@ var RTable = Vue.extend({
             var tdContent = hx('span', {}, [tdContentValue])
 
             if (conf.type == 'index'){
-              tdContent.children = [dataIdx]
+              tdContent.children = [dataIdx + 1]
             }
             else if (conf.type == 'checkbox'){
               tdContent = hx('r-checkbox.r-table-checkbox', {
