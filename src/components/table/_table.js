@@ -399,6 +399,11 @@ var RTableColumn = Vue.extend({
   beforeDestroy () {
     this.$parent._getColumnConfs()
   },
+  watch: {
+    title () {
+      this.$parent._getColumnConfs()
+    },
+  },
   render () {
 
   }
