@@ -33,9 +33,6 @@ var RDatepicker = Vue.extend({
       if (this.formItem){
         this.formItem.validate()
       }
-    },
-    startDate () {
-      this.$emit('input', '')
     }
   },
   computed: {
@@ -298,6 +295,7 @@ var RDatepicker = Vue.extend({
                 }
 
                 me.$emit('input', value)
+                me.$emit('change', value)
                 me.isExpand = false
               }
             }
@@ -342,6 +340,7 @@ var RDatepicker = Vue.extend({
       inputOptions['on'] = {
         'click-icon' (e) {
           me.$emit('input', '')
+          me.$emit('change', '')
           e.stopPropagation()
         }
       }
