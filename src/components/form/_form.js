@@ -65,6 +65,11 @@ var RForm = Vue.extend({
       var itemCount = items.length
       var doneCount = 0
 
+      if (!items.length){
+        callback(true)
+        return
+      }
+
       items.forEach(item=>{
         item.validate(isOk=>{
           doneCount ++
