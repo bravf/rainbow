@@ -19,6 +19,7 @@ var RDatepicker = Vue.extend({
     // 枚举
     // a: yyyy-MM-dd
     // b: yyyy/MM/dd
+    // c: yyyy年MM月dd日
     format: {
       type: String,
       default: 'a',
@@ -289,6 +290,9 @@ var RDatepicker = Vue.extend({
 
                 if (me.format == 'b'){
                   value = `${cell.year}/${month}/${day}`
+                }
+                else if (me.format == 'c'){
+                  value = `${cell.year}年${month}月${day}日`
                 }
                 else {
                   value = `${cell.year}-${month}-${day}`
