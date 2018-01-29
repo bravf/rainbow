@@ -14,7 +14,7 @@ var RModal = Vue.extend({
   },
   data () {
     return {
-      zindex: 0
+      zindex: zindex
     }
   },
   computed: {
@@ -36,14 +36,9 @@ var RModal = Vue.extend({
   render (h) {
     var me = this
 
-    var $wrapper = hx('span', {
+    var style = {
       style: {
-        display: this.value ? 'block' : 'none'
-      }
-    })
-
-    var zindexStyle = {
-      style: {
+        display: this.value ? 'block' : 'none',
         'z-index': this.zindex,
       }
     }
@@ -91,11 +86,7 @@ var RModal = Vue.extend({
       )
     }
 
-    $wrapper.push(
-      hx('div.r-modal-wrapper + r-modal-mask', zindexStyle).push($modal)
-    )
-
-    return $wrapper.resolve(h)
+    return hx('div.r-modal-wrapper + r-modal-mask', style).push($modal).resolve(h)
   },
 
   mounted () {
