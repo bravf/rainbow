@@ -1,0 +1,58 @@
+extends ./_layout
+
+block title
+  | tableEditor
+
+block content
+  div(style="padding:10px;")
+    r-tabs(v-model="tabValue")
+      r-tab-pane(name="editor", label="编辑")
+        r-table-editor(:data="data", :cols="cols", ref="editor")
+      r-tab-pane(name="data", label="数据")
+        r-input(type="textarea", v-model="dataString", rows="50")
+
+block script
+  script.
+    var data = [[1,2]]
+
+    vm = new Vue({
+      el: '#app',
+      data () {
+        return {
+          tabValue: 'editor',
+          dataString: JSON.stringify(data, null, 2),
+
+          data: data,
+          cols: [
+            {
+              name: '姓名',
+              type: 'text'
+            },
+            {
+              name: '数学',
+              type: 'text'
+            },
+            {
+              name: '颜色',
+              type: 'select',
+              enums: '蓝色 | 红色 | 绿色 | 橙色'
+            }
+          ]
+        }
+      },
+      watch: {
+        'tabValue' (val) {
+          if (val === 'editor'){
+            this.data = JSON.parse(this.dataString)
+          }
+          else  {
+            this.dataString = JSON.stringify(this.$refs.editor.getData(), null, 2)
+          }
+        }
+      },
+      methods: {
+        print () {
+          this.$refs.editor.getData()
+        }
+      }
+    })
