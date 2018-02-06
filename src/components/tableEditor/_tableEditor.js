@@ -97,26 +97,36 @@ var RTableEditor = Vue.extend({
       return width
     },
 
-    _drawTable () {
-      var me = this
-
-      // 默认 10列 20行的 table
-      var rowLooper = newArray(this.rowCount)
+    _getColgroup () {
       var colLooper = newArray(this.colCount)
-
-      var $table = hx('table')
+      var widthCount = 0
 
       var $colgroup = hx('colgroup').push(
         colLooper.map( (val, idx) => {
+          var width = this._getCol(idx).width || 100
+          widthCount += width
+
           return hx('col', {
             attrs: {
-              width: this._getCol(idx).width || 100
+              width: width
             }
           })
         }) 
       )
 
-      var $thead = hx('thead').push(
+      return {
+        $el: $colgroup,
+        widthCount
+      }
+    },
+
+    _drawThead (colgroup) {
+      var me = this
+      var $table = hx('table')
+      var colLooper = newArray(this.colCount)
+
+      var $colgroup = colgroup.$el
+      var $thead = hx('tbody').push(
         hx('tr').push(
           colLooper.map( (val, idx) => {
             return hx('th', {
@@ -139,6 +149,26 @@ var RTableEditor = Vue.extend({
           } )
         )
       )
+
+      return hx('div.r-table-editor-thead', {
+        style: {
+          width: colgroup.widthCount + 'px'
+        }
+      }).push(
+        $table.push($colgroup).push($thead)
+      )
+    },
+
+    _drawTbody (colgroup) {
+      var me = this
+
+      // 默认 10列 20行的 table
+      var rowLooper = newArray(this.rowCount)
+      var colLooper = newArray(this.colCount)
+
+      var $table = hx('table')
+
+      var $colgroup = colgroup.$el
 
       var $tbody = hx('tbody').push(
         rowLooper.map( (_, rowIdx) => {
@@ -226,7 +256,13 @@ var RTableEditor = Vue.extend({
         } )
       )
 
-      return $table.push($colgroup).push($thead).push($tbody)
+      return hx('div.r-table-editor-tbody', {
+        style: {
+          width: colgroup.widthCount + 'px'
+        }
+      }).push(
+        $table.push($colgroup).push($tbody)
+      )
     },
 
     // 尝试去获取焦点
@@ -289,19 +325,6 @@ var RTableEditor = Vue.extend({
     },  
 
     getData () {
-      // var usedData = []
-      // var isKV = this._hasColKey()
-      // var [row, col] = this._getUsedRowCol()
-
-      // for (var r=0; r<=row; r++){
-      //   usedData[r] =  isKV ? {} : []
-
-      //   for (var c=0; c<=col; c++){
-      //     var key = isKV ? this._getColKey(c) : c
-      //     usedData[r][key] = this.array[r][c]
-      //   }
-      // }
-
       var data = []
       var extraData = []
 
@@ -335,9 +358,9 @@ var RTableEditor = Vue.extend({
     me.renderHook
 
     var $wrapper = hx('div.r-table-editor + r-table + r-table-border', {
-      style: {
-        width: this._getTotalWidth() + 'px'
-      },
+      // style: {
+      //   width: this._getTotalWidth() + 'px'
+      // },
       attrs: {
         tabindex: 0
       },
@@ -400,7 +423,9 @@ var RTableEditor = Vue.extend({
         }
       }
     })
-    $wrapper.push(this._drawTable())
+
+    var colgroup = this._getColgroup()
+    $wrapper.push(this._drawThead(colgroup)).push(this._drawTbody(colgroup))
 
     // col setter modal
     var colSetter = this.modal.colSetter

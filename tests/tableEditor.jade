@@ -6,13 +6,15 @@ block title
 block content
   div(style="padding:10px;")
     r-button(@click.native="print") 打印
-    r-table-editor(:value="editorValue", ref="editor")
-    //- r-tabs(v-model="tabValue")
-    //-   r-tab-pane(name="editor", label="编辑")
-    //-     r-table-editor(:data="data", :cols="cols", ref="editor")
-    //-   r-tab-pane(name="data", label="数据")
-    //-     r-input(type="textarea", v-model="dataString", rows="50")
 
+
+    //- div(style="width:auto;height:500px;overflow:scroll;")
+
+    r-form
+      r-form-item(label="hehe")
+        div(style="height: 300px; overflow: auto;")
+          r-table-editor(:value="editorValue", ref="editor")
+    
 block script
   script.
     var data = [[1,2]]
