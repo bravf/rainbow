@@ -6,18 +6,7 @@ function newArray(len) {
 
 var RTableEditor = Vue.extend({
   props: {
-    data: {
-      type: Array,
-      default () {
-        return  []
-      }
-    },
-    cols: {
-      type: Array,
-      default () {
-        return []
-      }
-    }
+    value: Object,
   },
   data () {
     return {
@@ -41,6 +30,7 @@ var RTableEditor = Vue.extend({
           key: '',
           name: '',
           type: '',
+          width: '',
           enums: '',
         }
       },
@@ -52,9 +42,17 @@ var RTableEditor = Vue.extend({
     this._syncData()
   },
   watch: {
-    'data' () {
+    'value' () {
       this._syncData()
       this.renderHook ++
+    }
+  },
+  computed: {
+    data () {
+      return this.value.extra.data
+    },
+    cols () {
+      return this.value.extra.cols
     }
   },
   methods: {
@@ -65,7 +63,7 @@ var RTableEditor = Vue.extend({
         this.array[r] = []
 
         for (var c=0; c<this.colCount; c++){
-          this.array[r][c] =  this.data[r] ? (this.data[r][c] || '') : '' 
+          this.array[r][c] =  this.data[r] ? (this.data[r][c] || '') : ''
         }
       }
     },
@@ -80,14 +78,25 @@ var RTableEditor = Vue.extend({
     _getCol (colIdx) {
       return this.cols[colIdx] || {type:'text'}
     },
-    _setCol (colIdx, key, name, type, enums){
+    _setCol (colIdx, width, key, name, type, enums){
       this.cols[colIdx] = {
+        width: width,
         type: type,
         key: key,
         name: name,
         enums: enums,
       }
     },
+    _getTotalWidth () {
+      var width = 0
+      
+      for (var c=0; c<this.colCount; c++){
+        width += (~~this._getCol(c).width || 100)
+      }
+
+      return width
+    },
+
     _drawTable () {
       var me = this
 
@@ -101,7 +110,7 @@ var RTableEditor = Vue.extend({
         colLooper.map( (val, idx) => {
           return hx('col', {
             attrs: {
-              width: 100
+              width: this._getCol(idx).width || 100
             }
           })
         }) 
@@ -114,13 +123,16 @@ var RTableEditor = Vue.extend({
               on: {
                 click () {
                   var col = me._getCol(idx)
-                  me.modal.colSetter.show = true
+                  var colSetter = me.modal.colSetter
 
-                  me.modal.colSetter.idx = idx
-                  me.modal.colSetter.key = col.key
-                  me.modal.colSetter.name = col.name
-                  me.modal.colSetter.type = col.type
-                  me.modal.colSetter.enums = col.enums
+                  colSetter.show = true
+
+                  colSetter.idx = idx
+                  colSetter.width = col.width
+                  colSetter.key = col.key
+                  colSetter.name = col.name
+                  colSetter.type = col.type
+                  colSetter.enums = col.enums
                 }
               }
             }, [me._getCol(idx).name || idx])
@@ -196,7 +208,7 @@ var RTableEditor = Vue.extend({
                 $ret = hx('td.input-td').push($input)
               }
               else {
-                $ret = hx('td', {
+                $ret = hx(`td.${col.type}`, {
                   on: {
                     click () {
                       me.focusX = colIdx
@@ -224,7 +236,12 @@ var RTableEditor = Vue.extend({
       }
       Vue.nextTick(_=>{
         if (this._getCol(this.focusX).type === 'text'){
-          this.$el.querySelector('.input').focus()
+          var $input = this.$el.querySelector('.input')
+
+          $input.focus()
+          $input.value = $input.value
+          // 移动光标到末尾
+          $input.selectionStart = $input.selectionEnd = $input.value.length
         }
         else {
           this.$el.focus()
@@ -272,7 +289,7 @@ var RTableEditor = Vue.extend({
     },  
 
     getData () {
-      var usedData = []
+      // var usedData = []
       // var isKV = this._hasColKey()
       // var [row, col] = this._getUsedRowCol()
 
@@ -285,17 +302,31 @@ var RTableEditor = Vue.extend({
       //   }
       // }
 
+      var data = []
+      var extraData = []
+
       var [row, col] = this._getUsedRowCol()
+      var isKV = this._hasColKey()
 
       for (var r=0; r<=row; r++){
-        usedData[r] =  []
+        extraData[r] =  []
+        data[r] = isKV ? {} : []
 
         for (var c=0; c<=col; c++){
-          usedData[r][c] = this.array[r][c]
+          extraData[r][c] = this.array[r][c]
+
+          var key = isKV ? this._getColKey(c) : c
+          data[r][key] = this.array[r][c]
         }
       }
 
-      return usedData
+      return {
+        data,
+        extra: {
+          data: extraData,
+          cols: this.cols
+        }
+      }
     }
   },
   render (h) {
@@ -304,6 +335,9 @@ var RTableEditor = Vue.extend({
     me.renderHook
 
     var $wrapper = hx('div.r-table-editor + r-table + r-table-border', {
+      style: {
+        width: this._getTotalWidth() + 'px'
+      },
       attrs: {
         tabindex: 0
       },
@@ -384,6 +418,25 @@ var RTableEditor = Vue.extend({
       })
       .push(
         hx('r-form')
+        // 
+        .push(
+          hx('r-form-item', {
+            props: {
+              label: '列宽'
+            }
+          }).push(
+            hx('r-input', {
+              props: {
+                value: colSetter.width
+              },
+              on: {
+                input (val) {
+                  colSetter.width = val
+                }
+              }
+            })
+          ),
+        )
         // 
         .push(
           hx('r-form-item', {
@@ -481,8 +534,7 @@ var RTableEditor = Vue.extend({
             },
             nativeOn: {
               click () {
-                me._setCol(colSetter.idx, colSetter.key, colSetter.name, colSetter.type, colSetter.enums)
-                me.renderHook ++
+                me._setCol(colSetter.idx, colSetter.width, colSetter.key, colSetter.name, colSetter.type, colSetter.enums)
                 colSetter.show = false
               }
             }

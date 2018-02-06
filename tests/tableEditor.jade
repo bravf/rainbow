@@ -5,11 +5,13 @@ block title
 
 block content
   div(style="padding:10px;")
-    r-tabs(v-model="tabValue")
-      r-tab-pane(name="editor", label="编辑")
-        r-table-editor(:data="data", :cols="cols", ref="editor")
-      r-tab-pane(name="data", label="数据")
-        r-input(type="textarea", v-model="dataString", rows="50")
+    r-button(@click.native="print") 打印
+    r-table-editor(:value="editorValue", ref="editor")
+    //- r-tabs(v-model="tabValue")
+    //-   r-tab-pane(name="editor", label="编辑")
+    //-     r-table-editor(:data="data", :cols="cols", ref="editor")
+    //-   r-tab-pane(name="data", label="数据")
+    //-     r-input(type="textarea", v-model="dataString", rows="50")
 
 block script
   script.
@@ -19,9 +21,6 @@ block script
       el: '#app',
       data () {
         return {
-          tabValue: 'editor',
-          dataString: JSON.stringify(data, null, 2),
-
           data: data,
           cols: [
             {
@@ -41,18 +40,22 @@ block script
         }
       },
       watch: {
-        'tabValue' (val) {
-          if (val === 'editor'){
-            this.data = JSON.parse(this.dataString)
-          }
-          else  {
-            this.dataString = JSON.stringify(this.$refs.editor.getData(), null, 2)
+        
+      },
+      computed: {
+        editorValue () {
+          return {
+            data: [],
+            extra: {
+              data: this.data,
+              cols: this.cols,
+            }
           }
         }
       },
       methods: {
         print () {
-          this.$refs.editor.getData()
+          console.log( this.$refs.editor.getData() )
         }
       }
     })

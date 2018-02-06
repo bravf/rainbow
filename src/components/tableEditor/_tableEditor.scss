@@ -12,7 +12,6 @@
 
   th,td{
     padding: 0 10px;
-    text-overflow: hidden;
   }
 
   .input-td{
@@ -26,6 +25,10 @@
     width: 100%;
     background: transparent;
 
+  }
+
+  td.text{
+    overflow: hidden;
   }
 
   table{
