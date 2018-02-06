@@ -87,15 +87,6 @@ var RTableEditor = Vue.extend({
         enums: enums,
       }
     },
-    _getTotalWidth () {
-      var width = 0
-      
-      for (var c=0; c<this.colCount; c++){
-        width += (~~this._getCol(c).width || 100)
-      }
-
-      return width
-    },
 
     _getColgroup () {
       var colLooper = newArray(this.colCount)
@@ -103,7 +94,7 @@ var RTableEditor = Vue.extend({
 
       var $colgroup = hx('colgroup').push(
         colLooper.map( (val, idx) => {
-          var width = this._getCol(idx).width || 100
+          var width = ~~this._getCol(idx).width || 100
           widthCount += width
 
           return hx('col', {
