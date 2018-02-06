@@ -184,7 +184,7 @@ var RTableEditor = Vue.extend({
                       },
                       blur () {
                         me.isInputing = false
-                        me._getFocus()
+                        // me._getFocus()
                       }
                     }
                   })
