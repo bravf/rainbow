@@ -49,10 +49,10 @@ var RTableEditor = Vue.extend({
   },
   computed: {
     data () {
-      return this.value.extra.data
+      return this.value.extra.data || []
     },
     cols () {
-      return this.value.extra.cols
+      return this.value.extra.cols || []
     }
   },
   methods: {
