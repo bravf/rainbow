@@ -36,6 +36,10 @@ var RPage = Vue.extend({
       )
     }
 
+    if (pageTotal === 0){
+      return $wrapper.resolve(h)
+    }
+
     $wrapper.push(
       hx('r-button', {
         props: {
@@ -105,7 +109,7 @@ var RPage = Vue.extend({
     $wrapper.push(
       hx('r-button', {
         props: {
-          disabled: this.value === pageTotal ? true : false,
+          disabled: this.value >= pageTotal ? true : false,
           size: this.size
         },
         nativeOn: {

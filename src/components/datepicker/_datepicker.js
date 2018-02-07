@@ -62,12 +62,19 @@ var RDatepicker = Vue.extend({
     }
   },
   methods: {
+    _getValueDate () {
+      var value = this.value
+      if (value && (this.format === 'c') ){
+        value = value.replace(/[年月]/g, '-').replace('日', '')
+      }
+      return new Date(value)
+    },
     // 同步value的值给year, month
     _syncValue () {
       var date = new Date
       
       if (this.value){
-        var date2 = new Date(this.value)
+        var date2 = this._getValueDate()
 
         if (!isNaN(date2.getDate())){
           date = date2
@@ -214,7 +221,7 @@ var RDatepicker = Vue.extend({
         })
       }
 
-      var valueDate = new Date(this.value)
+      var valueDate = this._getValueDate()
       var todayDate = new Date
 
       // 输出本月
