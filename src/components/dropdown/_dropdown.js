@@ -4,6 +4,11 @@ var RRropdown = Vue.extend({
   props: {
     label: String,
     size: String,
+    // left or right
+    placement: {
+      type: String,
+      default: 'left',
+    },
   },
   data () {
     return {
@@ -47,7 +52,7 @@ var RRropdown = Vue.extend({
         })
       )
 
-    var $list = hx('div.r-dropdown-list', {
+    var $list = hx(`div.r-dropdown-list + r-dropdown-list-${this.placement}`, {
       style: {
         display: this.isExpand ? 'block' : 'none',
       }

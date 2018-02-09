@@ -7,14 +7,15 @@ block content
   div.panel
     h3| dropdown
   
-    div.margin-10
+    div.margin-10(style="margin-left: 200px;")
       r-dropdown(
-        label="下拉菜单"
+        label="下拉菜单",
+        placement="right"
       )
         r-dropdown-item(
           href="http://baidu.com",
           target="_blank"
-        )| 百度
+        )| 百度百度百度百度百度百度百度百度
         r-dropdown-item(
           @click.native="hello"
         )| 360
