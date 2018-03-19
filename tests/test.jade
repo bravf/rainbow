@@ -1,0 +1,20 @@
+extends ./_layout
+
+block title
+  | Button
+
+block content
+  test(flag="yi")
+  test(flag="er")
+
+
+block script
+  
+  script.
+    new Vue({
+      el: '#app',
+      data () {
+        return {
+        }
+      }
+    })

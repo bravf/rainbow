@@ -28,6 +28,117 @@ html.no-js
       .margin-10{
         margin: 10px;
       }
+    script.
+      function _(...params){
+        var node = {tag: 'div', props: {}, children: []}
+        var plen = params.length
+        if (!plen){
+          return node
+        }
+
+        if (plen > 1){
+          var second = params[1]
+          var i = 1
+
+          if ( (typeof second === 'object') && (second.__proto__.constructor.name !== 'VNode') ){
+            var table = {c:'class', s:'style', a:'attrs', p:'props', dp:'domProps', o:'on', no:'nativeOn'}
+            node['props'] = second
+
+            for (var k in second){
+              if (k.includes('_')){
+                var [a, b] = k.split('_')
+                var aa = table[a]
+
+                if (!second[aa]){
+                  second[aa] = {}
+                }
+
+                second[aa][b] = second[k]
+              }
+            }
+            
+            i = 2
+          }
+          
+          node.children.push(...params.slice(i))
+        }
+
+        var first = params[0]
+        if (first.includes('.')){
+          if (!node['props']['class']){
+            node['props']['class'] = {}
+          }
+
+          var [t, s] = first.split('.')
+          node['tag'] = t
+          
+          s.split('+').forEach(i => {
+            node['props']['class'][i.trim()] = true
+          })
+        }
+        else {
+          node['tag'] = first
+        }
+
+        return _.h(node.tag, node.props, node.children)
+      }
+
+      function __(tag){
+        return function (...params){
+
+          if ( (typeof params[0] === 'string') && (params[0][0] === '.') ){
+            params[0] = tag + params[0]
+          }
+          else {
+            params.unshift(tag)
+          }
+          
+          return _(...params)
+        }
+      }
+
+      'a,b,button,dd,div,dl,dt,em,form,i,iframe,img,input,label,li,ol,optgroup,option,p,select,span,table,th,thead,tr,td,ul,h1,h2,h3,h4,h5,h6'.split(',').forEach(tag=>{
+        window[tag] = __(tag)
+      })
+
+      Vue._ = _
+      Vue.__ = __
+      
+      //-================================== 
+
+      Vue.component('test', {
+        props: {
+          flag: String,
+        },
+        methods: {
+          liClick () {
+            console.log(this.flag)
+          }
+        },
+        render (h) {
+          Vue._.h = h
+          var hr = Vue.__('hr')
+
+          var node = 
+          div('.box',
+            h2('.title', {s_color:'red'}, '文章列表'),
+            ul('.list',
+              li({o_click:this.liClick}, '乒乓健儿大杀四方...'),
+              li({
+                c_foo: true,
+                c_bar: false,
+                s_color: 'blue',
+                s_fontSize: '12px',
+                a_id: 'foo',
+                o_click: this.liClick
+              }, '柯洁又输了....')
+            ),
+            hr()
+          )
+
+          return node
+        }
+      })
   body
     div#app
       block content
