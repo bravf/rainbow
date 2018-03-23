@@ -101,47 +101,55 @@ html.no-js
             var tag = node.tag
             var props = node.props
 
-            if (tag === 'input'){
-              var type = props['attrs']['type']
+            var inputType = props['attrs']['type']
+            var isInput = tag === 'input'
+            var isText = (isInput && (inputType === 'text')) || (tag === 'textarea')
+            var isRadio =  isInput && (inputType === 'radio')
+            var isCheckbox = isInput && (inputType === 'checkbox')
+            var isSelect = tag === 'select'
+            //- 针对rainbow自定义vmodel的组件
+            var isRRadio = tag === 'r-radio' || tag === 'r-checkbox'
 
-              if (type === 'text'){
-                props['domProps']['value'] = jsx.getProp(context, model)
-                props['on']['input'] = e => {
-                  jsx.setProp(context, model, e.target.value)
-                }
+
+            if (isText){
+              props['domProps']['value'] = jsx.getProp(context, model)
+              props['on']['input'] = e => {
+                jsx.setProp(context, model, e.target.value)
               }
-              else if (type === 'radio'){
-                props['domProps']['checked'] = props['attrs']['value'] === jsx.getProp(context, model) ? true : false
+            }
+            else if (isRadio){
+              props['domProps']['checked'] = props['attrs']['value'] === jsx.getProp(context, model) ? true : false
+              props['on']['change'] = e => {
+                jsx.setProp(context, model, e.target.value)
+              }
+            }
+            else if (isCheckbox){
+              //- 如果model是array
+              if (Array.isArray(jsx.getProp(context, model))){
+                var value = props['attrs']['value']
+                var isChecked = props['domProps']['checked'] = jsx.getProp(context, model).includes(value)
+
                 props['on']['change'] = e => {
-                  jsx.setProp(context, model, e.target.value)
+                  if (isChecked){
+                    jsx.getProp(context, model).splice(jsx.getProp(context, model).indexOf(value), 1)
+                  }
+                  else {
+                    jsx.getProp(context, model).push(value)
+                  }
                 }
               }
-              else if (type === 'checkbox'){
-                //- 如果model是array
-                if (Array.isArray(jsx.getProp(context, model))){
-                  var value = props['attrs']['value']
-                  var isChecked = props['domProps']['checked'] = jsx.getProp(context, model).includes(value)
-
-                  props['on']['change'] = e => {
-                    if (isChecked){
-                      jsx.getProp(context, model).splice(jsx.getProp(context, model).indexOf(value), 1)
-                    }
-                    else {
-                      jsx.getProp(context, model).push(value)
-                    }
-                  }
-                }
-                else {
-                  props['domProps']['checked'] = jsx.getProp(context, model) === false ? false : true
-                  props['on']['change'] = e => {
-                    jsx.setProp(context, model, !props['domProps']['checked'])
-                  }
+              else {
+                props['domProps']['checked'] = jsx.getProp(context, model) === true ? true : false
+                props['on']['change'] = e => {
+                  jsx.setProp(context, model, !props['domProps']['checked'])
                 }
               }
             }
-            else if (tag === 'select'){
+            else if (isSelect){
               //- 如果model是array
-              if (Array.isArray(jsx.getProp(context, model))){
+              if (Array.isArray(jsx.getProp(context, 
+              
+              model))){
                 //- 好像有点麻烦，需要反推option children
               }
               else {
@@ -151,9 +159,16 @@ html.no-js
                 }
               }
             }
-            //- 自定义组件
+            //- 假设其他都是自定义组件
             else {
-              props['props']['value'] = jsx.getProp(context, model)
+              var modelProp = 'value'
+              var modelEvent = 'input'
+
+              if (isRRadio){
+                modelProp = 'checkedValue'
+              }
+
+              props['props'][modelProp] = jsx.getProp(context, model)
               props['on']['input'] = val => {
                 jsx.setProp(context, model, val)
               }
@@ -213,6 +228,8 @@ html.no-js
           var rinput = jsx.__('r-input')
           var rselect = jsx.__('r-select')
           var roption = jsx.__('r-select-option')
+          var rradio = jsx.__('r-radio')
+          var rcheckbox = jsx.__('r-checkbox')
 
           var {div,h2,ul,li,input,h3,select,option} = jsx
 
@@ -241,16 +258,21 @@ html.no-js
               h3('form input radio'),
               input({a_type:'radio', a_value:'boy', vmodel: [me, 'radio']}),
               input({a_type:'radio', a_value:'girl', vmodel: [me, 'radio']}),
+              rradio({a_label:'boy', a_value:'boy', vmodel: [me, 'radio']}),
+              rradio({a_label:'girl', a_value:'girl', vmodel: [me, 'radio']}),
               hr()
             ),
             div(
               h3('form input checkbox single'),
-              input({a_type: 'checkbox', vmodel: [me, 'singleCheckbox']})
+              input({a_type: 'checkbox', vmodel: [me, 'singleCheckbox']}),
+              rcheckbox({vmodel: [me, 'singleCheckbox']})
             ),
             div(
               h3('form input checkbox multi'),
               input({a_type: 'checkbox', a_value: '呵呵', vmodel: [me, 'multiCheckbox']}),
-              input({a_type: 'checkbox', a_value: '哈哈', vmodel: [me, 'multiCheckbox']})
+              input({a_type: 'checkbox', a_value: '哈哈', vmodel: [me, 'multiCheckbox']}),
+              rcheckbox({a_value: '呵呵', vmodel: [me, 'multiCheckbox']}),
+              rcheckbox({a_value: '哈哈', vmodel: [me, 'multiCheckbox']}),
             ),
             div(
               h3('form select single'),
@@ -267,11 +289,11 @@ html.no-js
             ),
             div(
               h3('form multi single'),
-              //- select({a_multiple:true, vmodel: [me, 'multiSelect']},
-              //-   option({a_value:'a'}, 'one'),
-              //-   option({a_value:'b'}, 'two'),
-              //-   option({a_value:'c'}, 'three'),
-              //- ),
+              select({a_multiple:true, vmodel: [me, 'multiSelect']},
+                option({a_value:'a'}, 'one'),
+                option({a_value:'b'}, 'two'),
+                option({a_value:'c'}, 'three'),
+              ),
               rselect({vmodel: [me, 'multiSelect']}, 
                 roption({a_value:'a', a_label:'one'}),
                 roption({a_value:'b', a_label:'two'}),
