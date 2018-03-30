@@ -37,8 +37,8 @@
   
     &:disabled{
       cursor: not-allowed;
-      color: $color-gray;
-      background-color: $color-white-dark;
+      // color: $color-gray;
+      background-color: $color-white-light;
     }
   }
 }
