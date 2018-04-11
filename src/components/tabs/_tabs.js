@@ -1,4 +1,7 @@
-import {hx} from '../../common/_tools.js'
+import {hx} from '../../common/_tools'
+import jsx from '../../common/_jsx'
+
+var {div, rIcon} = jsx
 
 var RTabs = Vue.extend({
   props: {
@@ -8,14 +11,6 @@ var RTabs = Vue.extend({
     return {
       paneConfs: []
     }
-  },
-  computed: {
-    cls () {
-      var cls = []
-      cls.push('r-tabs')
-
-      return cls
-    },
   },
   methods: {
     _getPaneConfs () {
@@ -50,11 +45,8 @@ var RTabs = Vue.extend({
     }
   },
   render (h) {
+    jsx.h = h
     var me = this
-    var $wrapper = hx(`div.${this.cls.join('+')}`, {})
-      .push(
-        this.$slots.default
-      )
 
     // 当前选中索引
     var activeIdx = 0
@@ -68,54 +60,31 @@ var RTabs = Vue.extend({
       }
     })
 
-    // tabs-head
-    var $head = hx('div.r-tabs-head')
-
-    this.paneConfs.forEach( (conf, idx) =>{
-      var $tab = hx('div.r-tabs-tab', {
-        'class': {
-          'r-tabs-tab-active': activeIdx === idx
-        },
-        on: {
-          click () {
-            me.$emit('input', conf.name)
-          }
-        }
-      })
-
-      if (conf.icon){
-        $tab.push(
-          hx('r-icon', {
-            props: {
-              type: conf.icon
-            }
+    return (
+      div('.r-tabs',
+        ...this.$slots.default,
+        // tabs-head
+        div('.r-tabs-head',
+          ...this.paneConfs.map( (conf, idx) => {
+            return div('.r-tabs-tab', {
+              'c_r-tabs-tab-active': activeIdx === idx,
+              o_click () {
+                me.$emit('input', conf.name) 
+              }
+            },
+              conf.icon ? rIcon({p_type: conf.icon}) : null,
+              conf.label
+            )
           })
-        )
-      }
-
-      $tab.push(conf.label)
-      $head.push($tab)
-    })
-
-
-    // tabs-body
-    var $body = hx('div.r-tabs-body')
-
-    this.paneConfs.forEach( (conf, idx) =>{
-      var $pane = hx('div.r-tabs-pane', {
-        style: {
-          display: activeIdx === idx ? 'block' : 'none'
-        }
-      })
-      .push(conf.slot)
-
-      $body.push($pane)
-    })
-
-    return $wrapper
-      .push($head)
-      .push($body)
-      .resolve(h)
+        ),
+        // tabs-body
+        ...this.paneConfs.map( (conf, idx) => {
+          return div('.r-tabs-pane', {
+            s_display: activeIdx === idx ? 'block' : 'none'
+          }, ...conf.slot)
+        })
+      )
+    )
   }
 })
 

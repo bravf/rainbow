@@ -1,0 +1,23 @@
+extends ./_layout
+
+block title
+  | App
+
+block content
+  r-app
+    div(slot="header")
+      div| header
+    div(slot="aside")
+      div| aside
+    div(slot="main")
+      div| main
+
+block script
+  script.
+    new Vue({
+      el: '#app',
+      data () {
+        return {
+        }
+      }
+    })

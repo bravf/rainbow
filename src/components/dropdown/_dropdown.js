@@ -1,4 +1,7 @@
-import {hx, globalClick} from '../../common/_tools.js'
+import {hx, globalClick} from '../../common/_tools'
+import jsx from '../../common/_jsx'
+
+var {a, rIcon, div, ul, li} = jsx
 
 var RRropdown = Vue.extend({
   props: {
@@ -15,55 +18,34 @@ var RRropdown = Vue.extend({
       isExpand: false
     }
   },
-  computed: {
-    cls () {
-      var cls = ['r-dropdown']
-
-      if (this.size === 'small'){
-        cls.push('r-dropdown-small')
-      }
-
-      return cls
-    },
-  },
   methods: {
   },
   render (h) {
+    jsx.h = h
     var me = this
-    var $wrapper = hx(`div.${this.cls.join('+')}`)
-
-    var $btn = hx('a.r-dropdown-btn', {
-      on: {
-        click () {
-          if (me.isExpand !== true){
-            me.isExpand = true
+    
+    return (
+      div('.r-dropdown', {'c_r-dropdown-small': this.size === 'small'},
+        // btn
+        a('.r-dropdown-btn', {
+          o_click () {
+            if (me.isExpand !== true){
+              me.isExpand = true
+            }
+            else {
+              me.isExpand = false
+            }
           }
-          else {
-            me.isExpand = false
-          }
-        }
-      }
-    }, [this.label])
-      .push(
-        hx('r-icon', {
-          props: {
-            type: this.isExpand ? 'arrow-up-b' : 'arrow-down-b',
-          }
-        })
+        },
+          this.label,
+          rIcon({p_type: this.isExpand ? 'arrow-up-b' : 'arrow-down-b'})
+        ),
+        // list
+        div(`.r-dropdown-list + r-dropdown-list-${this.placement}`, {s_display: this.isExpand ? 'block' : 'none'},
+          ul(...this.$slots.default)
+        )
       )
-
-    var $list = hx(`div.r-dropdown-list + r-dropdown-list-${this.placement}`, {
-      style: {
-        display: this.isExpand ? 'block' : 'none',
-      }
-    }).push(
-      hx('ul', {}, [this.$slots.default])
     )
-
-    return $wrapper
-      .push($btn)
-      .push($list)
-      .resolve(h)
   },
   mounted () {
     globalClick(this.$el, _=>{
@@ -78,31 +60,21 @@ var RDropdownItem = Vue.extend({
     target: String,
   },
   render (h) {
+    jsx.h = h
     var me = this
 
-    var options = {}
-
-    if (this.href){
-      options['attrs'] = {
-        href: this.href
-      }
-
-      if (this.target){
-        options['attrs'].target = this.target
-      }
-    }
-
-    var $wrapper = hx('li.r-dropdown-item', {
-      on: {
-        click () {
+    return (
+      li('.r-dropdown-item', {
+        o_click () {
           me.$parent.isExpand = false
         }
-      }
-    }).push(
-      hx('a', options, [this.$slots.default])
+      },
+        a({
+          a_href: this.href,
+          a_target: this.target ? this.target : null
+        }, ...this.$slots.default)
+      )
     )
-
-    return $wrapper.resolve(h)
   }
 })
 

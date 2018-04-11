@@ -1,5 +1,8 @@
-import {hx, isObject, isArray, deepClone} from '../../common/_tools.js'
-import instance from '../../common/_instance.js'
+import {hx, isObject, isArray, deepClone} from '../../common/_tools'
+import instance from '../../common/_instance'
+import jsx from '../../common/_jsx'
+
+var {form, div, label} = jsx
 
 var RForm = Vue.extend({
   props: {
@@ -124,10 +127,10 @@ var RForm = Vue.extend({
     }
   },
   render (h) {
+    jsx.h = h
     var me = this
-    var $wrapper = hx(`form.${this.cls.join('+')}`, {}, [this.$slots.default])
-    
-    return $wrapper.resolve(h)
+
+    return form('.' + this.cls.join('+'), ...this.$slots.default)
   },
 })
 
@@ -221,33 +224,16 @@ export var RFormItem = Vue.extend({
     }
   },
   render (h) {
+    jsx.h = h
     var me = this
-    var $wrapper = hx(`div.${this.cls.join('+')}`)
 
-    // label
-    var width = 'auto'
-    if (!this.inline){
-      width = this.labelWidth + 'px'
-    }
-
-    if (this.label){
-      $wrapper.push(
-        hx('label.r-form-item-label', {
-          style: {
-            width: width
-          }
-        }, [this.label])
+    return div('.' + this.cls.join('+'),
+      this.label ? label('.r-form-item-label', {s_width:!this.inline ? this.labelWidth + 'px' : 'auto'}, this.label) : null,
+      div('.r-form-item-content', 
+        ...this.$slots.default,
+        div('.r-form-item-error-tip', this.errorMsg)
       )
-    }
-
-    $wrapper.push(
-      hx('div.r-form-item-content', {}, [this.$slots.default])
-        .push(
-          hx('div.r-form-item-error-tip', {}, [this.errorMsg])
-        )
     )
-
-    return $wrapper.resolve(h)
   }
 })
 

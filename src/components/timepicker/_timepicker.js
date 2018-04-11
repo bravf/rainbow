@@ -1,6 +1,17 @@
-import {hx, paddingZero, globalClick, inArray} from '../../common/_tools.js'
-import instance from '../../common/_instance.js'
+import {hx, paddingZero, globalClick, inArray, isdef} from '../../common/_tools'
+import instance from '../../common/_instance'
 import { RFormItem } from '../form/_form'
+import jsx from '../../common/_jsx'
+
+var {div, span, ul, li, rInput} = jsx
+
+function getNumArr(num){
+  var arr = []
+  for (var i=0; i<num; i++){
+    arr.push(i)
+  }
+  return arr
+}
 
 var RTimepicker = Vue.extend({
   props: {
@@ -68,142 +79,132 @@ var RTimepicker = Vue.extend({
         this.second = values[1] || 0
       }
     },
-    _getDropdown () {
+    _getVal () {
+      var me = this
+      var format = this.format
+      var hour = me.hour || '00'
+      var minute = me.minute || '00'
+      var second = me.second || '00'
+
+      var modelValue
+      
+      if (format === 'a'){
+        modelValue = `${hour}:${minute}:${second}`
+      }
+      else if (format === 'b'){
+        modelValue = `${hour}:${minute}`
+      }
+      else if (format === 'c'){
+        modelValue = `${minute}:${second}`
+      }
+
+      return modelValue
+    },
+    _renderDropdown () {
       var me = this
       var format = this.format
 
-      var $titles = []
-      var items = []
+      var hasHour = format === 'a' || format === 'b'
+      var hasSecond = format === 'a' || format === 'c'
 
-      if (format == 'a' || format == 'b'){
-        $titles.push(
-          hx('span', {}, ['时'])
-        )
 
-        for (var i=0; i<24; i++){
-          items.push({
-            value: i,
-            type: 'hour'
-          })
-        }
-      }
+      return div('.r-timepicker-dropdown', {
+        s_display: this.isExpand ? 'block' : 'none',
+        s_width: ((format === 'a') ? 3 : 2) * 52 + 'px',
+      },
+        // head
+        div('.r-timepicker-titles', 
+          hasHour ? span('时') : null,
+          span('分'),
+          hasSecond ? span('秒') : null,
+        ),
+        // body hour
+        hasHour ? 
+        div('.r-timepicker-col', {ref: 'hour'},
+          ul(
+            ...getNumArr(24).map(n => {
+              var value = paddingZero(n, 2)
+              // 是否选中
+              var isActive = this.hour === value
+              // 是否禁用
+              var isDisabled = inArray(n, this.disabledHours)
 
-      $titles.push(
-        hx('span', {}, ['分'])
+              return li({
+                'c_r-timepicker-item': !isActive && !isDisabled,
+                'c_r-timepicker-item-active': isActive,
+                'c_r-timepicker-item-disabled': isDisabled,
+                o_click () {
+                  if (isDisabled){
+                    return
+                  }
+
+                  me.hour = value
+                  me.$emit('input', me._getVal())
+                }
+              }, value)
+            })
+          )
+        ) 
+        : 
+        null,
+
+        // body minute
+        div('.r-timepicker-col', {ref: 'minute'},
+          ul(
+            ...getNumArr(60).map(n => {
+              var value = paddingZero(n, 2)
+              // 是否选中
+              var isActive = this.minute === value
+              // 是否禁用
+              var isDisabled = inArray(n, this.disabledMinutes)
+
+              return li({
+                'c_r-timepicker-item': !isActive && !isDisabled,
+                'c_r-timepicker-item-active': isActive,
+                'c_r-timepicker-item-disabled': isDisabled,
+                o_click () {
+                  if (isDisabled){
+                    return
+                  }
+
+                  me.minute = value
+                  me.$emit('input', me._getVal())
+                }
+              }, value)
+            })
+          )
+        ),
+
+        // body second
+        hasSecond ? 
+        div('.r-timepicker-col', {ref: 'second'},
+          ul(
+            ...getNumArr(60).map(n => {
+              var value = paddingZero(n, 2)
+              // 是否选中
+              var isActive = this.second === value
+              // 是否禁用
+              var isDisabled = inArray(n, this.disabledSeconds)
+
+              return li({
+                'c_r-timepicker-item': !isActive && !isDisabled,
+                'c_r-timepicker-item-active': isActive,
+                'c_r-timepicker-item-disabled': isDisabled,
+                o_click () {
+                  if (isDisabled){
+                    return
+                  }
+
+                  me.second = value
+                  me.$emit('input', me._getVal())
+                }
+              }, value)
+            })
+          )
+        ) 
+        : 
+        null,
       )
-      
-      for (var i=0; i<60; i++){
-        items.push({
-          value: i,
-          type: 'minute'
-        })
-      }
-
-      if (format == 'a' || format == 'c'){
-        $titles.push(
-          hx('span', {}, ['秒'])
-        )
-
-        for (var i=0; i<60; i++){
-          items.push({
-            value: i,
-            type: 'second'
-          })
-        }
-      }
-
-      var $dropdown = hx('div.r-timepicker-dropdown', {
-        style: {
-          display: this.isExpand ? 'block' : 'none',
-          width: $titles.length * 52 + 'px'
-        }
-      })
-
-      $dropdown.push(
-        hx('div.r-timepicker-titles').push(
-          $titles
-        )
-      )
-
-      var currType, $col, $ul
-
-      items.forEach(item => {
-        if (item.type != currType){
-          currType = item.type
-
-          $col = hx('div.r-timepicker-col',  {
-            ref: item.type
-          })
-          $ul = hx('ul')
-
-          $col.push($ul)
-          $dropdown.push($col)
-        }
-
-        var value = paddingZero(item.value, 2)
-
-        // 是否选中
-        var isActive = false
-
-        if ( 
-            ( (item.type == 'hour') && (this.hour === value) ) ||
-            ( (item.type == 'minute') && (this.minute === value) ) ||
-            ( (item.type == 'second') && (this.second === value) )
-        ){
-          isActive = true
-        }
-
-        // 是否禁用
-        var isDisabled = false
-
-        if (
-          ( (item.type == 'hour') && inArray(item.value, this.disabledHours||[]) ) ||
-          ( (item.type == 'minute') && inArray(item.value, this.disabledMinutes||[]) ) ||
-          ( (item.type == 'second') && inArray(item.value, this.disabledSeconds||[]) )
-        ){
-          isDisabled = true
-        }
-
-        $ul.push(
-          hx('li', {
-            'class': {
-              'r-timepicker-item': !isActive && !isDisabled,
-              'r-timepicker-item-active': isActive,
-              'r-timepicker-item-disabled': isDisabled,
-            },
-            on: {
-              click () {
-                if (isDisabled){
-                  return
-                }
-                me[item.type] = value
-
-                var format = me.format
-
-                var hour = me.hour || '00'
-                var minute = me.minute || '00'
-                var second = me.second || '00'
-
-                var modelValue
-                
-                if (format == 'a'){
-                  modelValue = `${hour}:${minute}:${second}`
-                }
-                else if (format == 'b'){
-                  modelValue = `${hour}:${minute}`
-                }
-                else if (format == 'c'){
-                  modelValue = `${minute}:${second}`
-                }
-
-                me.$emit('input', modelValue)
-              }
-            }
-          }, [value])
-        )
-      })
-
-      return $dropdown
     },
     _setScrollTop (type) {
       var $dom = this.$refs[type]
@@ -232,21 +233,19 @@ var RTimepicker = Vue.extend({
     }
   },
   render (h) {
+    jsx.h = h
     var me = this
-    var $wrapper = hx(`div.${this.cls.join('+')}`)
-
-    var inputOptions = {
-      props: {
-        value: this.value,
-        icon: 'ios-clock-outline',
-        readonly: 'readonly',
-        placeholder: this.placeholder,
-        disabled: this.disabled,
-        size: this.size,
-        shouldValidate: false,
-      },
-      nativeOn: {
-        click () {
+    
+    return div('.' + this.cls.join('+'),
+      rInput({
+        p_value: this.value,
+        p_icon: 'ios-clock-outline',
+        p_readonly: 'readonly',
+        p_placeholder: this.placeholder,
+        p_disabled: this.disabled,
+        p_size: this.size,
+        p_shouldValidate: false,
+        no_click () {
           if (me.disabled){
             return
           }
@@ -257,30 +256,16 @@ var RTimepicker = Vue.extend({
             me._syncValue()
             me.isExpand = true
           }
+        },
+        'o_click-icon' (e) {
+          if (me.clearable && !me.disabled){
+            me.$emit('input', '')
+            e.stopPropagation()
+          }
         }
-      }
-    }
-
-    if (this.clearable && !this.disabled){
-      inputOptions['on'] = {
-        'click-icon' (e) {
-          me.$emit('input', '')
-          e.stopPropagation()
-        }
-      }
-    }
-
-    $wrapper.push(
-      hx('r-input', inputOptions)
+      }),
+      !me.disabled ? this._renderDropdown() : null
     )
-
-    if (!me.disabled){
-      $wrapper.push(
-        this._getDropdown()
-      )
-    }
-
-    return $wrapper.resolve(h)
   },
   mounted () {
     globalClick(this.$el, _=>{

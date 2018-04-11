@@ -1,4 +1,7 @@
-import {hx} from '../../common/_tools.js'
+import {hx} from '../../common/_tools'
+import jsx from '../../common/_jsx'
+
+var {div, span, rIcon} = jsx
 
 var RMessage = Vue.extend({
   props: {
@@ -40,21 +43,8 @@ var RMessage = Vue.extend({
     }
   },
   render (h) {
+    jsx.h = h
     var me = this
-
-    var $wrapper = hx(`div.${this.cls.join('+')}`, {
-      style: {
-        display: this.isShow ? 'block' : 'none'
-      },
-      on: {
-        mouseenter () {
-          clearTimeout(me.timer)
-        },
-        mouseleave () {
-          me.hide()
-        }
-      }
-    })
 
     var iconList = {
       info: 'information-circled',
@@ -62,20 +52,21 @@ var RMessage = Vue.extend({
       warning: 'android-alert',
       error: 'close-circled',
     }
-    
-    $wrapper
-      .push(
-        hx('r-icon', {
-          props: {
-            type: iconList[this.type]
-          }
-        })
-      )
-      .push(
-        hx('span', {}, [this.msg])
-      )
 
-    return $wrapper.resolve(h)
+    return div('.' + this.cls.join('+'), {
+      s_display: this.isShow ? 'block' : 'none',
+      o_mouseenter () {
+        clearTimeout(me.timer)
+      },
+      o_mouseleave () {
+        me.hide()
+      }
+    },
+      rIcon({
+        p_type: iconList[this.type]
+      }),
+      span(this.msg)
+    )
   }
 })
 

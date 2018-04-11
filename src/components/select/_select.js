@@ -1,6 +1,9 @@
-import {isArray, inArray, hx, globalClick, getTextWidth} from '../../common/_tools.js'
-import instance from '../../common/_instance.js'
-import {RFormItem} from '../form/_form';
+import {isArray, inArray, hx, globalClick, getTextWidth} from '../../common/_tools'
+import instance from '../../common/_instance'
+import {RFormItem} from '../form/_form'
+import jsx from '../../common/_jsx'
+
+var {div, rTag, rIcon, ul ,li, rSelectOption, input} = jsx
 
 var RSelect = Vue.extend({
   props: {
@@ -272,213 +275,135 @@ var RSelect = Vue.extend({
     })
   },
   render (h) {
+    jsx.h = h
     var me = this
     var labelValue = this.labelValue = this._getLabelValue()
     var filterLabelValue = this.filterLabelValue = this._getFilter(labelValue)
-    var $select = hx(`div.${this.cls.join('+')}`)
-    
-    //- 选择框区域
-    var $selection = hx('div.r-select-selection', {
-      attrs: {
-        // 添加tabindex，使得div可以相应键盘事件
-        tabindex: 100,
-      },
-      on: {
-        click () {
-          if (me.disabled){
-            return
-          }
-
-          if (me.isMultiple){
-            me.isExpand = true
-          }
-          else {
-            me.isExpand = !me.isExpand
-          }
-
-          if (me.filterable){
-            me.$nextTick(_=>{
-              me.$refs.input.focus()
-            })
-          }
-        },
-        keydown : this.filterable ? Function.prototype : this._keydown,
-      }
-    })
-
     var selectedLabelValue = this._getSelected(labelValue)
-    // 多选tags
-    if (this.isMultiple){
-      var $tags = selectedLabelValue.map(s=>{
-        return hx('r-tag', {
-          props: {
-            closeable: true,
-            name: s.value,
-            size: me.size,
-            disabled: me.disabled,
-          },
-          on: {
-            close (e, name) {
-              me._removeValue(name)
-              e.stopPropagation()
-            }
-          },
-        }, [s.label])
-      })
-
-      $selection.push($tags)
-    }
-
-    // 输入框
-    var inputParams = {
-      style: {},
-      domProps: {},
-      attrs: {
-        type: 'text',
-      },
-      on: {
-        input (e) {
-          me.word = e.target.value
-        },
-        keydown : this.filterable ? this._keydown : Function.prototype,
-      },
-      ref: 'input',
-    }
+    var placeholder
+    var value
 
     if (this.isMultiple){
       if (!selectedLabelValue.length){
-        inputParams.attrs['placeholder'] = this.placeholder
+        placeholder = this.placeholder
       }
-
-      inputParams.domProps.value = me.word || ''
+      value = me.word || ''
     }
     else {
-      inputParams.attrs['placeholder'] = this.placeholder
-
+      placeholder = this.placeholder
+      
       var inputValue = ''
       if (me.word !== null){
-        inputValue = me.word
+        value = me.word
       }
       else {
         if (selectedLabelValue[0]){
-          inputValue = selectedLabelValue[0].label
+          value = selectedLabelValue[0].label
         }
       }
-
-      inputParams.domProps.value = inputValue
     }
 
-    if (this.disabled || !this.filterable){
-      inputParams.attrs['readonly'] = 'readonly'
-    }
-
-    var inputWrapperWidth = '100%'
-    if (this.isMultiple && (selectedLabelValue.length > 0) ){
-      inputWrapperWidth = this._getInputWidth() + 'px'
-    }
-
-    var inputWrapperDisplay = 'inline-block'
-    if (this.isMultiple && (selectedLabelValue.length > 0) && !this.isExpand){
-      inputWrapperDisplay = 'none'
-    }
-
-    $selection.push(
-      hx('div.r-select-input-wrapper', {
-        style: {
-          width: inputWrapperWidth,
-          display: inputWrapperDisplay,
-        },
-      }).push(
-        hx('input', inputParams)
-      )
-    )
-
-    // 箭头
-    var arrowIcon
-    if (this.isExpand){
-      arrowIcon = 'arrow-up-b'
-    }
-    else {
-      arrowIcon = 'arrow-down-b'
-    }
-    $selection.push(
-      hx('r-icon.r-select-arrow-icon', {
-        props: {
-          type: arrowIcon,
-        },
-      })
-    )
-
-    // clearable
-    if (this.clearable && !this.disabled){
-      $selection.push(
-        hx('r-icon.r-select-close-icon', {
-          props: {
-            type: 'close-circled',
+    return (
+      div('.' + this.cls.join('+'),
+        // 选择框区域
+        div('.r-select-selection', {
+          // 添加tabindex，使得div可以相应键盘事件
+          a_tabindex: 100,
+          o_click () {
+            if (me.disabled){
+              return
+            }
+  
+            if (me.isMultiple){
+              me.isExpand = true
+            }
+            else {
+              me.isExpand = !me.isExpand
+            }
+  
+            if (me.filterable){
+              me.$nextTick(_=>{
+                me.$refs.input.focus()
+              })
+            }
           },
-          nativeOn: {
-            click (e) {
+          o_keydown: this.filterable ? Function.prototype : this._keydown,
+        },
+          // 多选tags
+          ...(this.isMultiple ? 
+          selectedLabelValue.map(lv => {
+            return rTag({
+              p_closeable: true,
+              p_name: lv.value,
+              p_size: me.size,
+              p_disabled: me.disabled,
+              o_close (e, name) {
+                me._removeValue(name)
+                e.stopPropagation()
+              }
+            }, lv.label)
+          })
+          :
+          []),
+          // 输入框
+          div('.r-select-input-wrapper', {
+            s_width: (this.isMultiple && (selectedLabelValue.length > 0)) ? this._getInputWidth() + 'px' : '100%',
+            s_display: (this.isMultiple && (selectedLabelValue.length > 0) && !this.isExpand) ? 'none' : 'inline-block',
+          },
+            input({
+              a_type: 'text',
+              a_placeholder: placeholder,
+              dp_value: value,
+              a_readonly: (this.disabled || !this.filterable) ? 'readonly' : null,
+              o_input (e) {
+                me.word = e.target.value
+              },
+              o_keydown : this.filterable ? this._keydown : Function.prototype,
+              ref: 'input',
+            })
+          ),
+          // 箭头
+          rIcon('.r-select-arrow-icon', {
+            p_type: this.isExpand ? 'arrow-up-b' : 'arrow-down-b'
+          }),
+          // clearable
+          (this.clearable && !this.disabled) ?
+          rIcon('.r-select-close-icon', {
+            p_type: 'close-circled',
+            no_click (e) {
               me._emitChange(me.isMultiple ? [] : '')
               me.isExpand = false
               e.stopPropagation()
             }
-          },
-        })
+          })
+          :
+          null
+        ),
+        // 下拉区域
+        div('.r-select-dropdown', {
+          s_width: me.$el ? me.$el.getBoundingClientRect().width + 'px' : '10px',
+          s_display: this.isExpand ? 'block' : 'none',
+          ref: 'dropdown'
+        },
+          ul('.r-select-dropdown-list',
+            // 无匹配
+            filterLabelValue.length === 0 ? li(this.notFoundText) : null,
+            ...filterLabelValue.map( (lv, idx) => {
+              return rSelectOption({
+                'c_r-select-option-selected': this._isSelected(lv.value),
+                'c_r-select-option-focus': this.focusIdx === idx,
+                p_label: lv.label,
+                p_value: lv.value,
+                p_disabled: lv.disabled,
+                no_click () {
+                  me._optionClick(lv)
+                }
+              })
+            })
+          )
+        )
       )
-    }
-
-    //- 列表区域
-    var dropdownWidth = 10
-
-    if (me.$el){
-      dropdownWidth = me.$el.getBoundingClientRect().width
-    }
-    var $dropdown = hx('div.r-select-dropdown', {
-      style: {
-        width: dropdownWidth + 'px',
-        display: this.isExpand ? 'block' : 'none'
-      },
-      ref: 'dropdown',
-    })
-    var $dropdownList = hx('ul.r-select-dropdown-list')
-
-    // 无匹配
-    var $notFound = hx('li', {
-      style: {
-        display: filterLabelValue.length === 0 ? 'block' : 'none',
-      },
-    }, [this.notFoundText])
-
-    $dropdownList.push($notFound)
-
-    // options
-    var $options = filterLabelValue.map((lv, idx) => {
-      var params = {
-        'class': {
-          'r-select-option-selected': this._isSelected(lv.value),
-          'r-select-option-focus': this.focusIdx === idx,
-        },
-        props: {
-          label: lv.label,
-          value: lv.value,
-          disabled: lv.disabled,
-        },
-        nativeOn: {
-          click () {
-            me._optionClick(lv)
-          }
-        },
-      }
-      return hx('r-select-option', params)
-    })
-
-    $dropdownList.push($options)
-    $dropdown.push($dropdownList)
-
-    return $select
-      .push($selection)
-      .push($dropdown)
-      .resolve(h)
+    )
   }
 })
 
@@ -500,9 +425,8 @@ var RSelectOption = Vue.extend({
     },
   },
   render (h) {
-    var me = this
-
-    return hx(`li.${this.cls.join('+')}`, {}, [this.label]).resolve(h)
+    jsx.h = h
+    return li('.' + this.cls.join('+'), this.label)
   }
 })
 

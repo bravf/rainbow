@@ -1,4 +1,7 @@
-import {hx} from '../../common/_tools.js'
+import {hx} from '../../common/_tools'
+import jsx from '../../common/_jsx'
+
+var {button,div,span, rIcon} = jsx
 
 var RButton = Vue.extend({
   props: {
@@ -44,44 +47,31 @@ var RButton = Vue.extend({
     }
   },
   render (h) {
-    var params = {
-      domProps: {
-        type: this.htmlType,
-      },
-    }
+    jsx.h = h
+
+    var props = {}
+    props['dp_type'] = this.htmlType
 
     if (this.disabled || this.loading){
-      params.domProps['disabled'] = 'disabled'
+      props['dp_disabled'] = 'disabled'
     }
 
-    var $btn = hx(`button.r-btn + ${this.cls.join('+')}`, params)
-    var $btnTxt = hx('span', {}, [this.$slots.default])
+    // 文本
+    var $txt = span(...this.$slots.default)
 
-    var $icon = null
-    var icon = this.icon
-    if (this.loading){
-      icon = 'load-c'
-    }
-
-    if (icon){
-      $icon = hx('r-icon.r-button-icon', {
-        'class': {
-          'r-icon-only': $btnTxt ? false : true,
-        },
-        props: {
-          type: icon,
-          'auto-rotate': this.loading,
-        },
+    // 图标
+    if (this.icon){
+      var $icon = rIcon('.r-button-icon', {
+        p_type: this.loading ? 'load-c' : this.icon,
+        'p_auto-rotate': this.loading
       })
     }
 
-    var $children = [$icon, $btnTxt]
-    if (this.iconPos === 'after'){
-      var $children = [$btnTxt, $icon]
-    }
-
-    $btn.push($children)
-    return $btn.resolve(h)
+    return (
+      button(`.r-btn + ${this.cls.join('+')}`, props,
+        ...(this.iconPos === 'after' ? [$txt, $icon] : [$icon, $txt])
+      )
+    )
   }
 })
 
@@ -101,7 +91,8 @@ var RButtonGroup = Vue.extend({
     }
   },
   render (h) {
-    return hx(`div.${this.cls.join('+')}`, {}, [this.$slots.default]).resolve(h)
+    jsx.h = h
+    return div('.' + this.cls.join('+'), ...this.$slots.default)
   }
 })
 

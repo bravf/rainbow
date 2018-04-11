@@ -1,5 +1,8 @@
-import {hx, isArray} from '../../common/_tools.js'
-import instance from '../../common/_instance.js'
+import {hx, isArray} from '../../common/_tools'
+import instance from '../../common/_instance'
+import jsx from '../../common/_jsx'
+
+var {table, thead, tbody, tr, th, td, col ,colgroup, div, rCheckbox, rRadio, span, rIcon, rLoading} = jsx
 
 var RTable = Vue.extend({
   props: {
@@ -72,142 +75,93 @@ var RTable = Vue.extend({
 
       this.columnConfs = confs
     },
-    _getThead () {
+    _renderThead () {
       var me = this
       var columnConfs = this.columnConfs
-      var $thead = hx('thead')
-      var $tr = hx('tr')
-  
-      columnConfs.forEach(conf=>{
-        var $th = hx('th', {
-          style: {
-            'text-align': conf.align,
-          },
-        })
 
-        var $thContent
+      return (
+        thead(
+          tr(
+            ...columnConfs.map(conf => {
+              return (
+                th({'s_text-align': conf.align},
+                  div(
+                    // 内容
+                    conf.type === 'checkbox' ? 
+                    rCheckbox('.r-table-checkbox', {
+                      p_checkedValue: me.data.filter(data => {return data.__checked === true}).length === me.data.length,
+                      o_input (value) {
+                        value = !!value
 
-        if (conf.type == 'checkbox'){
-          var isAllChecked = true
-          var indeterminate = false
+                        me.data.forEach(data=>{
+                          data.__checked = value
+                        })
 
-          if (me.data.length === 0){
-            isAllChecked = false
-          }
-          else {
-            me.data.forEach(data=>{
-              if (data.__checked !== true){
-                isAllChecked = false
-              }
-              else {
-                indeterminate = true
-              }
+                        me.renderHook ++
+                      }
+                    })
+                    :
+                    span(conf.title),
+
+                    // 是否有排序
+                    conf.sortable ? 
+                    span('.r-table-sort',
+                      rIcon({
+                        'c_r-table-sort-active': (conf.field === me.sortField) && ('asc' === me.sortDir),
+                        p_type: 'arrow-up-b',
+                        no_click () {
+                          me.sortMethod('asc', conf.field)
+                        }
+                      }),
+                      rIcon({
+                        'c_r-table-sort-active': (conf.field === me.sortField) && ('desc' === me.sortDir),
+                        p_type: 'arrow-down-b',
+                        no_click () {
+                          me.sortMethod('desc', conf.field)
+                        }
+                      })
+                    ):
+                    null
+                  )
+                )
+              )
             })
-          }
-
-          $thContent = hx('r-checkbox.r-table-checkbox', {
-            props: {
-              checkedValue: isAllChecked,
-              indeterminate: indeterminate,
-            },
-            on: {
-              input (value) {
-                value = !!value
-
-                me.data.forEach(data=>{
-                  data.__checked = value
-                })
-
-                me.renderHook ++
-              }
-            }
-          })
-        }
-        else {
-          $thContent = hx('span', {}, [conf.title])
-        }
-
-        var $div = hx('div').push($thContent)
-
-        if (conf.sortable){
-          var $ascArrow = hx('r-icon', {
-            'class': {
-              'r-table-sort-active': 
-                (conf.field === me.sortField) && ('asc' === me.sortDir)
-            },
-            props: {
-              type: 'arrow-up-b'
-            },
-            nativeOn: {
-              click () {
-                me.sortMethod('asc', conf.field)
-              }
-            }
-          })
-          var $descArrow = hx('r-icon', {
-            'class': {
-              'r-table-sort-active': 
-                (conf.field === me.sortField) && ('desc' === me.sortDir)
-            },
-            props: {
-              type: 'arrow-down-b'
-            },
-            nativeOn: {
-              click () {
-                me.sortMethod('desc', conf.field)
-              }
-            }
-          })
-
-          $div.push(
-            hx('span.r-table-sort')
-              .push($ascArrow)
-              .push($descArrow)
-          )
-        }
-
-        $tr.push(
-          $th.push(
-            $div
           )
         )
-      })
-  
-      return $thead.push($tr)
+      )
     },
-    _getTbody () {
+    _renderTbody () {
       var me = this
       var columnConfs = this.columnConfs
-      var $tbody = hx('tbody')
 
-      if (this.data && this.data.length){
-        this.data.forEach( (data, dataIdx) =>{
-          var $tr = hx('tr', {
-            on: {
-              click (e) {
+      var dataSource = this.data
+      if (!Array.isArray(dataSource)){
+        dataSource = []
+      }
+
+      return (
+        tbody(
+          ...dataSource.map( (data, dataIdx) => {
+            return tr({
+              o_click (e) {
                 me.$emit('row-click', data, e)
               }
-            }
-          })
+            },
+            // 列 start
+            ...columnConfs.map(conf => {
+              var tdContent
 
-          columnConfs.forEach(conf=>{
-            var tdContentValue = ''
-            
-            if (conf.field) {
-              tdContentValue = instance.getPropByPath(data, conf.field).get()
-            }
-            var tdContent = hx('span', {}, [tdContentValue])
+              if (conf.field){
+                tdContent = span(instance.getPropByPath(data, conf.field).get())
+              }
 
-            if (conf.type == 'index'){
-              tdContent.children = [dataIdx + 1]
-            }
-            else if (conf.type == 'checkbox'){
-              tdContent = hx('r-checkbox.r-table-checkbox', {
-                props: {
-                  checkedValue: data.__checked === true
-                },
-                on: {
-                  input (value) {
+              if (conf.type === 'index'){
+                tdContent = span(dataIdx + 1)
+              }
+              else if (conf.type === 'checkbox'){
+                tdContent = rCheckbox('.r-table-checkbox', {
+                  p_checkedValue: data.__checked === true,
+                  o_input (value) {
                     if (value === true){
                       data.__checked = true
                     }
@@ -215,22 +169,16 @@ var RTable = Vue.extend({
                       data.__checked = false
                     }
                     me.renderHook ++
-                  }
-                },
-                nativeOn: {
-                  click (e) {
+                  },
+                  no_click (e) {
                     e.stopPropagation()
                   }
-                }
-              })
-            }
-            else if (conf.type == 'radio'){
-              tdContent = hx('r-radio.r-table-radio', {
-                props: {
-                  checkedValue: data.__checked === true,
-                },
-                on: {
-                  input (value){
+                })
+              }
+              else if (conf.type === 'radio') {
+                tdContent = rRadio('.r-table-radio', {
+                  p_checkedValue: data.__checked === true,
+                  o_input (value) {
                     if (data.__checked !== true){
                       data.__checked = true
                     }
@@ -244,85 +192,44 @@ var RTable = Vue.extend({
 
                     me.radioData = data
                     me.renderHook ++
-                  }
-                },
-                nativeOn: {
-                  click (e) {
+                  },
+                  no_click (e) {
                     e.stopPropagation()
                   }
-                }
-              })
-            }
-            else {
-              if (conf.scopeSlot){
-                tdContent = conf.scopeSlot({
-                  data: data,
-                  index: dataIdx
                 })
               }
-            }
-
-            var divParams = {}
-
-            if (conf.ellipsis){
-              divParams['style'] = {
-                width: conf.width + 'px',
-                'white-space': 'nowrap'
+              else {
+                if (conf.scopeSlot){
+                  tdContent = conf.scopeSlot({
+                    data: data,
+                    index: dataIdx
+                  })
+                }
               }
-            }
 
-            $tr.push(
-              hx('td', {
-                style: {
-                  'text-align': conf.align,
-                },
-              }).push(
-                hx('div', divParams).push(
-                 tdContent
-                )
+              return td({'s_text-align': conf.align},
+                div({
+                  s_width: conf.ellipsis ? conf.width + 'px' : null,
+                  's_white-space': conf.ellipsis ? 'nowrap' : null,
+                }, tdContent)
               )
+            })
+            // 列 end
             )
           })
-
-          $tbody.push($tr)
-        })
-      }
-      else {
-        var $tr = hx('tr.no-data-text')
-        var $td = hx('td', {
-          attrs: {
-            colspan: columnConfs.length
-          }
-        })
-        $tr.push(
-          $td.push(
-            hx('div', {}, [this.noDataText])
-          )
         )
-
-        $tbody.push($tr)
-      }
-
-      return $tbody
+      )
     },
-    _getColgroup () {
+    _renderColgroup () {
       var columnConfs = this.columnConfs
-      var $colgroup = hx('colgroup')
-      
-      columnConfs.forEach(conf=>{
-        $colgroup.push(
-          hx('col', {
-            attrs: {
-              width: conf.width
-            }
+
+      return (
+        colgroup(
+          ...columnConfs.map(conf => {
+            return col({a_width: conf.width})
           })
         )
-      })
-
-      return $colgroup
-    },
-    _getLoading () {
-      return this.loading ? hx('r-loading') : null
+      )
     },
 
     // 公开方法
@@ -344,29 +251,22 @@ var RTable = Vue.extend({
     }
   },
   render (h) {
+    jsx.h = h
     this.renderHook
 
-    var $tableWrapper = hx(`div.${this.cls.join('+')}`, {
-      style: {
-        width: this.width + 'px',
-      }
-    })
-    var $table = hx('table').push(this.$slots.default)
-
-    if (this.columnConfs.length){
-      $table.push(this._getColgroup())
-      
-      if (this.showHeader){
-        $table.push(this._getThead())
-      }
-      
-      $table.push(this._getTbody())
-    }
-
-    return $tableWrapper
-      .push($table)
-      .push(this._getLoading())
-      .resolve(h)
+    return (
+      div('.' + this.cls.join('+'), {
+        s_width: this.width + 'px'
+      },
+        table(
+          ...this.$slots.default,
+          this._renderColgroup(),
+          this.showHeader ? this._renderThead() : null,
+          this._renderTbody(),
+        ),
+        this.loading ? rLoading() : null,
+      )
+    )
   },
 })
 

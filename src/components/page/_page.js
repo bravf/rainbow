@@ -1,4 +1,15 @@
-import {hx} from '../../common/_tools.js'
+import {hx} from '../../common/_tools'
+import jsx from '../../common/_jsx'
+
+var {div, span, rSelect, rSelectOption, rButton} = jsx
+
+function getNumArr(start, end){
+  var arr = []
+  for (var i=start; i<end; i++){
+    arr.push(i)
+  }
+  return arr
+}
 
 var RPage = Vue.extend({
   props: {
@@ -24,103 +35,59 @@ var RPage = Vue.extend({
   methods: {
   },
   render (h) {
+    jsx.h = h
     var me = this
-    var $wrapper = hx(`div.${this.cls.join('+')}`)
 
     // 总页码
     var pageTotal = parseInt((this.total + this.pageSize - 1) / this.pageSize)
 
-    if (this.showTotal){
-      $wrapper.push(
-        hx('span.r-page-total', {}, ['共 ' + this.total + ' 条'])
-      )
-    }
-
     if (pageTotal === 0){
-      return $wrapper.resolve(h)
+      return null
     }
 
-    $wrapper.push(
-      hx('r-button', {
-        props: {
-          disabled: this.value === 1 ? true : false,
-          size: this.size
-        },
-        nativeOn: {
-          click () {
+    return (
+      div('.r-page',
+        this.showTotal ? span('.r-page-total', '共 ' + this.total + ' 条') : null,
+      
+        // 上一页
+        rButton({
+          p_disabled: this.value === 1 ? true : false,
+          p_size: this.size,
+          no_click () {
             me.$emit('input', me.value - 1)
-          } 
-        }
-      }, ['上一页'])
-    )
-
-    var $select = hx('r-select.r-page-mid', {
-      props: {
-        value: this.value,
-        filterable: true,
-        placeholder: '...',
-        notFoundText: '...',
-        size: this.size,
-      },
-      style: {
-        width: Math.max(0, pageTotal.toString().length - 2) * 10 + 60 + 'px'
-      },
-      on: {
-        input (value) {
-          me.$emit('input', value)
-        }
-      }
-    })
-
-    for (var i=1; i<=Math.min(pageTotal, 99); i++){
-      $select.push(
-        hx('r-select-option', {
-          props: {
-            value: i,
-            label: i.toString(),
           }
-        })
-      )
-    }
+        }, '上一页'),
 
-    if (pageTotal > 99){
-      $select.push(
-        hx('r-select-option', {
-          props: {
-            value: '',
-            label: '...',
-            disabled: true,
+        // 页码选择
+        rSelect('.r-page-mid', {
+          p_value: this.value,
+          p_filterable: true,
+          p_placeholder: '...',
+          p_notFoundText: '...',
+          p_size: this.size,
+          s_width: Math.max(0, pageTotal.toString().length - 2) * 10 + 60 + 'px',
+          o_input (value) {
+            me.$emit('input', value)
           }
-        })
-      )
-
-      $select.push(
-        hx('r-select-option', {
-          props: {
-            value: pageTotal,
-            label: pageTotal.toString(),
-          }
-        })
-      )
-    }
-
-    $wrapper.push($select)
-
-    $wrapper.push(
-      hx('r-button', {
-        props: {
-          disabled: this.value >= pageTotal ? true : false,
-          size: this.size
         },
-        nativeOn: {
-          click () {
-            me.$emit('input', me.value + 1)
-          } 
-        }
-      }, ['下一页'])
-    )
+          ...getNumArr(1, Math.min(pageTotal, 100)).map(i => {
+            return rSelectOption({p_value: i, p_label: i.toString()})
+          }),
+          // 如果大于99
+          pageTotal > 99 ? rSelectOption({p_value: '', p_label: '...', p_disabled: true}) : null,
+          pageTotal > 99 ? rSelectOption({p_value: pageTotal, p_label: pageTotal.toString()}): null
+        ),
 
-    return $wrapper.resolve(h)
+        // 下一页
+        rButton({
+          p_disabled: this.value >= pageTotal ? true : false,
+          p_size: this.size,
+          no_click () {
+            me.$emit('input', me.value + 1)
+          }
+        }, '下一页')
+      )
+    )
   }
 })
 

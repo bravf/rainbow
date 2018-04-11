@@ -1,5 +1,8 @@
-import {hx, globalClick} from '../../common/_tools.js'
-import instance from '../../common/_instance.js'
+import {hx, globalClick} from '../../common/_tools'
+import instance from '../../common/_instance'
+import jsx from '../../common/_jsx'
+
+var {div, ul, li, a, rIcon} = jsx
 
 var RMenu = Vue.extend({
   props: {
@@ -27,11 +30,10 @@ var RMenu = Vue.extend({
   methods: {
   },
   render (h) {
+    jsx.h = h
     var me = this
-    var $wrapper = hx(`ul.${this.cls.join('+')}`, {}, [this.$slots.default])
 
-    return $wrapper
-      .resolve(h)
+    return ul('.' + this.cls.join('+'), ...this.$slots.default)
   },
 })
 
@@ -47,26 +49,20 @@ var RMenuItem = Vue.extend({
     }
   },
   render (h) {
+    jsx.h = h
     var me = this
-    var $wrapper = hx('li.r-menu-item', {
-      'class': {
-        'r-menu-item-active': this.name === this.menu.value
-      },
-      on: {
-        click () {
-          me.menu.$emit('input', me.name)
-        }
-      }
-    }).push(
-      hx('a', {
-        attrs: {
-          href: this.href,
-          target: this.target
-        }
-      }, [this.$slots.default])
-    )
 
-    return $wrapper.resolve(h)
+    return li('.r-menu-item', {
+      'c_r-menu-item-active': this.name === this.menu.value,
+      o_click () {
+        me.menu.$emit('input', me.name)
+      }
+    },
+      a({
+        a_href: this.href,
+        a_target: this.target
+      }, ...this.$slots.default)
+    )
   }
 })
 
@@ -89,16 +85,10 @@ var RSubMenu = Vue.extend({
     }
   },
   render (h) {
+    jsx.h = h
     var me = this
 
     var isActive = this.menu.value.indexOf(this.name) === 0
-
-    var $wrapper = hx('li.r-sub-menu', {
-      // 如果是水平模式，则增加样式
-      'class': {
-        'r-menu-item-active': (this.menu.mode === 'horizontal') && isActive
-      }
-    })
 
     // 如果是垂直模式
     if (this.menu.mode === 'vertical'){
@@ -112,9 +102,14 @@ var RSubMenu = Vue.extend({
       this.menuValue = this.menu.value
     }
 
-    var $title = hx('div.r-sub-menu-title', {
-      on: {
-        click () {
+    return li('.r-sub-menu', {
+      // 如果是水平模式，则增加样式
+      'c_r-menu-item-active': (this.menu.mode === 'horizontal') && isActive
+    },
+      // title
+      div('.r-sub-menu-title', {
+        ref: 'title',
+        o_click () {
           if (me.isExpand !== true){
             me.isExpand = true
           }
@@ -122,39 +117,25 @@ var RSubMenu = Vue.extend({
             me.isExpand = false
           }
         }
-      },
-      ref: 'title'
-    }, [this.$slots.title])
-
-    $title.push(
-      hx('r-icon', {
-        props: {
-          type: this.isExpand ? 'ios-arrow-up' : 'ios-arrow-down'
-        }
-      })
-    )
-
-    var $dropdown = hx('div.r-sub-menu-dropdown', {
-      style: {
-        display: this.isExpand ? 'block' : 'none'
-      },
-      on: {
-        click () {
+      }, 
+        ...this.$slots.title,
+        rIcon({
+          p_type: this.isExpand ? 'ios-arrow-up' : 'ios-arrow-down'
+        })
+      ),
+      // dropdown
+      div('.r-sub-menu-dropdown', {
+        s_display: this.isExpand ? 'block' : 'none',
+        o_click () {
           // 如果水平，则点击隐藏
           if (me.menu.mode === 'horizontal'){
             me.isExpand = false
           }
         }
-      }
-    })
-      .push(
-        hx('ul', {}, [this.$slots.default])
+      },
+        ul(...this.$slots.default)
       )
-
-    return $wrapper
-      .push($title)
-      .push($dropdown)
-      .resolve(h)
+    )
   },
   mounted () {
     // 如果水平，则点击隐藏
@@ -171,16 +152,13 @@ var RMenuGroup = Vue.extend({
     title: String
   },
   render (h) {
+    jsx.h = h
     var me = this
-    var $wrapper = hx('li.r-menu-group')
-      .push(
-        hx('div.r-menu-group-title', {}, [this.title])
-      )
-      .push(
-        hx('ul', {}, [this.$slots.default])
-      )
 
-    return $wrapper.resolve(h)
+    return li('.r-menu-group',
+      div('.r-menu-group-title', this.title),
+      ul(...this.$slots.default)
+    )
   }
 })
 

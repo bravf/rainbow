@@ -1,6 +1,9 @@
-import {hx} from '../../common/_tools.js'
-import instance from '../../common/_instance.js'
+import {hx} from '../../common/_tools'
+import instance from '../../common/_instance'
 import { RFormItem } from '../form/_form'
+import jsx from '../../common/_jsx'
+
+var {label, rIcon, div, span} = jsx
 
 var RRadio = Vue.extend({
   model: {
@@ -47,10 +50,21 @@ var RRadio = Vue.extend({
   },
   render (h) {
     var me = this
+    jsx.h = h
 
-    var $radio = hx(`label.${this.cls.join('+')}`, {
-      on: {
-        click () {
+    var content
+
+    if (this.label){
+      content = [this.label]
+    }
+
+    if (this.$slots.default){
+      content = this.$slots.default
+    }
+
+    return (
+      label('.' + this.cls.join('+'), {
+        o_click () {
           if (me.disabled){
             return
           }
@@ -65,28 +79,13 @@ var RRadio = Vue.extend({
             me.formItem.validate()
           }
         }
-      }
-    })
-
-    $radio.push(
-      hx('r-icon.r-radio-icon', {
-        props: {
-          type: this.checked ? 
-            'android-radio-button-on' :
-            'android-radio-button-off'
-        },
-      })
-    )
-
-    var label = this.$slots.default || this.label
-
-    if (label){
-      $radio.push(
-        hx('span', {}, [label])
+      },
+        rIcon('.r-radio-icon', {
+          p_type: this.checked ? 'android-radio-button-on' : 'android-radio-button-off'
+        }),
+        content ? span(...content) : null
       )
-    }
-
-    return $radio.resolve(h)
+    )
   }
 })
 
@@ -114,9 +113,8 @@ var RRadioGroup = Vue.extend({
     },
   },
   render (h) {
-    var children = this.$slots.default
-
-    return hx(`div.${this.cls.join('+')}`, {}, [children]).resolve(h)
+    jsx.h = h
+    return div('.' + this.cls.join('+'), ...this.$slots.default)
   }
 })
 

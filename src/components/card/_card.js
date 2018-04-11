@@ -1,4 +1,7 @@
-import {hx} from '../../common/_tools.js'
+import {hx} from '../../common/_tools'
+import jsx from '../../common/_jsx'
+
+var {div} = jsx
 
 var RCard = Vue.extend({
   props: {
@@ -19,26 +22,14 @@ var RCard = Vue.extend({
     },
   },
   render (h) {
-    var $wrapper = hx(`div.${this.cls.join('+')}`)
+    jsx.h = h
     var $slots = this.$slots
 
-    if ($slots.title){
-      $wrapper.push(
-        hx('div.r-card-head', {}, [$slots.title])
-      )
-    }
-
-    if ($slots.extra){
-      $wrapper.push(
-        hx('div.r-card-extra', {}, [$slots.extra])
-      )
-    }
-
-    $wrapper.push(
-      hx('div.r-card-body', {} , [$slots.default])
+    return div('.' + this.cls.join('+'),
+      $slots.title ? div('.r-card-head', ...$slots.title) : null,
+      $slots.extra ? div('.r-card-extra', ...$slots.extra) : null,
+      div('.r-card-body', ...$slots.default)
     )
-
-    return $wrapper.resolve(h)
   }
 })
 

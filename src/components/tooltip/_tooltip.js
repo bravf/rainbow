@@ -1,4 +1,7 @@
-import {hx} from '../../common/_tools.js'
+import {hx} from '../../common/_tools'
+import jsx from '../../common/_jsx'
+
+var {div} = jsx
 
 var RTooltip = Vue.extend({
   props: {
@@ -67,7 +70,8 @@ var RTooltip = Vue.extend({
       if (!this.popup){
         return
       }
-      this.popup.content = this.$slots.content || this.content || ''
+
+      this.popup.content = this.$slots.content || [this.content] || ['']
     }
   },
   render (h) {
@@ -162,20 +166,15 @@ var RTooltipPopup = Vue.extend({
     }
   },
   render (h) {
-    var $wrapper = hx('div.r-tooltip-popup', {
-      style: {
-        top: this.top + 'px',
-        left: this.left + 'px'
-      },
-      attrs: {
-        'x-placement': this.placement
-      }
-    })
-      .push(
-        hx('div.r-tooltip-popup-inner', {}, [this.content])
-      )
-    
-    return $wrapper.resolve(h)
+    jsx.h = h
+
+    return div('.r-tooltip-popup', {
+      s_top: this.top + 'px',
+      s_left: this.left + 'px',
+      'a_x-placement': this.placement,
+    },
+      div('.r-tooltip-popup-inner', ...this.content)
+    )
   }
 })
 

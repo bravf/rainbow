@@ -1,4 +1,7 @@
-import {hx} from '../../common/_tools.js'
+import {hx} from '../../common/_tools'
+import jsx from '../../common/_jsx'
+
+var {div, span, rIcon} = jsx
 
 var RTag = Vue.extend({
   props: {
@@ -32,33 +35,24 @@ var RTag = Vue.extend({
     },
   },
   render (h) {
+    jsx.h = h
     var me = this
 
-    var $tag = hx(`div.${this.cls.join('+')}`)
-    
-    $tag.push(
-      hx('span.r-tag-text', {}, [this.$slots.default])
+    return div('.' + this.cls.join('+'),
+      span('.r-tag-text', ...this.$slots.default),
+      this.closeable ? 
+      rIcon({
+        p_type: 'ios-close-empty',
+        no_click (e) {
+          if (me.disabled){
+            return
+          }
+          me.$emit('close', e, me.name)
+        }
+      })
+      :
+      null
     )
-
-    if (this.closeable){
-      $tag.push(
-        hx('r-icon', {
-          props: {
-            type: 'ios-close-empty',
-          },
-          nativeOn : {
-            click (e) {
-              if (me.disabled){
-                return
-              }
-              me.$emit('close', e, me.name)
-            }
-          },
-        })
-      )
-    }
-    
-    return $tag.resolve(h)
   }
 })
 

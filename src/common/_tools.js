@@ -14,6 +14,9 @@ function isChildren(obj){
 }
 
 function inArray(obj, objList){
+  if (!Array.isArray(objList)){
+    return false
+  }
   return objList.indexOf(obj) !== -1
 }
 

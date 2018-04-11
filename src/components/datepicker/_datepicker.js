@@ -1,6 +1,9 @@
-import {isArray, hx, globalClick, paddingZero} from '../../common/_tools.js'
-import instance from '../../common/_instance.js'
+import {isArray, hx, globalClick, paddingZero} from '../../common/_tools'
+import instance from '../../common/_instance'
 import { RFormItem } from '../form/_form'
+import jsx from '../../common/_jsx'
+
+var {div, rIcon, span, rInput} = jsx
 
 var RDatepicker = Vue.extend({
   props: {
@@ -116,88 +119,10 @@ var RDatepicker = Vue.extend({
 
       return {year, month}
     },
-    _getDropdown () {
+    _renderDropdown () {
       var me = this
-      var $dropdown = hx('div.r-datepicker-dropdown', {
-        style: {
-          display: this.isExpand ? 'block' : 'none'
-        }
-      })
 
-      var $head = hx('div.r-datepicker-dropdown-head')
-        .push(
-          // 年份-
-          hx('r-icon.r-datepicker-head-prev-btn', {
-            props: {
-              type: 'ios-rewind-outline'
-            },
-            nativeOn: {
-              click () {
-                me.year --
-              }
-            }
-          })
-        )
-        .push(
-          // 月份-
-          hx('r-icon.r-datepicker-head-prev-btn', {
-            props: {
-              type: 'ios-skipbackward-outline'
-            },
-            nativeOn: {
-              click () {
-                var yearMonth = me._getYearMonth(me.year, --me.month)
-                me.year = yearMonth.year
-                me.month = yearMonth.month
-              }
-            }
-          })
-        )
-        .push(
-          // 年label
-          hx('span.r-datepicker-head-label', {}, [this.year + '年'])
-        )
-        .push(
-          // 月label
-          hx('span.r-datepicker-head-label', {}, [this.month + 1 + '月'])
-        )
-        .push(
-          // 年份+
-          hx('r-icon.r-datepicker-head-next-btn', {
-            props: {
-              type: 'ios-fastforward-outline'
-            },
-            nativeOn: {
-              click () {
-                me.year ++
-              }
-            }
-          })
-        )
-        .push(
-          // 月份+
-          hx('r-icon.r-datepicker-head-next-btn', {
-            props: {
-              type: 'ios-skipforward-outline'
-            },
-            nativeOn: {
-              click () {
-                var yearMonth = me._getYearMonth(me.year, ++me.month)
-                me.year = yearMonth.year
-                me.month = yearMonth.month
-              }
-            }
-          })
-        )
-
-      var $body = hx('div.r-datepicker-dropdown-body')
-
-      '日一二三四五六'.split('').forEach(_=>{
-        $body.push(
-          hx('span', {}, [_])
-        )
-      })
-
+      //# 计算 cells 
       var year = this.year
       var month = this.month
 
@@ -260,114 +185,134 @@ var RDatepicker = Vue.extend({
         })
       }
 
-      cells.forEach(cell=>{
-        var isDisabled = false
-        var _date = new Date(cell.year, cell.month, cell.day, 23, 59, 59)
-
-        if (me.disabledDate){
-          isDisabled = !!me.disabledDate(_date)
-        }
-
-        if (me.startDate){
-          isDisabled = +(new Date(me.startDate)) > +_date
-        }
-
-        // 如果禁用，去掉item样式
-        if (isDisabled){
-          var idx = cell.cls.indexOf('r-datepicker-item')
-          if (idx != -1){
-            cell.cls.splice(idx, 1)
-          }
-        }
-
-        $body.push(
-          hx(`span.${cell.cls.join('+')}`, {
-            'class': {
-              'r-datepicker-item-disabled': isDisabled
-            },
-            on: {
-              click () {
-                if (isDisabled){
-                  return
-                }
-                
-                var month = paddingZero(cell.month + 1, 2)
-                var day = paddingZero(cell.day, 2)
-                var value = ''
-
-                if (me.format == 'b'){
-                  value = `${cell.year}/${month}/${day}`
-                }
-                else if (me.format == 'c'){
-                  value = `${cell.year}年${month}月${day}日`
-                }
-                else {
-                  value = `${cell.year}-${month}-${day}`
-                }
-
-                me.$emit('input', value)
-                me.$emit('change', value)
-                me.isExpand = false
+      return (
+        div('.r-datepicker-dropdown', {
+          s_display: this.isExpand ? 'block' : 'none'
+        },
+          // head
+          div('.r-datepicker-dropdown-head',
+            // 年份-
+            rIcon('.r-datepicker-head-prev-btn', {p_type: 'ios-rewind-outline', no_click () {me.year --}}),
+            // 月份-
+            rIcon('.r-datepicker-head-prev-btn', {
+              p_type: 'ios-skipbackward-outline', 
+              no_click () {
+                var yearMonth = me._getYearMonth(me.year, --me.month)
+                me.year = yearMonth.year
+                me.month = yearMonth.month
               }
-            }
-          }, [cell.day])
-        )
-      })
+            }),
+            // 年label
+            span('.r-datepicker-head-label', this.year + '年'),
+            // 月label
+            span('.r-datepicker-head-label', this.month + 1 + '月'),
+            // 年份+
+            rIcon('.r-datepicker-head-next-btn', {p_type: 'ios-fastforward-outline', no_click () {me.year ++}}),
+            // 月份+
+            rIcon('.r-datepicker-head-next-btn', {
+              p_type: 'ios-skipforward-outline', 
+              no_click () {
+                var yearMonth = me._getYearMonth(me.year, ++me.month)
+                me.year = yearMonth.year
+                me.month = yearMonth.month
+              }
+            }),
+          ),
 
-      return $dropdown.push($head).push($body)
+          // body
+          div('.r-datepicker-dropdown-body',
+            ...'日一二三四五六'.split('').map(_ => {
+              return span(_)
+            }),
+            ...cells.map(cell => {
+              var isDisabled = false
+              var _date = new Date(cell.year, cell.month, cell.day, 23, 59, 59)
+
+              if (me.disabledDate){
+                isDisabled = !!me.disabledDate(_date)
+              }
+
+              if (me.startDate){
+                isDisabled = +(new Date(me.startDate)) > +_date
+              }
+
+              // 如果禁用，去掉item样式
+              if (isDisabled){
+                var idx = cell.cls.indexOf('r-datepicker-item')
+                if (idx != -1){
+                  cell.cls.splice(idx, 1)
+                }
+              }
+
+              return span('.' + cell.cls.join('+'), {
+                'c_r-datepicker-item-disabled': isDisabled,
+                o_click () {
+                  if (isDisabled){
+                    return
+                  }
+                  
+                  var month = paddingZero(cell.month + 1, 2)
+                  var day = paddingZero(cell.day, 2)
+                  var value = ''
+  
+                  if (me.format == 'b'){
+                    value = `${cell.year}/${month}/${day}`
+                  }
+                  else if (me.format == 'c'){
+                    value = `${cell.year}年${month}月${day}日`
+                  }
+                  else {
+                    value = `${cell.year}-${month}-${day}`
+                  }
+  
+                  me.$emit('input', value)
+                  me.$emit('change', value)
+                  me.isExpand = false
+                }
+              }, cell.day)
+            })
+          )
+        )
+      )
     }
   },
   render (h) {
+    jsx.h = h
     var me = this
-    var $wrapper = hx(`div.${this.cls.join('+')}`)
 
-    var inputOptions = {
-      props: {
-        value: this.value,
-        icon: 'ios-calendar-outline',
-        readonly: 'readonly',
-        placeholder: this.placeholder,
-        disabled: this.disabled,
-        size: this.size,
-        shouldValidate: false,
-      },
-      nativeOn: {
-        click () {
-          if (me.disabled){
-            return
+    return (
+      div('.' + this.cls.join('+'),
+        rInput({
+          p_value: this.value,
+          p_icon: 'ios-calendar-outline',
+          p_readonly: 'readonly',
+          p_placeholder: this.placeholder,
+          p_disabled: this.disabled,
+          p_size: this.size,
+          p_shouldValidate: false,
+          no_click () {
+            if (me.disabled){
+              return
+            }
+            if (me.isExpand === true){
+              me.isExpand = false
+            }
+            else {
+              me._syncValue()
+              me.isExpand = true
+            }
+          },
+          'o_click-icon' (e) {
+            if (me.clearable && !me.disabled){
+              me.$emit('input', '')
+              me.$emit('change', '')
+              e.stopPropagation()
+            }
           }
-          if (me.isExpand === true){
-            me.isExpand = false
-          }
-          else {
-            me._syncValue()
-            me.isExpand = true
-          }
-        }
-      },
-    }
-
-    if (this.clearable && !this.disabled){
-      inputOptions['on'] = {
-        'click-icon' (e) {
-          me.$emit('input', '')
-          me.$emit('change', '')
-          e.stopPropagation()
-        }
-      }
-    }
-
-    $wrapper.push(
-      hx('r-input', inputOptions)
-    )
-
-    if (!me.disabled){
-      $wrapper.push(
-        this._getDropdown()
+        }),
+        !me.disabled ? this._renderDropdown() : null
       )
-    }
-
-    return $wrapper.resolve(h)
+    )
   },
   mounted () {
     globalClick(this.$el, _=>{

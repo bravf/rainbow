@@ -1,4 +1,7 @@
-import {hx} from '../../common/_tools.js'
+import {hx} from '../../common/_tools'
+import jsx from '../../common/_jsx'
+
+var {div} = jsx
 
 var RRow = Vue.extend({
   props: {
@@ -10,26 +13,21 @@ var RRow = Vue.extend({
     style (){
       var style = {}
       if (this.alignItems) {
-        style.alignItems = this.alignItems
+        style.s_alignItems = this.alignItems
       }
 
       if (this.justifyContent) {
-        style.justifyContent = this.justifyContent
-      }
-
-      const gutter = this.gutter
-      if (gutter > 0) {
-        gutter = gutter / 2
-        style.marginLeft = style.marginRight = `-${gutter}px`
+        style.s_justifyContent = this.justifyContent
       }
 
       return style
     }
   },
   render (h) {
-    return hx('div.r-row + r-row-flex', {
-      style: this.style
-    }, [this.$slots.default]).resolve(h)
+    jsx.h = h
+    return (
+      div('.r-row + r-row-flex', Object.assign({}, this.style), ...this.$slots.default)
+    )
   }
 })
 
@@ -54,19 +52,20 @@ var RCol = Vue.extend({
     style () {
       var style = {}
       if (this.$parent instanceof RRow) {
-        const gutter = this.$parent.gutter
+        var gutter = this.$parent.gutter
         if (gutter > 0) {
           gutter = gutter / 2
-          style.paddingLeft = style.paddingRight = `${gutter}px`
+          style.s_paddingLeft = style.s_paddingRight = `${gutter}px`
         }
       }
       return style
     }
   },
   render (h) {
-    return hx(`div.r-col + ${this.cls.join('+')}`, {
-      style: this.style,
-    }, [this.$slots.default]).resolve(h)
+    jsx.h = h
+    return (
+      div(`.r-col + ${this.cls.join('+')}`, Object.assign({}, this.style), ...this.$slots.default)
+    )
   }
 })
 

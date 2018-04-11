@@ -30,10 +30,15 @@ var jsx = {
       var second = params[1]
       var i = 1
 
-      if ( (typeof second === 'object') && (second.__proto__.constructor.name !== 'VNode') ){
+      if ( (second !== null) && (typeof second === 'object') && (second.__proto__.constructor.name !== 'VNode') ){
         var table = {c:'class', s:'style', a:'attrs', p:'props', dp:'domProps', o:'on', no:'nativeOn'}
 
         for (var k in second){
+          // 如果值是null，则过滤
+          if (second[k] === null){
+            continue
+          }
+
           if (k.includes('_')){
             var [a, b] = k.split('_')
             var aa = table[a]
@@ -159,8 +164,13 @@ var jsx = {
   }
 }
 
-'a,b,button,dd,div,dl,dt,em,form,i,iframe,img,input,label,li,ol,optgroup,option,p,select,span,table,th,thead,tr,td,ul,h1,h2,h3,h4,h5,h6'.split(',').forEach(tag=>{
+'a,b,button,dd,div,dl,dt,em,form,i,iframe,img,input,textarea,label,li,ol,optgroup,option,p,select,span,table,th,thead,tbody,tr,td,col,colgroup,ul,h1,h2,h3,h4,h5,h6,slot'.split(',').forEach(tag => {
   jsx[tag] = jsx.__(tag)
+})
+
+// 内置组件
+'rRow,rCol,rContainer,rHeader,rAside,rMain,rIcon,rLoading,rCheckbox,rRadio,rTag,rSelectOption,rInput,rProgress,rModal,rButton,rSelect,rSelectOption'.split(',').forEach(tag => {
+  jsx[tag] = jsx.__(tag.replace(/([A-Z])/g, '-$1').toLowerCase())
 })
 
 export default jsx

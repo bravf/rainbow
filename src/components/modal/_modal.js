@@ -1,4 +1,7 @@
-import {hx} from '../../common/_tools.js'
+import {hx} from '../../common/_tools'
+import jsx from '../../common/_jsx'
+
+var {div, a, rIcon, rModal, rButton, p} = jsx
 
 // modal的zindex从1000开始递增
 var zindex = 1000
@@ -34,59 +37,35 @@ var RModal = Vue.extend({
     }
   },
   render (h) {
+    jsx.h = h
     var me = this
 
-    var style = {
-      style: {
-        display: this.value ? 'block' : 'none',
-        'z-index': this.zindex,
-      }
-    }
-
-    // modal
-    var $modal = hx('div.r-modal', {
-      style: {
-        width: this.width + 'px',
-      }
-    })
-
-    // close
-    $modal.push(
-      hx('a.r-modal-close').push(
-        hx('r-icon', {
-          props: {
-            type: 'ios-close-empty'
-          },
-          nativeOn: {
-            click () {
+    return div('.r-modal-wrapper + r-modal-mask', {
+      s_display: this.value ? 'block' : 'none',
+      's_z-index': this.zindex,
+    },
+      // modal
+      div('.r-modal', {s_width: this.width + 'px'},
+        // close
+        a('.r-modal-close',
+          rIcon({
+            p_type: 'ios-close-empty',
+            no_click () {
               me.$emit('input', false)
             }
-          }
-        })
+          })
+        ),
+        // header
+        div('.r-modal-header',
+          div('.r-modal-header-inner', this.title)
+        ),
+        // body
+        div('.r-modal-body', ...this.$slots.default),
+        // footer
+        this.$slots.footer ? div('.r-modal-footer', ...this.$slots.footer) : null
       )
     )
 
-    // head
-    $modal.push(
-      hx('div.r-modal-header').push(
-        hx('div.r-modal-header-inner', {}, [this.title])
-      )
-    )
-
-    // body
-    $modal.push(
-      hx('div.r-modal-body', {}, [this.$slots.default])
-    )
-
-    // footer
-    var $footerContent = this.$slots.footer
-    if ($footerContent){
-      $modal.push(
-        hx('div.r-modal-footer', {}, [$footerContent])
-      )
-    }
-
-    return hx('div.r-modal-wrapper + r-modal-mask', style).push($modal).resolve(h)
   },
 
   mounted () {
@@ -102,14 +81,6 @@ Vue.component('r-modal', RModal)
 
 // 全局注入alert
 var RAlert = Vue.extend({
-  template: `
-    <r-modal v-model="value" :title="title" width="300" class="r-alert-global">
-      <p>{{content}}</p>
-      <div slot="footer">
-        <r-button @click.native="okClick">确定</r-button>
-      </div>
-    </r-modal>
-  `,
   data () {
     return {
       title: '',
@@ -136,6 +107,26 @@ var RAlert = Vue.extend({
       this.onOk()
       this.value = false
     }
+  },
+  render (h) {
+    jsx.h = h
+    var me = this
+
+    return rModal({
+      vmodel: [this, 'value'],
+      a_title: this.title,
+      a_width: 300,
+      'c_r-alert-global': true
+    },
+      p(this.content),
+      div({slot:'footer'},
+        rButton({
+          no_click () {
+            me.okClick()
+          }
+        }, '确定')
+      )
+    )
   }
 })
 
@@ -158,15 +149,6 @@ var getAlert = function (){
 
 // 全局注入confirm
 var RConfirm = Vue.extend({
-  template: `
-    <r-modal v-model="value" :title="title" width="300" class="r-confirm-global">
-      <p>{{content}}</p>
-      <div slot="footer">
-        <r-button @click.native="cancelClick">取消</r-button>
-        <r-button @click.native="okClick" type="primary">确定</r-button>
-      </div>
-    </r-modal>
-  `,
   data () {
     return {
       title: '',
@@ -202,6 +184,31 @@ var RConfirm = Vue.extend({
       this.onCancel()
       this.value = false
     }
+  },
+  render (h) {
+    jsx.h = h
+    var me = this
+
+    return rModal({
+      vmodel: [this, 'value'],
+      a_title: this.title,
+      a_width: 300,
+      'c_r-confirm-global': true
+    },
+      p(this.content),
+      div({slot:'footer'},
+        rButton({
+          no_click () {
+            me.cancelClick()
+          }
+        }, '取消'),
+        rButton({
+          no_click () {
+            me.okClick()
+          }
+        }, '确定')
+      )
+    )
   }
 })
 

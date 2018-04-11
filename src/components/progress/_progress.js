@@ -1,4 +1,7 @@
-import {hx} from '../../common/_tools.js'
+import {hx} from '../../common/_tools'
+import jsx from '../../common/_jsx'
+
+var {div, rIcon} = jsx
 
 var RProgress = Vue.extend({
   props: {
@@ -49,46 +52,38 @@ var RProgress = Vue.extend({
   methods: {
   },
   render (h) {
+    jsx.h = h
     var me = this
-    var $wrapper = hx(`div.${this.cls.join('+')}`)
 
-    var $outer = hx('div.r-progress-outer')
-    .push(
-      hx('div.r-progress-inner')
-      .push(
-        hx('div.r-progress-bg', {
-          style: {
-            width: this.percentText,
-            height: this.strokeWidth + 'px'
-          }
-        })
+    var textContent = this.percentText
+    var isWrong = this.status2 === 'wrong'
+    var isSuccess = this.status2 === 'success'
+
+    return div('.' + this.cls.join('+'),
+      // outer
+      div('.r-progress-outer',
+        // inner
+        div('.r-progress-inner',
+          // bg
+          div('.r-progress-bg', {
+            s_width: this.percentText,
+            s_height: this.strokeWidth + 'px'
+          })
+        )
+      ),
+
+      !this.hideInfo ?
+      div('.r-progress-text',
+        div('.r-progress-text-inner',
+          isWrong || isSuccess ?
+          rIcon({p_type: isWrong ? 'ios-close' : 'ios-checkmark'})
+          :
+          this.percentText
+        )
       )
+      :
+      null
     )
-
-    $wrapper.push($outer)
-    
-    if (!this.hideInfo){
-      var textContent = this.percentText
-      var isWrong = this.status2 === 'wrong'
-      var isSuccess = this.status2 === 'success'
-
-      if (isWrong || isSuccess){
-        textContent = hx('r-icon', {
-          props: {
-            type: isWrong ? 'ios-close' : 'ios-checkmark'
-          }
-        })
-      }
-
-      var $text = hx('div.r-progress-text')
-      .push(
-        hx('div.r-progress-text-inner', {}, [textContent])
-      )
-
-      $wrapper.push($text)
-    }
-    
-    return $wrapper.resolve(h)
   }
 })
 

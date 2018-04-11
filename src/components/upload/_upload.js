@@ -1,7 +1,10 @@
-import {hx} from '../../common/_tools.js'
-import ajax from './_ajax.js'
-import instance from '../../common/_instance.js'
-import {RFormItem} from '../form/_form';
+import {hx} from '../../common/_tools'
+import ajax from './_ajax'
+import instance from '../../common/_instance'
+import {RFormItem} from '../form/_form'
+import jsx from '../../common/_jsx'
+
+var {div, span, ul, li, rIcon, rProgress, img, input} = jsx
 
 var RUpload = Vue.extend({
   props: {
@@ -196,176 +199,127 @@ var RUpload = Vue.extend({
     // list-type: file
     getFileItem (file) {
       var me = this
-      var $li = hx('li.r-upload-list-file')
-      
-      var $name = hx('span', {
-        on: {
-          click () {
+
+      return li('.r-upload-list-file',
+        // name
+        span({
+          o_click () {
             me.handlePreview(file)
           }
-        }
-      })
-      .push(
-        hx('r-icon', {
-          props: {
-            type: 'document'
-          }
-        })
-      )
-      .push(
-        hx('span', {}, [file.name])
-      )
-
-      var $remove = hx('r-icon.r-upload-list-remove', {
-        props: {
-          type: 'ios-close-empty'
         },
-        nativeOn: {
-          click (e) {
+          rIcon({p_type: 'document'}),
+          span(file.name)
+        ),
+        // remove
+        rIcon('.r-upload-list-remove', {
+          p_type: 'ios-close-empty',
+          no_click (e) {
             me.handleRemove(file)
           }
-        }
-      })
-
-      $li.push($name).push($remove)
-
-      if (file.status === 'uploading'){
-        var $progress = hx('r-progress', {
-          props: {
-            percent: file.percent,
-            status: 'active',
-            strokeWidth: 5
-          }
+        }),
+        // 进度条
+        file.status === 'uploading' ?
+        rProgress({
+          p_percent: file.percent,
+          p_status: 'active',
+          p_strokeWidth: 5
         })
-        $li.push($progress)
-      }
-
-      return $li
+        :
+        null
+      )
     },
 
     // list-type: image
     getImageItem (file) {
       var me = this
-      var $div = hx('div.r-upload-list-image')
 
-      if (file.status === 'uploading'){
-        var $progress = hx('r-progress', {
-          props: {
-            percent: file.percent,
-            status: 'active',
-            hideInfo: true,
-            strokeWidth: 5
-          }
+      return div('.r-upload-list-image',
+        file.status === 'uploading' ? 
+        // 进度条
+        rProgress({
+          p_percent: file.percent,
+          p_status: 'active',
+          p_strokeWidth: 5,
+          p_hideInfo: true,
         })
-
-        $div.push($progress)
-      }
-      else {
-        var $image = hx('img', {
-          attrs: {
-            src: file.url
-          }
-        })
-        var $cover = hx('div.r-upload-list-image-cover')
-        .push(
-          hx('r-icon', {
-            props: {
-              type: 'ios-eye'
-            },
-            nativeOn: {
-              click () {
+        :
+        // 内容
+        div(
+          img({
+            a_src: file.url
+          }),
+          div('.r-upload-list-image-cover', 
+            rIcon({
+              p_type: 'ios-eye',
+              no_click () {
                 me.handlePreview(file)
               }
-            }
-          })
-        )
-        .push(
-          hx('r-icon', {
-            props: {
-              type: 'ios-trash-outline'
-            },
-            nativeOn: {
-              click () {
+            }),
+            rIcon({
+              p_type: 'ios-trash-outline',
+              no_click () {
                 me.handleRemove(file)
               }
-            }
-          })
+            })
+          )
         )
-
-        $div.push([$image, $cover])
-      }
-
-      return $div
+      )
     }
   },
   render (h) {
+    jsx.h = h
     var me = this
-    var $wrapper = hx('div.r-upload')
-
     var isShowSelect = true
+
     if (this.limit){
       if (this.value.length + this.tempFileList.length >= this.limit){
         isShowSelect = false
       }
     }
 
-    // 上传按钮
-    if (isShowSelect){
-      var $select = hx('div.r-upload-select')
-      .push(
-        hx('input.r-upload-input', {
-          attrs: {
-            type: 'file',
-            multiple: this.multiple
-          },
-          on: {
-            change (e) {
-              me.handleChange(e)
-            }
-          },
-          ref: 'input'
-        })
-      )
-      .push(
-        hx('div', {
-          style: {
-
-          },
-          on: {
-            click () {
-              me.handleClick()
-            }
-          }
-        }, [this.$slots.default]) 
-      )
-
-      $wrapper.push($select)
-    }
-
-    // 上传列表
+    // 上传类型
     var listFn = 'getFileItem'
-
     if (this.listType === 'image'){
       listFn = 'getImageItem'
     }
 
-    var $list = hx('div.r-upload-list')
 
-    var $finishedList = this.value.map(file=>{
-      return this[listFn](file)
-    })
-    
-    var $uploadingList = this.tempFileList.map(file=>{
-      return this[listFn](file)
-    })
+    return div('.r-upload',
+      // 上传按钮
+      isShowSelect ? 
+      div('.r-upload-select',
+        input('.r-upload-input', {
+          a_type: 'file',
+          a_multiple: this.multiple,
+          o_change (e) {
+            me.handleChange(e)
+          },
+          ref: 'input'
+        }),
+        div({
+          o_click () {
+            me.handleClick()
+          }
+        }, ...this.$slots.default),
+      )
+      :
+      null,
 
-    $list.push($finishedList).push($uploadingList)
-
-    if ($list.children.length > 0){
-      $wrapper.push($list)
-    }
-
-    return $wrapper.resolve(h)
+      // 列表
+      (this.value.length + this.tempFileList.length) > 0 ?
+      div('.r-upload-list',
+        // finished list
+        ...this.value.map(file => {
+          return this[listFn](file)
+        }),
+        // uploading list
+        ...this.tempFileList.map(file => {
+          return this[listFn](file)
+        })
+      )
+      :
+      null
+    )
   }
 })
 

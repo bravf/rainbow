@@ -1,4 +1,7 @@
-import {hx} from '../../common/_tools.js'
+import {hx} from '../../common/_tools'
+import jsx from '../../common/_jsx'
+
+var {i} = jsx
 
 var RIcon = Vue.extend({
   props: {
@@ -9,7 +12,7 @@ var RIcon = Vue.extend({
   },
   computed: {
     cls () {
-      var cls = []
+      var cls = ['r-icon']
       cls.push(`ion-${this.type}`)
 
       if (this.autoRotate){
@@ -17,24 +20,14 @@ var RIcon = Vue.extend({
       }
 
       return cls
-    },
-    style () {
-      var style = {}
-
-      if (this.size){
-        style['font-size'] = this.size + 'px'
-      }
-      if (this.color){
-        style['color'] = this.color
-      }
-
-      return style
     }
   },
   render (h) {
-    return hx(`i.r-icon + ${this.cls.join('+')}`, {
-      style: this.style
-    }).resolve(h)
+    jsx.h = h
+    return i('.' + this.cls.join('+'), {
+      's_font-size': this.size ? this.size + 'px' : null,
+      's_color': this.color ? this.color : null
+    })
   }
 })
 

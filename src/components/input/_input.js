@@ -1,6 +1,9 @@
-import {hx, isdef} from '../../common/_tools.js'
-import instance from '../../common/_instance.js'
+import {hx, isdef} from '../../common/_tools'
+import instance from '../../common/_instance'
 import { RFormItem } from '../form/_form'
+import jsx from '../../common/_jsx'
+
+var {div, textarea, input, rIcon} = jsx
 
 var RInput = Vue.extend({
   props: {
@@ -53,6 +56,10 @@ var RInput = Vue.extend({
         }
       }
 
+      if (this.clearable || this.icon){
+        cls.push('r-input-wrapper-has-icon')
+      }
+
       return cls
     },
     formItem () {
@@ -60,79 +67,52 @@ var RInput = Vue.extend({
     }
   },
   render (h) {
+    jsx.h = h
+    
     var me = this
-    var $input
+    var isInput = this.type === 'input'
+    var isTextarea = this.type === 'textarea'
+    var myInput = isTextarea ? textarea : input
 
-    var params = {
-      domProps: {
-        value: isdef(this.value) ? this.value : '',
-        placeholder: this.placeholder || '',
-      },
-      attrs: {
-        readonly: this.readonly,
-        disabled: this.disabled,
-        maxlength: this.maxlength,
-      },
-      on: {
-        input (e) {
-          me.$emit('input', e.target.value)
-        },
-        change (e) {
-          me.$emit('change', e)
-        },
-        focus (e) {
-          me.$emit('focus', e)
-        },
-        blur (e) {
-          me.$emit('blur', e)
+    return (
+      div(`.r-input-wrapper + ${this.cls.join('+')}`,
+        myInput('.r-input', {
+          a_rows: this.rows,
+          dp_type: isInput ? this.type : null,
+          dp_value: isdef(this.value) ? this.value : '',
+          dp_placeholder: this.placeholder || '',
+          a_readonly: this.readonly,
+          a_disabled: this.disabled,
+          a_maxlength: this.maxlength,
+          o_input (e) {
+            me.$emit('input', e.target.value)
+          },
+          o_change (e) {
+            me.$emit('change', e)
+          },
+          o_focus (e) {
+            me.$emit('focus', e)
+          },
+          o_blur (e) {
+            me.$emit('blur', e)
+            
+            if (me.trim){
+              me.$emit('input', e.target.value.trim())
+            }
 
-          if (me.trim){
-            me.$emit('input', e.target.value.trim())
+            if (me.shouldValidate && me.formItem){
+              me.formItem.validate()
+            }
           }
-
-          if (me.shouldValidate && me.formItem){
-            me.formItem.validate()
-          }
-        },
-      },
-    }
-    
-    if (this.type === 'textarea'){
-      params.attrs.rows = this.rows
-      $input = hx(`textarea.r-input`, params)
-    }
-    else {
-      params.domProps.type = this.type
-      $input = hx(`input.r-input`, params)
-    }
-
-    var icon = this.icon
-    var cls = this.cls
-    var $icon
-
-    if (this.clearable){
-      icon = 'ios-close-outline'
-    }
-    
-    if (icon){
-      cls.push('r-input-wrapper-has-icon')
-
-      $icon = hx('r-icon.r-input-icon', {
-        props: {
-          type: icon,
-        },
-        nativeOn: {
-          click (e) {
+        }),
+        (this.icon ? rIcon('.r-input-icon', {
+          p_type: this.clearable ? 'ios-close-outline' : this.icon,
+          no_click (e) {
             me.$emit('click-icon', e)
           }
-        },
-      })
-    }
-
-    return hx(`div.r-input-wrapper + ${cls.join('+')}`)
-      .push($icon)
-      .push($input)
-      .resolve(h)
+        }) : null)
+      )
+    )
   }
 })
 

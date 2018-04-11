@@ -50,6 +50,10 @@ block content
           span| 女
 
         div| {{sex}}
+  
+  .panel
+    r-radio(:value="1", v-model="sex")
+    r-radio(:value="0", v-model="sex")
 
 block script
   script.

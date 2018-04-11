@@ -1,6 +1,9 @@
-import {isArray, inArray, hx} from '../../common/_tools.js'
-import instance from '../../common/_instance.js'
+import {isArray, inArray, hx} from '../../common/_tools'
+import instance from '../../common/_instance'
 import { RFormItem } from '../form/_form'
+import jsx from '../../common/_jsx'
+
+var {label, rIcon, span ,div} = jsx
 
 var RCheckbox = Vue.extend({
   model: {
@@ -94,10 +97,21 @@ var RCheckbox = Vue.extend({
   },
   render (h) {
     var me = this
+    jsx.h = h
 
-    var $checkbox = hx(`label.${this.cls.join('+')}`, {
-      on: {
-        click () {
+    var content
+
+    if (this.label){
+      content = [this.label]
+    }
+
+    if (this.$slots.default){
+      content = this.$slots.default
+    }
+
+    return (
+      label('.' + this.cls.join('+'), {
+        o_click () {
           if (me.disabled){
             return
           }
@@ -107,27 +121,13 @@ var RCheckbox = Vue.extend({
             me.formItem.validate()
           }
         }
-      }
-    })
-
-    $checkbox.push(
-      hx('r-icon.r-checkbox-icon', {
-        props: {
-          type: this.checked ? 
-            'android-checkbox-outline' :
-            'android-checkbox-outline-blank'
-        },
-      })
-    )
-
-    var label = this.$slots.default || this.label
-    if (label){
-      $checkbox.push(
-        hx('span', {}, [label])
+      },
+        rIcon('.r-checkbox-icon', {
+          p_type: this.checked ? 'android-checkbox-outline' : 'android-checkbox-outline-blank'
+        }),
+        content ? span(...content) : null
       )
-    }
-
-    return $checkbox.resolve(h)
+    )
   }
 })
 
@@ -155,9 +155,7 @@ var RCheckboxGroup = Vue.extend({
     },
   },
   render (h) {
-    var children = this.$slots.default
-
-    return hx(`div.${this.cls.join('+')}`, {}, [children]).resolve(h)
+    return div('.' + this.cls.join('+'), ...this.$slots.default)
   }
 })
 

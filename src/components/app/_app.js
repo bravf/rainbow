@@ -1,23 +1,27 @@
-import {hx} from '../../common/_tools.js'
+import {hx} from '../../common/_tools'
+import jsx from '../../common/_jsx'
+
+var {slot, rContainer, rHeader, rAside, rMain} = jsx
 
 var RApp = Vue.extend({
-  template: `
-    <r-container class="r-app">
-      <r-header>
-        <slot name="header"></slot>
-      </r-header>
-      
-      <r-container class="r-app-body">
-        <r-aside>
-          <slot name="aside"></slot>
-        </r-aside>
-
-        <r-main>
-          <slot name="main"></slot>
-        </r-main>
-      </r-container>
-    </r-container>
-  `
+  render (h) {
+    jsx.h = h
+    return (
+      rContainer('.r-app',
+        rHeader(
+          ...this.$slots.header
+        ),
+        rContainer('.r-app-body',
+          rAside(
+            ...this.$slots.aside
+          ),
+          rMain(
+            ...this.$slots.main
+          )
+        )
+      )
+    )
+  }
 })
 
 Vue.component('r-app', RApp)
