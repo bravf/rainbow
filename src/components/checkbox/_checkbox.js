@@ -125,7 +125,7 @@ var RCheckbox = Vue.extend({
         rIcon('.r-checkbox-icon', {
           p_type: this.checked ? 'android-checkbox-outline' : 'android-checkbox-outline-blank'
         }),
-        content ? span(...content) : null
+        span({vif: !!content}, span(...content))
       )
     )
   }

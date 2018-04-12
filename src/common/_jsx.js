@@ -30,7 +30,13 @@ var jsx = {
       var second = params[1]
       var i = 1
 
+      // 如果第二个参数是 prorps
       if ( (second !== null) && (typeof second === 'object') && (second.__proto__.constructor.name !== 'VNode') ){
+        // 如果有vif===false，直接返回null
+        if (second['vif'] === false){
+          return null
+        }
+
         var table = {c:'class', s:'style', a:'attrs', p:'props', dp:'domProps', o:'on', no:'nativeOn'}
 
         for (var k in second){
@@ -173,4 +179,5 @@ var jsx = {
   jsx[tag] = jsx.__(tag.replace(/([A-Z])/g, '-$1').toLowerCase())
 })
 
+window.jsx = jsx
 export default jsx

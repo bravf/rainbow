@@ -114,13 +114,12 @@ var RTimepicker = Vue.extend({
       },
         // head
         div('.r-timepicker-titles', 
-          hasHour ? span('时') : null,
+          span({vif: hasHour}, '时'),
           span('分'),
-          hasSecond ? span('秒') : null,
+          span({vif: hasSecond}, '秒')
         ),
         // body hour
-        hasHour ? 
-        div('.r-timepicker-col', {ref: 'hour'},
+        div('.r-timepicker-col', {vif: hasHour, ref: 'hour'},
           ul(
             ...getNumArr(24).map(n => {
               var value = paddingZero(n, 2)
@@ -144,9 +143,7 @@ var RTimepicker = Vue.extend({
               }, value)
             })
           )
-        ) 
-        : 
-        null,
+        ),
 
         // body minute
         div('.r-timepicker-col', {ref: 'minute'},
@@ -176,8 +173,7 @@ var RTimepicker = Vue.extend({
         ),
 
         // body second
-        hasSecond ? 
-        div('.r-timepicker-col', {ref: 'second'},
+        div('.r-timepicker-col', {vif: hasSecond, ref: 'second'},
           ul(
             ...getNumArr(60).map(n => {
               var value = paddingZero(n, 2)
@@ -201,9 +197,7 @@ var RTimepicker = Vue.extend({
               }, value)
             })
           )
-        ) 
-        : 
-        null,
+        )
       )
     },
     _setScrollTop (type) {

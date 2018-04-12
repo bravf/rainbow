@@ -62,7 +62,7 @@ var RModal = Vue.extend({
         // body
         div('.r-modal-body', ...this.$slots.default),
         // footer
-        this.$slots.footer ? div('.r-modal-footer', ...this.$slots.footer) : null
+        div('.r-modal-footer', {vif: !!this.$slots.footer}, ...this.$slots.footer)
       )
     )
 

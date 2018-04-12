@@ -218,14 +218,12 @@ var RUpload = Vue.extend({
           }
         }),
         // 进度条
-        file.status === 'uploading' ?
         rProgress({
+          vif: file.status === 'uploading',
           p_percent: file.percent,
           p_status: 'active',
           p_strokeWidth: 5
         })
-        :
-        null
       )
     },
 
@@ -286,8 +284,7 @@ var RUpload = Vue.extend({
 
     return div('.r-upload',
       // 上传按钮
-      isShowSelect ? 
-      div('.r-upload-select',
+      div('.r-upload-select', {vif: isShowSelect},
         input('.r-upload-input', {
           a_type: 'file',
           a_multiple: this.multiple,
@@ -301,13 +298,10 @@ var RUpload = Vue.extend({
             me.handleClick()
           }
         }, ...this.$slots.default),
-      )
-      :
-      null,
+      ),
 
       // 列表
-      (this.value.length + this.tempFileList.length) > 0 ?
-      div('.r-upload-list',
+      div('.r-upload-list', {vif: (this.value.length + this.tempFileList.length) > 0},
         // finished list
         ...this.value.map(file => {
           return this[listFn](file)
@@ -317,8 +311,6 @@ var RUpload = Vue.extend({
           return this[listFn](file)
         })
       )
-      :
-      null
     )
   }
 })

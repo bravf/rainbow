@@ -72,8 +72,7 @@ var RProgress = Vue.extend({
         )
       ),
 
-      !this.hideInfo ?
-      div('.r-progress-text',
+      div('.r-progress-text', {vif: !this.hideInfo},
         div('.r-progress-text-inner',
           isWrong || isSuccess ?
           rIcon({p_type: isWrong ? 'ios-close' : 'ios-checkmark'})
@@ -81,8 +80,6 @@ var RProgress = Vue.extend({
           this.percentText
         )
       )
-      :
-      null
     )
   }
 })

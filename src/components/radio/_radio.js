@@ -83,7 +83,7 @@ var RRadio = Vue.extend({
         rIcon('.r-radio-icon', {
           p_type: this.checked ? 'android-radio-button-on' : 'android-radio-button-off'
         }),
-        content ? span(...content) : null
+        span({vif: !!content}, ...content)
       )
     )
   }

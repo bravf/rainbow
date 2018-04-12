@@ -40,8 +40,9 @@ var RTag = Vue.extend({
 
     return div('.' + this.cls.join('+'),
       span('.r-tag-text', ...this.$slots.default),
-      this.closeable ? 
+
       rIcon({
+        vif: !!this.closeable,
         p_type: 'ios-close-empty',
         no_click (e) {
           if (me.disabled){
@@ -50,8 +51,6 @@ var RTag = Vue.extend({
           me.$emit('close', e, me.name)
         }
       })
-      :
-      null
     )
   }
 })

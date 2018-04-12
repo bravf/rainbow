@@ -104,8 +104,7 @@ var RTable = Vue.extend({
                     span(conf.title),
 
                     // 是否有排序
-                    conf.sortable ? 
-                    span('.r-table-sort',
+                    span('.r-table-sort', {vif: conf.sortable},
                       rIcon({
                         'c_r-table-sort-active': (conf.field === me.sortField) && ('asc' === me.sortDir),
                         p_type: 'arrow-up-b',
@@ -120,8 +119,7 @@ var RTable = Vue.extend({
                           me.sortMethod('desc', conf.field)
                         }
                       })
-                    ):
-                    null
+                    )
                   )
                 )
               )
@@ -264,7 +262,7 @@ var RTable = Vue.extend({
           this.showHeader ? this._renderThead() : null,
           this._renderTbody(),
         ),
-        this.loading ? rLoading() : null,
+        rLoading({vif:this.loading})
       )
     )
   },

@@ -72,7 +72,7 @@ var RTabs = Vue.extend({
                 me.$emit('input', conf.name) 
               }
             },
-              conf.icon ? rIcon({p_type: conf.icon}) : null,
+              rIcon({vif: conf.icon, p_type: conf.icon}),
               conf.label
             )
           })

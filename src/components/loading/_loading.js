@@ -1,11 +1,12 @@
-import {hx} from '../../common/_tools.js'
+import {hx} from '../../common/_tools'
+import jsx from  '../../common/_jsx'
+
+var {div} = jsx
 
 var RLoading = Vue.extend({
   render (h) {
-    return hx('div.r-table-loading').push(
-      [hx('div'), hx('div'), hx('div'), hx('div'), hx('div'),]
-    )
-    .resolve(h)
+    jsx.h = h
+    return div('.r-table-loading', div(), div(), div(), div(), div())
   }
 })
 

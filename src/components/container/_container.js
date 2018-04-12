@@ -1,4 +1,7 @@
-import {hx} from '../../common/_tools.js'
+import {hx} from '../../common/_tools'
+import jsx from '../../common/_jsx'
+
+var {div} = jsx
 
 var RContainer = Vue.extend({
   props: {
@@ -30,12 +33,10 @@ var RContainer = Vue.extend({
     }
   },  
   render (h) {
+    jsx.h = h
     this._hasAside()
-    return hx('div.r-container', {
-      'class': {
-        'r-container-vertical': this._hasAside()
-      }
-    }, [this.$slots.default]).resolve(h)
+
+    return div('.r-container', {'c_r-container-vertical': this._hasAside()}, ...this.$slots.default)
   }
 })
 
@@ -44,7 +45,8 @@ var RHeader = Vue.extend({
 
   },
   render (h){
-    return hx('div.r-header', {}, [this.$slots.default]).resolve(h)
+    jsx.h = h
+    return div('.r-header', ...this.$slots.default)
   }
 })
 
@@ -53,7 +55,8 @@ var RAside = Vue.extend({
 
   },
   render (h) {
-    return hx('div.r-aside', {}, [this.$slots.default]).resolve(h)
+    jsx.h = h
+    return div('.r-aside', ...this.$slots.default)
   }
 })
 
@@ -62,7 +65,8 @@ var RMain = Vue.extend({
 
   },
   render (h) {
-    return hx('div.r-main', {}, [this.$slots.default]).resolve(h)
+    jsx.h = h
+    return div('.r-main', ...this.$slots.default)
   }
 })
 
@@ -71,7 +75,8 @@ var RFooter = Vue.extend({
 
   },
   render (h) {
-    return hx('div.r-footer', {}, [this.$slots.default]).resolve(h)
+    jsx.h = h
+    return div('.r-footer', ...this.$slots.default)
   }
 })
 

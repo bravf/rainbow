@@ -1,4 +1,7 @@
-import {hx, hasChildren, isChildren} from '../../common/_tools.js'
+import {hx, hasChildren, isChildren} from '../../common/_tools'
+import jsx from '../../common/_jsx'
+
+var {div, span, ul, li, rIcon, rCheckbox} = jsx
 
 var RTree = Vue.extend({
   props: {
@@ -39,130 +42,6 @@ var RTree = Vue.extend({
     _loop(this.data, [])
   },
   methods: {
-    // 得到所有vnodes
-    _getChildrenNodes ($parent) {
-      var me = this
-
-      var __loop = function (data, $parent) {
-        var $ul = hx('ul.r-tree-wrapper')
-  
-        var $items = data.map(item => {
-          var children = item.children
-          var hasChildren = isChildren(children)
-  
-          var $item = hx('li.r-tree-item', {
-            'class': {
-              'r-tree-item-open': item.__expand ? true : false
-            }
-          })
-          
-          // 箭头
-          var $arrowWrapper = hx('span.r-tree-item-arrowWrapper', {
-            'class': {
-              'r-tree-item-no-children': hasChildren ? false : true
-            },
-            on: {
-              click () {
-                if (!hasChildren){
-                  return
-                }
-  
-                if (item.__expand !== true){
-                  item.__expand = true
-                }
-                else {
-                  item.__expand = false
-                }
-                me.renderHook ++
-              }
-            }
-          })
-          .push(
-            hx('r-icon', {
-              props: {
-                type: 'arrow-right-b'
-              }
-            })
-          )
-  
-          $item.push($arrowWrapper)
-          
-  
-          // 复选框
-          if (me.showCheckbox){
-            var $checkbox = hx('r-checkbox', {
-              props: {
-                checkedValue: item.__checked ? true : false
-              },
-              on: {
-                input () {
-                  if (item.__checked !== true){
-                    item.__checked = true
-                  }
-                  else {
-                    item.__checked = false
-                  }
-
-                  me._setChildrenChecked(item)
-                  me._setParentChecked(item)
-
-                  me.$emit('check-change', me.getCheckeds())
-                  me.renderHook ++
-                }
-              }
-            })
-            $item.push($checkbox)
-          }
-  
-          // 文本
-          var isSelected = (item.__selected && me.currSelected === null) || 
-                           (me.currSelected === item)
-          
-          var $text = hx('span.r-tree-item-text', {
-            'class': {
-              'r-tree-item-selected': isSelected,
-            },
-            on: {
-              click () {  
-                // 如果是单selected模式
-                if (!me.multiple){
-                  me.currSelected = item
-                }
-                // 多selected模式
-                else {
-                  if (item.__selected !== true){
-                    item.__selected = true
-                  }
-                  else {
-                    item.__selected = false
-                  }
-                }
-  
-                me.$emit('select-change', me.getSelecteds())
-                me.renderHook ++
-              }
-            },
-            domProps: {
-              innerHTML: item.title
-            }
-          })
-          $item.push($text)
-  
-          // check children
-          if (hasChildren){
-            __loop(children, $item)
-          }
-  
-          return $item
-        })
-  
-        $ul.push($items)
-        $parent.push($ul)
-      }
-
-      return __loop(this.data, $parent)
-    },
-
     // 设置所有子节点选中
     _setChildrenChecked (item) {
 
@@ -295,17 +174,106 @@ var RTree = Vue.extend({
       })
 
       return checkeds
-    }
+    },
+    // 得到所有vnodes
+    _renderChildrenNodes () {
+      var me = this
+
+      var __loop = function (data) {
+        return (
+          ul('.r-tree-wrapper',
+            ...data.map(item => {
+              var children = item.children
+              var hasChildren = isChildren(children)
+
+              return (
+                li('.r-tree-item', {'c_r-tree-item-open': item.__expand ? true : false},
+                  // 箭头
+                  span('.r-tree-item-arrowWrapper', {
+                    'c_r-tree-item-no-children': hasChildren ? false : true,
+                    o_click () {
+                      if (!hasChildren){
+                        return
+                      }
+        
+                      if (item.__expand !== true){
+                        item.__expand = true
+                      }
+                      else {
+                        item.__expand = false
+                      }
+                      me.renderHook ++
+                    }
+                  },
+                    // 箭头icon
+                    rIcon({p_type: 'arrow-right-b'})
+                  ),
+
+                  // 复选框
+                  rCheckbox({
+                    vif: me.showCheckbox,
+                    p_checkedValue: item.__checked ? true : false,
+                    o_input () {
+                      if (item.__checked !== true){
+                        item.__checked = true
+                      }
+                      else {
+                        item.__checked = false
+                      }
+    
+                      me._setChildrenChecked(item)
+                      me._setParentChecked(item)
+    
+                      me.$emit('check-change', me.getCheckeds())
+                      me.renderHook ++
+                    }
+                  }),
+
+                  // 文本
+                  span('.r-tree-item-text', {
+                    'dp_innerHTML': item.title,
+                    'c_r-tree-item-selected': (item.__selected && me.currSelected === null) || (me.currSelected === item),
+                    o_click () {
+                      // 如果是单selected模式
+                      if (!me.multiple){
+                        me.currSelected = item
+                      }
+                      // 多selected模式
+                      else {
+                        if (item.__selected !== true){
+                          item.__selected = true
+                        }
+                        else {
+                          item.__selected = false
+                        }
+                      }
+        
+                      me.$emit('select-change', me.getSelecteds())
+                      me.renderHook ++
+                    }
+                  }),
+
+                  // 是否有子节点
+                  hasChildren ? __loop(children) : null
+                )
+              )
+            })
+          )
+        )
+      }
+
+      return __loop(this.data)
+    },
   },
   render (h) {
+    jsx.h = h
     this.renderHook
-    var $wrapper = hx('div.r-tree')
 
-    if (this.data.length > 0){
-      this._getChildrenNodes($wrapper)
-    }
-
-    return $wrapper.resolve(h)
+    return (
+      div('.r-tree',
+        this.data.length > 0 ? this._renderChildrenNodes() : null
+      )
+    )
   }
 })
 

@@ -228,7 +228,7 @@ export var RFormItem = Vue.extend({
     var me = this
 
     return div('.' + this.cls.join('+'),
-      this.label ? label('.r-form-item-label', {s_width:!this.inline ? this.labelWidth + 'px' : 'auto'}, this.label) : null,
+      label('.r-form-item-label', {vif: !!this.label, s_width:!this.inline ? this.labelWidth + 'px' : 'auto'}, this.label),
       div('.r-form-item-content', 
         ...this.$slots.default,
         div('.r-form-item-error-tip', this.errorMsg)

@@ -367,8 +367,8 @@ var RSelect = Vue.extend({
             p_type: this.isExpand ? 'arrow-up-b' : 'arrow-down-b'
           }),
           // clearable
-          (this.clearable && !this.disabled) ?
           rIcon('.r-select-close-icon', {
+            vif: this.clearable && !this.disabled,
             p_type: 'close-circled',
             no_click (e) {
               me._emitChange(me.isMultiple ? [] : '')
@@ -376,8 +376,6 @@ var RSelect = Vue.extend({
               e.stopPropagation()
             }
           })
-          :
-          null
         ),
         // 下拉区域
         div('.r-select-dropdown', {

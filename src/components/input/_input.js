@@ -105,12 +105,13 @@ var RInput = Vue.extend({
             }
           }
         }),
-        (this.icon ? rIcon('.r-input-icon', {
+        rIcon('.r-input-icon', {
+          vif: this.icon,
           p_type: this.clearable ? 'ios-close-outline' : this.icon,
           no_click (e) {
             me.$emit('click-icon', e)
           }
-        }) : null)
+        })
       )
     )
   }

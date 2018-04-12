@@ -47,7 +47,7 @@ var RPage = Vue.extend({
 
     return (
       div('.r-page',
-        this.showTotal ? span('.r-page-total', '共 ' + this.total + ' 条') : null,
+        span('.r-page-total', {vif: this.showTotal}, '共 ' + this.total + ' 条'),
       
         // 上一页
         rButton({
@@ -74,8 +74,8 @@ var RPage = Vue.extend({
             return rSelectOption({p_value: i, p_label: i.toString()})
           }),
           // 如果大于99
-          pageTotal > 99 ? rSelectOption({p_value: '', p_label: '...', p_disabled: true}) : null,
-          pageTotal > 99 ? rSelectOption({p_value: pageTotal, p_label: pageTotal.toString()}): null
+          rSelectOption({vif: pageTotal > 99, p_value: '', p_label: '...', p_disabled: true}),
+          rSelectOption({vif: pageTotal > 99, p_value: pageTotal, p_label: pageTotal.toString()})
         ),
 
         // 下一页
