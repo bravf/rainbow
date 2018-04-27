@@ -70,7 +70,7 @@ var RInput = Vue.extend({
     jsx.h = h
     
     var me = this
-    var isInput = this.type === 'input'
+    var isInput = this.type === 'text' || this.type === 'password'
     var isTextarea = this.type === 'textarea'
     var myInput = isTextarea ? textarea : input
 
