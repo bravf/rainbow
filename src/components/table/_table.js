@@ -89,7 +89,7 @@ var RTable = Vue.extend({
                     // 内容
                     conf.type === 'checkbox' ? 
                     rCheckbox('.r-table-checkbox', {
-                      p_checkedValue: me.data.filter(data => {return data.__checked === true}).length === me.data.length,
+                      p_checkedValue: me.data.length > 0 && me.data.filter(data => {return data.__checked === true}).length === me.data.length,
                       o_input (value) {
                         value = !!value
 
@@ -139,6 +139,11 @@ var RTable = Vue.extend({
 
       return (
         tbody(
+          tr({vif: !dataSource.length, 'c_no-data-text': true},
+            td({a_colspan: columnConfs.length},
+              div(this.noDataText)
+            )
+          ),
           ...dataSource.map( (data, dataIdx) => {
             return tr({
               o_click (e) {

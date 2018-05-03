@@ -1,7 +1,7 @@
 import {hx} from '../../common/_tools'
 import jsx from '../../common/_jsx'
 
-var {div, a, rIcon, rModal, rButton, p} = jsx
+var {div, a, rIcon, rModal, rButton, p, span} = jsx
 
 // modal的zindex从1000开始递增
 var zindex = 1000
@@ -202,7 +202,9 @@ var RConfirm = Vue.extend({
             me.cancelClick()
           }
         }, '取消'),
+        span(' '),
         rButton({
+          p_type: 'primary',
           no_click () {
             me.okClick()
           }
