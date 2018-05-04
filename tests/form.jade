@@ -216,12 +216,19 @@ block script
       },
       methods: {
         required (value, callback) {
+          var {div, a} = jsx
+
           if (value instanceof Array){
             if (value.length > 0){
               callback(true)
             }
             else {
-              callback(false)
+              callback(false, () => {
+                return div(
+                  '不能为空 ',
+                  a({a_href:'https://baidu.com'}, '点击查看详情')
+                )
+              })
             }
           }
           else {
@@ -229,7 +236,12 @@ block script
               callback(true)
             }
             else {
-              callback(false)
+              callback(false, () => {
+                return div(
+                  '不能为空',
+                  a({a_href:'https://baidu.com'}, '点击查看详情')
+                )
+              })
             }
           }
           
