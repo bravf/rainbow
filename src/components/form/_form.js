@@ -182,15 +182,15 @@ export var RFormItem = Vue.extend({
   methods: {
     validate (callback) {
       callback = callback || function (){}
+      var ruleCount = this.realRules.length
 
-      // 如果没有设置验证
-      if (!this.prop){
+      // 如果没有设置验证，或者rules没设置
+      if (!this.prop || !ruleCount){
         callback(true)
         return
       }
 
       var isError = false
-      var ruleCount = this.realRules.length
       var doneCount = 0
 
       this.realRules.forEach(rule=>{
