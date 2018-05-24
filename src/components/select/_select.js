@@ -357,6 +357,7 @@ var RSelect = Vue.extend({
               a_readonly: (this.disabled || !this.filterable) ? 'readonly' : null,
               o_input (e) {
                 me.word = e.target.value
+                me.$emit('word-change', me.word)
               },
               o_keydown : this.filterable ? this._keydown : Function.prototype,
               ref: 'input',

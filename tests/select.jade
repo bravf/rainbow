@@ -189,6 +189,20 @@ block content
         style="width:300px",
         not-found-text="无匹配城市",
       )
+  h3| select word-change
+  .margin-10
+    r-select(
+      v-model="currCities",
+      placeholder="远程搜索",
+      filterable,
+      @word-change="remoteSearch"
+    )
+      r-select-option(
+        v-for="city in remoteCities",
+        :label="city.label",
+        :value="city.value",
+        :key="city.value"
+      )
 
   
 block script
@@ -208,6 +222,22 @@ block script
           cities: cities,
           currCity: -1,
           currCities: [],
+          remoteCities: [],
+        }
+      },
+      methods: {
+        remoteSearch (val) {
+
+          setTimeout(_=>{
+            var cities = []
+            for (var i=0; i<10; i++){
+              cities.push({
+                value: val + i,
+                label: val + i.toString(),
+              })
+              this.remoteCities = cities
+            }
+          }, 100)
         }
       }
     })
