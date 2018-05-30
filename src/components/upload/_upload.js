@@ -288,6 +288,7 @@ var RUpload = Vue.extend({
         input('.r-upload-input', {
           a_type: 'file',
           a_multiple: this.multiple,
+          a_accept: this.accept,
           o_change (e) {
             me.handleChange(e)
           },
