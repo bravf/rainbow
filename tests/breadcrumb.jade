@@ -1,0 +1,21 @@
+extends ./_layout
+
+block title
+  | Breadcrumb
+
+block content
+  r-breadcrumb(separator="/")
+    r-breadcrumb-item(:href="baidu", target="_blank") 百度
+    r-breadcrumb-item(href="http://cnblogs.com", target="_blank") cnblogs
+    r-breadcrumb-item| 文本
+
+block script
+  script.
+    vm = new Vue({
+      el: '#app',
+      data () {
+        return {
+          baidu: 'http://baidu.com'
+        }
+      }
+    })

@@ -1,0 +1,19 @@
+.r-breadcrumb{
+  .r-breadcrumb-item-a{
+    font-weight: bold;
+    color: $color-black;
+
+    &:hover{
+      color: $color-primary;
+    }
+  }
+
+  .r-breadcrumb-item-span{
+    color: $color-silver-light;
+  }
+
+  .r-breadcrumb-separator{
+    color: $color-gray;
+    padding: 6px;
+  }
+}

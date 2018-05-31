@@ -153,6 +153,10 @@ var jsx = {
       }
     }
 
+    if (!Object.keys(node.props.class).length){
+      delete node.props.class
+    }
+
     return jsx.h(node.tag, node.props, node.children)
   },
 
