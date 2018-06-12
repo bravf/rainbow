@@ -31,7 +31,7 @@ var jsx = {
       var i = 1
 
       // 如果第二个参数是 prorps
-      if ( (second !== null) && (typeof second === 'object') && (second.__proto__.constructor.name !== 'VNode') ){
+      if ( (second !== null) && (typeof second === 'object') && (!('componentInstance' in second)) ){
         // 如果有vif===false，直接返回null
         if (second['vif'] === false){
           return null
