@@ -18,7 +18,7 @@ var RSelect = Vue.extend({
     },
     notFoundText: {
       type: String,
-      default: '无匹配数据', 
+      default: '无匹配数据',
     },
   },
   data () {
@@ -92,7 +92,7 @@ var RSelect = Vue.extend({
     },
     _getLabelValue () {
       var labelValue = []
-      
+
       ;(this.$slots.default || []).forEach($slot=>{
         var componentOptions = $slot.componentOptions
 
@@ -202,7 +202,6 @@ var RSelect = Vue.extend({
     _keydown (e) {
       var me = this
       var key = e.key
-      
       if (key === 'Backspace'){
         if (me.isMultiple && (me.word === '' || me.word === null) ){
           var _value = me.value[me.value.length - 1]
@@ -213,7 +212,7 @@ var RSelect = Vue.extend({
         var idx = me.focusIdx
         var minIdx = 0
         var maxIdx = me.filterLabelValue.length - 1
-       
+
         if (key === 'ArrowDown'){
           idx ++
         }
@@ -223,6 +222,7 @@ var RSelect = Vue.extend({
         idx = Math.min(maxIdx, Math.max(minIdx, idx))
 
         me.focusIdx = idx
+        me.isExpand = true
         e.preventDefault()
       }
       else if (key === 'Enter'){
@@ -269,7 +269,7 @@ var RSelect = Vue.extend({
     globalClick(this.$el, _=>{
       // 解决移动端不失去焦点，从而无法再次点击问题
       this.$refs.input.blur()
-      
+
       this.isExpand = false
       this.word = null
     })
@@ -291,7 +291,7 @@ var RSelect = Vue.extend({
     }
     else {
       placeholder = this.placeholder
-      
+
       var inputValue = ''
       if (me.word !== null){
         value = me.word
@@ -313,14 +313,14 @@ var RSelect = Vue.extend({
             if (me.disabled){
               return
             }
-  
+
             if (me.isMultiple){
               me.isExpand = true
             }
             else {
               me.isExpand = !me.isExpand
             }
-  
+
             if (me.filterable){
               me.$nextTick(_=>{
                 me.$refs.input.focus()
@@ -330,7 +330,7 @@ var RSelect = Vue.extend({
           o_keydown: this.filterable ? Function.prototype : this._keydown,
         },
           // 多选tags
-          ...(this.isMultiple ? 
+          ...(this.isMultiple ?
           selectedLabelValue.map(lv => {
             return rTag({
               p_closeable: true,
@@ -356,10 +356,11 @@ var RSelect = Vue.extend({
               dp_value: value,
               a_readonly: (this.disabled || !this.filterable) ? 'readonly' : null,
               o_input (e) {
+                me.isExpand = true
                 me.word = e.target.value
                 me.$emit('word-change', me.word)
               },
-              o_keydown : this.filterable ? this._keydown : Function.prototype,
+              o_keydown: this.filterable ? this._keydown : Function.prototype,
               ref: 'input',
             })
           ),
