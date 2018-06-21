@@ -97,6 +97,8 @@ var RTable = Vue.extend({
                           data.__checked = value
                         })
 
+                        me.$emit('check-all-change', value)
+
                         me.renderHook ++
                       }
                     })
@@ -171,6 +173,8 @@ var RTable = Vue.extend({
                     else {
                       data.__checked = false
                     }
+
+                    me.$emit('check-change', data)
                     me.renderHook ++
                   },
                   no_click (e) {
@@ -194,6 +198,8 @@ var RTable = Vue.extend({
                     }
 
                     me.radioData = data
+
+                    me.$emit('check-change', data)
                     me.renderHook ++
                   },
                   no_click (e) {

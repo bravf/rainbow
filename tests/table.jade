@@ -16,6 +16,8 @@ block content
         :sort-field="sortField",
         :sort-dir="sortDir",
         :loading="loading",
+        @check-all-change="checkAllChange",
+        @check-change="checkChange",
         @row-click="rowClick"
       )
         
@@ -133,6 +135,12 @@ block script
         },
         rowClick (data, e) {
           this.$message(data.id)
+        },
+        checkAllChange (isChecked) {
+          console.log(isChecked)
+        },
+        checkChange (data) {
+          console.log(data)
         }
       }
     })
