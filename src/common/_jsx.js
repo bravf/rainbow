@@ -179,7 +179,7 @@ var jsx = {
 })
 
 // 内置组件
-'rRow,rCol,rContainer,rHeader,rAside,rMain,rIcon,rLoading,rCheckbox,rRadio,rTag,rSelectOption,rInput,rProgress,rModal,rButton,rSelect,rSelectOption'.split(',').forEach(tag => {
+'rRow,rCol,rContainer,rHeader,rAside,rMain,rIcon,rLoading,rCheckbox,rRadio,rTag,rSelectOption,rInput,rProgress,rModal,rButton,rSelect,rSelectOption,rLoading,rDatepicker,rTimepicker,rCard,rTabs,rPage,rDropdown,rDropdownItem,rMenu,rMenuItem,rSubMenu,rMenuGroup,rForm,rFormItem,rMessage,rTooltip,rProgress,rUpload,rTree,rTimeline,rTimelineItem,rApp,rBreadcrumb,rBreadcrumbItem'.split(',').forEach(tag => {
   jsx[tag] = jsx.__(tag.replace(/([A-Z])/g, '-$1').toLowerCase())
 })
 
