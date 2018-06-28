@@ -175,12 +175,12 @@ var jsx = {
 }
 
 'a,b,button,dd,div,dl,dt,em,form,i,iframe,img,input,textarea,label,li,ol,optgroup,option,p,select,span,table,th,thead,tbody,tr,td,col,colgroup,ul,h1,h2,h3,h4,h5,h6,slot'.split(',').forEach(tag => {
-  jsx[tag] = jsx.__(tag)
+  window[tag.replace(/[a-z]/, c => {return c.toUpperCase()})] = jsx[tag] = jsx.__(tag)
 })
 
 // 内置组件
 'rRow,rCol,rContainer,rHeader,rAside,rMain,rIcon,rLoading,rCheckbox,rRadio,rTag,rSelectOption,rInput,rProgress,rModal,rButton,rSelect,rSelectOption,rLoading,rDatepicker,rTimepicker,rCard,rTabs,rPage,rDropdown,rDropdownItem,rMenu,rMenuItem,rSubMenu,rMenuGroup,rForm,rFormItem,rMessage,rTooltip,rProgress,rUpload,rTree,rTimeline,rTimelineItem,rApp,rBreadcrumb,rBreadcrumbItem,rTable,rTableColumn'.split(',').forEach(tag => {
-  jsx[tag] = jsx.__(tag.replace(/([A-Z])/g, '-$1').toLowerCase())
+   window[tag.replace('r', 'R')] = jsx[tag] = jsx.__(tag.replace(/([A-Z])/g, '-$1').toLowerCase())
 })
 
 window.jsx = jsx
