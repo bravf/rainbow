@@ -286,7 +286,7 @@ var RTable = Vue.extend({
           return
         }
 
-        var values = data.map(item => Number(instance.getPropByPath(item, column.field).get()))
+        var values = dataSource.map(item => Number(instance.getPropByPath(item, column.field).get()))
         if (!values.every(value => isNaN(value))){
           summary[idx] = values.reduce((prev, curr) => {
             return prev + curr
