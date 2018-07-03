@@ -10,7 +10,7 @@ block content
       r-table(
         :data="data", 
         ref="table", 
-        :border="false", 
+        :border="true", 
         :show-header="true",
         :sort-method="sort",
         :sort-field="sortField",
@@ -18,7 +18,9 @@ block content
         :loading="loading",
         @check-all-change="checkAllChange",
         @check-change="checkChange",
-        @row-click="rowClick"
+        @row-click="rowClick",
+        :show-summary="true",
+        summary-text="总和",
       )
         
         r-table-column(
@@ -141,6 +143,9 @@ block script
         },
         checkChange (data) {
           console.log(data)
+        },
+        summary (columns, data) {
+          return ['你好', '', '', 100, 100, '']
         }
       }
     })
