@@ -48,7 +48,7 @@ export default {
       })
 
       if (!found) {
-        if (attr) {
+        if (path) {
           console.error(`Cannot match path ${path} in `, JSON.stringify(origObj))
         }
         break
