@@ -264,7 +264,6 @@ var RTable = Vue.extend({
       return tr('.summary',
         ...summaryData.map((text, idx) => {
           var column = columnConfs[idx]
-          console.log(idx)
           return this._renderTd(column, text)
         })
       )
