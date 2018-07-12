@@ -223,12 +223,12 @@ block script
               callback(true)
             }
             else {
-              callback(false, () => {
-                return div(
+              callback(false, 
+                Div(
                   '不能为空 ',
                   a({a_href:'https://baidu.com'}, '点击查看详情')
                 )
-              })
+              )
             }
           }
           else {
@@ -236,12 +236,12 @@ block script
               callback(true)
             }
             else {
-              callback(false, () => {
-                return div(
-                  '不能为空',
+              callback(false, 
+                Div(
+                  '不能为空 ',
                   a({a_href:'https://baidu.com'}, '点击查看详情')
                 )
-              })
+              )
             }
           }
           

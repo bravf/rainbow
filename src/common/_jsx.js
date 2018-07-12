@@ -1,5 +1,17 @@
+var getCreateElementFunc = function () {
+  var _h
+  var cmpt = Vue.extend({
+    render (h) {
+      _h = h
+    }
+  })
+  new cmpt().$mount(document.createElement('div'))
+
+  return _h
+}
+
 var jsx = {
-  h () {},
+  h: getCreateElementFunc(),
 
   getProp (context, prop) {
     var props = prop.split('.'), i
