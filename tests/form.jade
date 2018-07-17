@@ -216,7 +216,9 @@ block script
       },
       methods: {
         required (value, callback) {
+          jsx.h = this.$createElement
           var {div, a} = jsx
+
 
           if (value instanceof Array){
             if (value.length > 0){

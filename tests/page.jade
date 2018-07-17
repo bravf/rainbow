@@ -12,7 +12,8 @@ block content
         v-model="currPage",
         :total="total",
         :show-total="true",
-        size="default"
+        size="default",
+        @change="pageChange"
       )
 
   div.panel
@@ -24,7 +25,8 @@ block content
         :total="total",
         :show-total="false",
         size="small",
-        :page-size="1000"
+        :page-size="1000",
+        @change="pageChange"
       )
 
 block script
@@ -35,6 +37,11 @@ block script
         return {
           currPage: 1,
           total: 23400,
+        }
+      },
+      methods: {
+        pageChange (num) {
+          console.log(num)
         }
       }
     })

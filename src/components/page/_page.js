@@ -32,6 +32,11 @@ var RPage = Vue.extend({
       return cls
     },
   },
+  watch: {
+    value () {
+      this.$emit('change', this.value)
+    }
+  },
   methods: {
   },
   render (h) {

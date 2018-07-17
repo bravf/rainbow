@@ -80,6 +80,8 @@ block content
         :page-size="10000"
       )
 
+      div(v-if="hello[0]") 123_{{hello[0].x}} 
+
 block script
   script.
     var data = []
@@ -97,6 +99,7 @@ block script
       el: '#app',
       data () {
         return {
+          hello: [],
           data : data,
           test: true,
           sortField: 'math',
