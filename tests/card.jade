@@ -6,6 +6,7 @@ block title
 block content
   r-card(
     style="margin: 10px; width:200px;"
+    title="你好"
   )
     p(slot="title")
       | 标准卡片
@@ -15,10 +16,8 @@ block content
       span(style="vertical-align: middle;")| 换一换
     
     r-card(
-    )
-      p(slot="title")
-        | 标准卡片
-      
+      title="标准卡片"
+    ) 
       a(href="#", slot="extra")
         r-icon(type="ios-loop-strong")
         span(style="vertical-align: middle;")| 换一换

@@ -8,7 +8,8 @@ var RCard = Vue.extend({
     hover: {
       type: Boolean,
       default: true,
-    }
+    },
+    title: String,
   },
   computed: {
     cls () {
@@ -24,9 +25,18 @@ var RCard = Vue.extend({
   render (h) {
     jsx.h = h
     var $slots = this.$slots
+    var title = null
+
+    if (this.title){
+      title = [this.title]
+    }
+
+    if ($slots.title){
+      title = $slots.title
+    }
 
     return div('.' + this.cls.join('+'),
-      div('.r-card-head', {vif: !!$slots.title}, ...$slots.title),
+      div('.r-card-head', {vif: !!title}, ...title),
       div('.r-card-extra', {vif: !!$slots.extra}, ...$slots.extra),
       div('.r-card-body', ...$slots.default)
     )
