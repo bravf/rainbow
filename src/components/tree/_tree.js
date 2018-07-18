@@ -23,6 +23,7 @@ var RTree = Vue.extend({
   watch: {
     data () {
       this._checkExpand()
+      this.currSelected = null
     }
   },
   methods: {
