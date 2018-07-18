@@ -22,26 +22,7 @@ block script
       el: '#app',
       data () {
         return {
-          data: [{
-              title: 'parent 1',
-              children: [{
-                  title: 'parent 1-0',
-                  children: [{
-                      title: 'leaf你好哈哈好的你好哈哈哈哈哈',
-                      __checked: true,
-                      __expand: true,
-                      __selected: true,
-                  }, {
-                      title: 'leaf',
-                      __checked: true
-                  }]
-              }, {
-                  title: 'parent 1-1',
-                  children: [{
-                      title: '<span style="color: red">leaf</span>',
-                  }]
-              }]
-          }]
+          data: []
         }
       },
 
@@ -54,3 +35,26 @@ block script
         }
       }
     })
+
+    setTimeout(_=>{
+      vm.data = [{
+        title: 'parent 1',
+        children: [{
+            title: 'parent 1-0',
+            children: [{
+                title: 'leaf你好哈哈好的你好哈哈哈哈哈',
+                __checked: true,
+                __expand: true,
+                __selected: true,
+            }, {
+                title: 'leaf',
+                __checked: true
+            }]
+        }, {
+            title: 'parent 1-1',
+            children: [{
+                title: '<span style="color: red">leaf</span>',
+            }]
+        }]
+      }]
+    }, 100)

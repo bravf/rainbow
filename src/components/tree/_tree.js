@@ -20,28 +20,33 @@ var RTree = Vue.extend({
       currSelected: null,
     }
   },
-  created () {
-    // 如果子项是展开，那么展开所有父项
-    var _loop = function (data, parentList) {
-      data.forEach(item => {
-        item.__parent = parentList[0]
-
-        if (item.__expand === true){
-          parentList.forEach(_parent => {
-            _parent.__expand = true
-          })
-        }
-  
-        var children = item.children
-        if (isChildren(children)){
-          _loop(children, [item].concat(parentList))
-        }
-      })
+  watch: {
+    data () {
+      this._checkExpand()
     }
-
-    _loop(this.data, [])
   },
   methods: {
+    // 检查展开，如果子项是展开，那么展开所有父项
+    _checkExpand () {
+      var _loop = function (data, parentList) {
+        data.forEach(item => {
+          item.__parent = parentList[0]
+  
+          if (item.__expand === true){
+            parentList.forEach(_parent => {
+              _parent.__expand = true
+            })
+          }
+    
+          var children = item.children
+          if (isChildren(children)){
+            _loop(children, [item].concat(parentList))
+          }
+        })
+      }
+  
+      _loop(this.data, [])
+    },
     // 设置所有子节点选中
     _setChildrenChecked (item) {
 
