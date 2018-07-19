@@ -38,6 +38,12 @@ var RUpload = Vue.extend({
       type: String,
       default: 'file'
     }
+    ,
+    // 是否可以删除
+    removeable: {
+      type: Boolean,
+      default: true,
+    },
   },
   data () {
     return {
@@ -212,6 +218,7 @@ var RUpload = Vue.extend({
         ),
         // remove
         rIcon('.r-upload-list-remove', {
+          vif: this.removeable,
           p_type: 'ios-close-empty',
           no_click (e) {
             me.handleRemove(file)
@@ -254,6 +261,7 @@ var RUpload = Vue.extend({
               }
             }),
             rIcon({
+              vif: this.removeable,
               p_type: 'ios-trash-outline',
               no_click () {
                 me.handleRemove(file)
