@@ -191,7 +191,7 @@ var jsx = {
 })
 
 // 内置组件
-'rRow,rCol,rContainer,rHeader,rAside,rMain,rIcon,rLoading,rCheckbox,rRadio,rTag,rSelectOption,rInput,rProgress,rModal,rButton,rButtonGroup,rSelect,rSelectOption,rLoading,rDatepicker,rTimepicker,rCard,rTabs,rPage,rDropdown,rDropdownItem,rMenu,rMenuItem,rSubMenu,rMenuGroup,rForm,rFormItem,rMessage,rTooltip,rProgress,rUpload,rTree,rTimeline,rTimelineItem,rApp,rBreadcrumb,rBreadcrumbItem,rTable,rTableColumn'.split(',').forEach(tag => {
+'rRow,rCol,rContainer,rHeader,rAside,rMain,rIcon,rLoading,rCheckbox,rRadio,rTag,rSelectOption,rInput,rProgress,rModal,rButton,rButtonGroup,rSelect,rSelectOption,rLoading,rDatepicker,rTimepicker,rCard,rTabs,rPage,rDropdown,rDropdownItem,rMenu,rMenuItem,rSubMenu,rMenuGroup,rForm,rFormItem,rMessage,rTooltip,rProgress,rUpload,rTree,rTimeline,rTimelineItem,rApp,rBreadcrumb,rBreadcrumbItem,rTable,rTableColumn,rAlert'.split(',').forEach(tag => {
    window[tag.replace('r', 'R')] = jsx[tag] = jsx.__(tag.replace(/([A-Z])/g, '-$1').toLowerCase())
 })
 

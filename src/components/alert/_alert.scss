@@ -1,0 +1,36 @@
+.r-alert{
+  position: relative;
+  padding: 10px 20px;
+  margin: 10px 0;
+
+  .r-icon{
+    position: absolute;
+    top: 10px;
+  }
+  .r-alert-msg{
+    margin-left: 20px;
+  }
+  .ion-ios-close-empty{
+    color: $color-msg;
+    right: 20px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+}
+
+.r-alert-info{
+  background: $color-msg-bg;
+  color: $color-msg;
+}
+.r-alert-success{
+  background: $color-success-bg;
+  color: $color-success;
+}
+.r-alert-warning{
+  background: $color-warning-bg;
+  color: $color-warning;
+}
+.r-alert-danger{
+  background: $color-danger-bg;
+  color: $color-danger;
+}

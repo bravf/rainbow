@@ -1,7 +1,7 @@
 import {hx} from '../../common/_tools'
 import jsx from '../../common/_jsx'
 
-var {slot, rContainer, rHeader, rAside, rMain} = jsx
+var {rContainer, rHeader, rAside, rMain} = jsx
 
 var RApp = Vue.extend({
   render (h) {
