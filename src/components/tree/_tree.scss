@@ -38,7 +38,8 @@
   }
 
   .r-tree-item-selected{
-    background-color: #d6ebff;
+    background-color: $color-blue-bg;
+    color: $color-info;
   }
 
   .r-tree-item-no-children{

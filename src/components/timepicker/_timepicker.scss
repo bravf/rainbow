@@ -84,12 +84,12 @@
   }
 
   .r-timepicker-item-active{
-    background-color: $color-primary;
-    color: $color-white;
+    background-color: $color-blue-bg;
+    color: $color-info;
 
     &:hover{
-      background-color: $color-primary;
-      color: $color-white;
+      background-color: $color-blue-bg;
+      color: $color-info;
     }
   }
 

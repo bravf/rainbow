@@ -72,12 +72,12 @@
     }
 
     .r-menu-item-active{
-      background-color: $color-primary;
-      color: $color-white;
+      background-color: $color-blue-bg;
+      color: $color-info;
 
       &:hover{
-        background-color: $color-primary;
-        color: $color-white;  
+        background-color: $color-blue-bg;
+        color: $color-info;
       }
     }
   }
@@ -165,6 +165,12 @@
     position: relative;
     color: $color-info;
     border-color: $color-primary;
+    background-color: $color-blue-bg;
     z-index: 2;
+
+    &:hover{
+      background-color: $color-blue-bg;
+      color: $color-info;
+    }
   }
 }

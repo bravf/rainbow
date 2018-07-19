@@ -87,16 +87,12 @@
     }
 
     .r-datepicker-item-active{
-      background-color: $color-primary;
-      color: $color-white;
+      background-color: $color-blue-bg;
+      color: $color-info;
 
       &:hover{
-        background-color: $color-primary;
-        color: $color-white;
-      }
-
-      &::after{
-        background-color: $color-white!important; 
+        background-color: $color-blue-bg;
+        color: $color-info;
       }
     }
 

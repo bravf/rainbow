@@ -134,11 +134,11 @@
   }
 
   .r-select-option-selected{
-    background-color: $color-primary;
-    color: $color-white;
+    background-color: $color-blue-bg;
+    color: $color-info;
 
     &:hover{
-      background-color: $color-primary;
+      background-color: $color-blue-bg;
     }
   } 
 }
@@ -146,7 +146,7 @@
 .r-select-multiple{
   .r-select-option-selected{
     background-color: $color-white;
-    color: $color-primary;
+    color: $color-info;
 
     &:hover{
       background-color: $color-white-dark;
