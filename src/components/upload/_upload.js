@@ -24,10 +24,7 @@ var RUpload = Vue.extend({
     accept: String,
     beforeUpload: Function,
     onProgress: Function,
-    onSuccess: {
-      type: Function,
-      required: true,
-    },
+    onSuccess: Function,
     onError: Function,
     onPreview: Function,
     onRemove: Function,
