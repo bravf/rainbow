@@ -18,26 +18,8 @@ block content
 
 block script
   script.
-    vm = new Vue({
-      el: '#app',
-      data () {
-        return {
-          data: []
-        }
-      },
-
-      methods: {
-        selectChange (nodes) {
-          console.table(nodes)
-        },
-        checkChange (nodes){
-          console.table(nodes)
-        }
-      }
-    })
-
-    setTimeout(_=>{
-      vm.data = [{
+    var data = [
+      {
         title: 'parent 1',
         children: [{
             title: 'parent 1-0',
@@ -56,5 +38,26 @@ block script
                 title: '<span style="color: red">leaf</span>',
             }]
         }]
-      }]
+      }
+    ]
+    vm = new Vue({
+      el: '#app',
+      data () {
+        return {
+          data: data
+        }
+      },
+
+      methods: {
+        selectChange (nodes) {
+          console.table(nodes)
+        },
+        checkChange (nodes){
+          console.table(nodes)
+        }
+      }
+    })
+
+    setTimeout(_=>{
+      //- vm.data = data
     }, 100)
