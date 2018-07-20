@@ -221,6 +221,9 @@ export var RFormItem = Vue.extend({
 
         })
       })
+    },
+    resetValidate () {
+      this.errorMsg = ''
     }
   },
   render (h) {
