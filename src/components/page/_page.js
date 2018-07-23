@@ -53,7 +53,7 @@ var RPage = Vue.extend({
 
     return (
       div('.r-page',
-        span('.r-page-total', {vif: this.showTotal}, '共 ' + this.total + ' 条'),
+        span('.r-page-total', {vif: this.showTotal}, `共 ${this.total} 条，${pageTotal} 页`),
       
         // 上一页
         rButton({
