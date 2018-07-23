@@ -91,7 +91,7 @@ var RAlert = Vue.extend({
   },
   methods: {
     show (content, title, onOk) {
-      this.content = content || ''
+      this.content = content
       this.title = title || document.title
 
       if (onOk){
@@ -160,7 +160,7 @@ var RConfirm = Vue.extend({
   },
   methods: {
     show (options) {
-      this.content = options.content || ''
+      this.content = options.content
       this.title = options.title || document.title
       
       if (options.onOk){
