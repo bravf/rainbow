@@ -104,8 +104,8 @@ var RTooltipPopup = Vue.extend({
     },
     setPosition () {
       var rect = this.targetEl.getBoundingClientRect()
-      var top = rect.y + window.scrollY
-      var left = rect.x + window.scrollX
+      var top = rect.top + window.scrollY
+      var left = rect.left + window.scrollX
 
       var rect2 = this.$el.getBoundingClientRect()
 
