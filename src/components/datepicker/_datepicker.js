@@ -67,12 +67,15 @@ var RDatepicker = Vue.extend({
   methods: {
     _getValueDate () {
       var value = this.value
-      if (value && (this.format === 'c') ){
-        value = value.replace(/[年月]/g, '-').replace('日', '')
+      
+      if (value){
+        if (this.format === 'c'){
+          value = value.replace(/[年月]/g, '-').replace('日', '')
+        }
+        // safari 解析2018-03-03 12:12:12格式出错，
+        value = value.replace('-', '/')
       }
 
-      // safari 解析2018-03-03 12:12:12格式出错，
-      value = value.replace('-', '/')
       return new Date(value)
     },
     // 同步value的值给year, month
