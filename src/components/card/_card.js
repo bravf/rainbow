@@ -7,7 +7,7 @@ var RCard = Vue.extend({
   props: {
     hover: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     title: String,
   },
