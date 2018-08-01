@@ -8,12 +8,11 @@ var RMessage = Vue.extend({
   },
   data () {
     return {
-      // 枚举，info, success, warning, error
-      type: 'info',
-      msg: '',
       isShow: false,
-      timer: null,
       duration: 3000,
+      msgQueue: [],
+      // 是否暂停删除队列 msg
+      stopDelFlag: false,
     }
   },
   computed: {
@@ -27,19 +26,33 @@ var RMessage = Vue.extend({
     },
   },
   methods: {
-    show (msg, type) {
-      clearTimeout(this.timer)
+    show (msg, type='error') {
+      var msgObj = {msg, type}
       
-      this.msg = msg
-      this.type = type || 'info'
+      this.msgQueue.push(msgObj)
       this.isShow = true
 
-      this.hide()
+      // duration 时间后删除此 msg
+      this.delayDelMsgObj(msgObj)
     },
-    hide () {
-      this.timer = setTimeout(_=>{
+    delMsgObj (msgObj) {
+      var idx = this.msgQueue.indexOf(msgObj)
+      this.msgQueue.splice(idx, 1)
+
+      if (!this.msgQueue.length){
         this.isShow = false
-      }, this.duration)
+      }
+    },
+    // 延迟删除操作
+    delayDelMsgObj (msgObj) {
+      setTimeout(_ => {
+        if (this.stopDelFlag){
+          this.delayDelMsgObj(msgObj)
+          return
+        }
+        
+        this.delMsgObj(msgObj)
+      }, this.duration);
     }
   },
   render (h) {
@@ -53,19 +66,23 @@ var RMessage = Vue.extend({
       error: 'close-circled',
     }
 
-    return div('.' + this.cls.join('+'), {
+    return div('.r-message', {
       s_display: this.isShow ? 'block' : 'none',
       o_mouseenter () {
-        clearTimeout(me.timer)
+        me.stopDelFlag = true
       },
       o_mouseleave () {
-        me.hide()
+        me.stopDelFlag = false
       }
     },
-      rIcon({
-        p_type: iconList[this.type]
-      }),
-      span(this.msg)
+      this.msgQueue.map(msgObj => {
+        var itemStyle = 'r-message-' + msgObj.type
+
+        return div(`.r-message-item + ${itemStyle}`, 
+          rIcon({p_type:iconList[msgObj.type]}),
+          span(msgObj.msg)
+        )
+      })
     )
   }
 })

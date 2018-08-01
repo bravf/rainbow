@@ -16,23 +16,26 @@
     margin-left: 10px;
   }
 }
+.r-message-item{
+  padding: 5px 0;
+}
 
 .r-message-success{
-  background: $color-success-bg;
+  // background: $color-success-bg;
   color: $color-success;
 }
 
 .r-message-info{
-  background: $color-msg-bg;
+  // background: $color-msg-bg;
   color: $color-msg;
 }
 
 .r-message-warning{
-  background: $color-warning-bg;
+  // background: $color-warning-bg;
   color: $color-warning;
 }
 
 .r-message-error{
-  background: $color-danger-bg;
+  // background: $color-danger-bg;
   color: $color-danger;
 }
