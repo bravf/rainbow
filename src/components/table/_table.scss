@@ -16,6 +16,7 @@
 
   th{
     background-color: $color-white-light;
+    position: relative;
 
     .r-table-sort{
       position: relative;
@@ -54,8 +55,6 @@
     >div{
       padding-left: 10px;
       padding-right: 10px;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
   }
 

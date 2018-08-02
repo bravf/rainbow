@@ -6,7 +6,7 @@ block title
 block content
   div.panel
     h3| Table
-    div.margin-10(style="width:500px;")
+    div.margin-10(style="width:700px;")
       r-table(
         :data="data", 
         ref="table", 
@@ -31,6 +31,10 @@ block content
           width="50",
           type="index",
         )
+        r-table-column(title="datepicker")
+          template(slot-scope="scope")
+            r-timepicker()
+
         r-table-column(
           title="姓名",
           field="name",

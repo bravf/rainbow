@@ -1,4 +1,4 @@
-import {hx, paddingZero, globalClick, inArray, isdef} from '../../common/_tools'
+import {paddingZero, globalClick, inArray} from '../../common/_tools'
 import instance from '../../common/_instance'
 import { RFormItem } from '../form/_form'
 import jsx from '../../common/_jsx'
@@ -15,7 +15,10 @@ function getNumArr(num){
 
 var RTimepicker = Vue.extend({
   props: {
-    value: String,
+    value: {
+      type: String,
+      default: '',
+    },
     placeholder: {
       type: String,
       default: '选择时间',

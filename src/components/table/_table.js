@@ -233,11 +233,19 @@ var RTable = Vue.extend({
       )
     },
     _renderTd (column, text) {
+      var style = {}
+
+      if (column.ellipsis){
+        style = {
+          s_width: column.width + 'px',
+          's_white-space': 'nowrap',
+          s_overflow: 'hidden',
+          's_text-overflow': 'ellipsis'
+        }
+      }
+
       return td({'s_text-align': column.align},
-        div({
-          s_width: column.ellipsis ? column.width + 'px' : null,
-          's_white-space': column.ellipsis ? 'nowrap' : null,
-        }, text)
+        div(style, text)
       )
     },
     _renderColgroup () {
