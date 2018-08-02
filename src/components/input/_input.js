@@ -42,6 +42,7 @@ var RInput = Vue.extend({
     },
     // 是否trim
     trim: Boolean,
+    clearable: Boolean,
   },
   computed: {
     cls () {
@@ -73,6 +74,11 @@ var RInput = Vue.extend({
     var isInput = this.type === 'text' || this.type === 'password'
     var isTextarea = this.type === 'textarea'
     var myInput = isTextarea ? textarea : input
+
+    var icon = this.icon
+    if (this.clearable){
+      icon = 'ios-close-outline'
+    }
 
     return (
       div(`.r-input-wrapper + ${this.cls.join('+')}`,
@@ -106,9 +112,12 @@ var RInput = Vue.extend({
           }
         }),
         rIcon('.r-input-icon', {
-          vif: this.icon,
-          p_type: this.clearable ? 'ios-close-outline' : this.icon,
+          vif: !!icon,
+          p_type: icon,
           no_click (e) {
+            if (me.clearable){
+              me.$emit('input', '')
+            }
             me.$emit('click-icon', e)
           }
         })

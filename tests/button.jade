@@ -36,13 +36,13 @@ block content
       r-button()| 后退
   
   div.margin-10
-    r-button-group
+    r-button-group(align="center")
       r-button()| 昨日
       r-button(disabled)| 今日
       r-button()| 明日
   
   div.margin-10
-    r-button-group(size="small")
+    r-button-group(size="small", align="right")
       r-button(type="primary")| 昨日
       r-button(type="primary")| 明日
 
@@ -54,5 +54,16 @@ block script
       data () {
         return {
         }
-      }
+      },
+      //- render (h) {
+      //-   jsx.h = h
+
+      //-   return RButtonGroup({
+      //-     'p_align': 'left'
+      //-   },
+      //-     RButton({p_loading:false}, '你好'),
+      //-     RButton('我好'),
+      //-     'hahahaha你好'
+      //-   )
+      //- }
     })

@@ -16,7 +16,7 @@ block content
       r-input(type="password", value="password")
     
     div.margin-10
-      r-input(type="textarea", value="textarea", rows="3", clearable)
+      r-input(type="textarea", v-model="textarea", rows="3", clearable)
 
   //- v-model
   div.panel
@@ -91,7 +91,8 @@ block script
       el: '#app',
       data () {
         return {
-          text: 0
+          text: 0,
+          textarea: 'textarea'
         }
       },
       methods: {

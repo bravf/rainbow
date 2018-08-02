@@ -84,13 +84,13 @@
 }
 
 .r-btn-group{
-  overflow: hidden;
-  
-  .r-btn{
-    float: left;
-  }
+  font-size: 0;
 
+  .r-btn{
+    font-size: $font-size;
+  }
+  
   .r-btn:not(:first-child){
-    margin-left: 1px;
+    margin-left: 2px;
   }
 }

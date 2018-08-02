@@ -41,7 +41,7 @@ var RButton = Vue.extend({
 
       if (this.long === true){
         cls.push('r-btn-long')
-      }      
+      }
 
       return cls
     }
@@ -60,9 +60,14 @@ var RButton = Vue.extend({
     var $txt = span(...this.$slots.default)
 
     // 图标
-    if (this.icon){
+    var icon = this.icon
+    if (this.loading){
+      icon = 'load-c'
+    }
+
+    if (icon){
       var $icon = rIcon('.r-button-icon', {
-        p_type: this.loading ? 'load-c' : this.icon,
+        p_type: icon,
         'p_auto-rotate': this.loading
       })
     }
@@ -78,6 +83,10 @@ var RButton = Vue.extend({
 var RButtonGroup = Vue.extend({
   props: {
     size: String,
+    align: {
+      type: String,
+      default: 'left',
+    },
   },
   computed: {
     cls () {
@@ -92,7 +101,7 @@ var RButtonGroup = Vue.extend({
   },
   render (h) {
     jsx.h = h
-    return div('.' + this.cls.join('+'), ...this.$slots.default)
+    return div('.' + this.cls.join('+'), {'s_text-align':this.align}, ...this.$slots.default)
   }
 })
 
