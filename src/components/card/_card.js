@@ -36,8 +36,11 @@ var RCard = Vue.extend({
     }
 
     return div('.' + this.cls.join('+'),
-      div('.r-card-head', {vif: !!title}, ...title),
-      div('.r-card-extra', {vif: !!$slots.extra}, ...$slots.extra),
+      div('.r-card-head', 
+        {vif: !!title}, 
+        ...title,
+        div('.r-card-extra', {vif: !!$slots.extra}, ...$slots.extra),
+      ),
       div('.r-card-body', ...$slots.default)
     )
   }

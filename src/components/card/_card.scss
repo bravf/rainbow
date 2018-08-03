@@ -11,6 +11,7 @@
 }
 
 .r-card-head{
+  position: relative;
   height: $height;
   line-height: $height;
   padding: 0 10px;
@@ -20,7 +21,9 @@
 .r-card-extra{
   position: absolute;
   right: 10px;
-  top: 7px;
+  top: 0;
+  height: $height;
+  line-height: $height;
 }
 
 .r-card-body{
