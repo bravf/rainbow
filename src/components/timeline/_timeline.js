@@ -6,11 +6,20 @@ var {div, ul, li} = jsx
 var RTimeline = Vue.extend({
   props: {
     pending: Boolean,
+    mode: {
+      type: String,
+      // vertical, horizontal
+      default: 'vertical',
+    }
   },
   render (h) {
     jsx.h = h
 
-    return ul('.timeline', {'c_r-timeline-pending': this.pending ? true : false}, ...this.$slots.default)
+    return ul('.r-timeline', {
+      'c_r-timeline-pending': this.pending ? true : false,
+      'c_r-timeline-horizontal': this.mode === 'horizontal',
+    },
+      ...this.$slots.default)
   }
 })
 
