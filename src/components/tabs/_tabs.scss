@@ -16,8 +16,8 @@
   white-space: nowrap;
   padding: 0 10px;
   margin-right: 4px;
-  border: 1px solid $color-border;
-  border-bottom: 0;
+  // border: 1px solid $color-border;
+  // border-bottom: 0;
   height: $height - 1;
   line-height: $height - 1;
   background-color: $color-white;
@@ -29,8 +29,10 @@
 
 .r-tabs-tab-active{
   color: $color-info;
-  border-top-color: $color-primary;
+  // border-top-color: $color-primary;
   height: $height;
+  border-bottom: 2px solid $color-primary;
+  font-weight: 500;
 }
 
 .r-tabs-pane{
