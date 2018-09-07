@@ -4,6 +4,38 @@
   .r-aside{
     min-width: 200px;
   }
+
+  .r-aside-expand{
+    position: absolute;
+    z-index: 5;
+    width: 30px;
+    height: 30px;
+    line-height: 26px;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: $color-success;
+    color: $color-white;
+    opacity: 0.5;
+
+    &:hover{
+      opacity: 0.8;
+    }
+  }
+
+  .r-aside-expand-true{
+    top: 10px;
+    left: -40px;
+  }
+
+  .r-aside-expand-false{
+    top: 10px;
+    left: -10px;
+  }
+
+  .r-main{
+    position: relative;
+  }
 }
 
 .r-app-body{
