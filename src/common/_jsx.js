@@ -195,5 +195,9 @@ var jsx = {
    window[tag.replace('r', 'R')] = jsx[tag] = jsx.__(tag.replace(/([A-Z])/g, '-$1').toLowerCase())
 })
 
+// 公开别名
+jsx.create = jsx._
+jsx.bind = jsx.__
+
 window.jsx = jsx
 export default jsx
