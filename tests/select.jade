@@ -31,6 +31,9 @@ block content
           :value="city.value",
           :key="city.value",
         )
+          template(slot-scope="scope")
+            div| {{scope.data.label}}
+            div| 这是第 {{scope.index}} 项
     
     h3| select single filterable
     div.margin-10
@@ -189,12 +192,13 @@ block content
         style="width:300px",
         not-found-text="无匹配城市",
       )
+
   h3| select word-change
   .margin-10
     r-select(
       v-model="currCities",
       placeholder="远程搜索",
-      filterable,
+      searchable,
       @word-change="remoteSearch"
     )
       r-select-option(
@@ -204,6 +208,22 @@ block content
         :key="city.value"
       )
 
+  h3| select scopedSlots
+  .margin-10
+    r-select(
+      v-model="currCities",
+      placeholder="远程搜索",
+      searchable,
+    )
+      r-select-option(
+        v-for="city in cities",
+        :label="city.label",
+        :value="city.value",
+        :key="city.value"
+      )
+        template(slot-scope="scope")
+          div| 测试
+          div| {{scope.data.label + '[' + scope.index + ']'}}
   
 block script
   script.

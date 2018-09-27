@@ -11,6 +11,7 @@ var RSelect = Vue.extend({
     disabled: Boolean,
     clearable: Boolean,
     filterable: Boolean,
+    searchable: Boolean,
     size: String,
     placeholder: {
       type: String,
@@ -93,23 +94,29 @@ var RSelect = Vue.extend({
     _getLabelValue () {
       var labelValue = []
 
-      ;(this.$slots.default || []).forEach($slot=>{
+      if (!this.$slots.default){
+        return
+      }
+
+      this.$slots.default.forEach($slot=>{
         var componentOptions = $slot.componentOptions
+        var instance = $slot.componentInstance
 
         if (componentOptions && (componentOptions.tag === 'r-select-option')){
           var value = componentOptions.propsData.value
           var label = componentOptions.propsData.label
           var disabled = componentOptions.propsData.disabled
+          var scopeSlot = instance.$scopedSlots.default
 
           if ( (disabled !== undefined) && (disabled !== false) ){
             disabled = true
           }
 
-          labelValue.push({label, value, disabled})
+          labelValue.push({label, value, disabled, scopeSlot})
         }
       })
 
-      return labelValue
+      this.labelValue = labelValue
     },
     _isSelected (value) {
       if (this.isMultiple){
@@ -146,7 +153,7 @@ var RSelect = Vue.extend({
 
       this.word = null
       if (this.isMultiple){
-        if (this.filterable){
+        if (this.filterable || this.searchable){
           this.$refs.input.focus()
         }
       }
@@ -176,6 +183,10 @@ var RSelect = Vue.extend({
       return selected
     },
     _getFilter (labelValue) {
+      if (!this.filterable){
+        return labelValue
+      }
+
       if (this.word === null){
         return labelValue
       }
@@ -193,15 +204,23 @@ var RSelect = Vue.extend({
     },
     _setScolltop (idx) {
       var $$dropdown = this.$refs.dropdown
+      var scrollTop = 0
+      var $$liArray = [].slice.call($$dropdown.querySelectorAll('li'))
 
-      // 32 item高度
-      // 200 列表容器高度
-      // 5 列表容器上padding
-      $$dropdown.scrollTop = 32 * (idx + 1) - 200 + 5
+      $$liArray.some( ($$li, idx2) => {
+        if (idx <= idx2){
+          return true
+        }
+
+        scrollTop += $$li.offsetHeight
+      })
+
+      $$dropdown.scrollTop = scrollTop
     },
     _keydown (e) {
       var me = this
       var key = e.key
+
       if (key === 'Backspace'){
         if (me.isMultiple && (me.word === '' || me.word === null) ){
           var _value = me.value[me.value.length - 1]
@@ -277,7 +296,7 @@ var RSelect = Vue.extend({
   render (h) {
     jsx.h = h
     var me = this
-    var labelValue = this.labelValue = this._getLabelValue()
+    var labelValue = this.labelValue
     var filterLabelValue = this.filterLabelValue = this._getFilter(labelValue)
     var selectedLabelValue = this._getSelected(labelValue)
     var placeholder
@@ -305,6 +324,7 @@ var RSelect = Vue.extend({
 
     return (
       div('.' + this.cls.join('+'),
+        ...me.$slots.default,
         // 选择框区域
         div('.r-select-selection', {
           // 添加tabindex，使得div可以相应键盘事件
@@ -321,13 +341,13 @@ var RSelect = Vue.extend({
               me.isExpand = !me.isExpand
             }
 
-            if (me.filterable){
+            if (me.filterable || me.searchable){
               me.$nextTick(_=>{
                 me.$refs.input.focus()
               })
             }
           },
-          o_keydown: this.filterable ? Function.prototype : this._keydown,
+          o_keydown: (this.filterable || me.searchable) ? Function.prototype : this._keydown,
         },
           // 多选tags
           ...(this.isMultiple ?
@@ -354,13 +374,13 @@ var RSelect = Vue.extend({
               a_type: 'text',
               a_placeholder: placeholder,
               dp_value: value,
-              a_readonly: (this.disabled || !this.filterable) ? 'readonly' : null,
+              a_readonly: (this.disabled || (!this.filterable && !this.searchable) ) ? 'readonly' : null,
               o_input (e) {
                 me.isExpand = true
                 me.word = e.target.value
                 me.$emit('word-change', me.word)
               },
-              o_keydown: this.filterable ? this._keydown : Function.prototype,
+              o_keydown: (this.filterable || this.searchable) ? this._keydown : Function.prototype,
               ref: 'input',
             })
           ),
@@ -389,16 +409,24 @@ var RSelect = Vue.extend({
             // 无匹配
             filterLabelValue.length === 0 ? li(this.notFoundText) : null,
             ...filterLabelValue.map( (lv, idx) => {
-              return rSelectOption({
-                'c_r-select-option-selected': this._isSelected(lv.value),
-                'c_r-select-option-focus': this.focusIdx === idx,
-                p_label: lv.label,
-                p_value: lv.value,
-                p_disabled: lv.disabled,
-                no_click () {
-                  me._optionClick(lv)
+                var $content = lv.label
+
+                if (lv.scopeSlot){
+                  $content = lv.scopeSlot({
+                    data: {label:lv.label, value:lv.value},
+                    index: idx
+                  })
                 }
-              })
+                
+                return li('.r-select-option', {
+                  'c_r-select-option-disabled': !!lv.disabled,
+                  'c_r-select-option-selected': this._isSelected(lv.value),
+                  'c_r-select-option-focus': this.focusIdx === idx,
+
+                  'o_click' () {
+                    me._optionClick(lv)
+                  }
+                }, $content)
             })
           )
         )
@@ -413,20 +441,13 @@ var RSelectOption = Vue.extend({
     label: String,
     disabled: Boolean,
   },
-  computed: {
-    cls () {
-      var cls = ['r-select-option']
-
-      if (this.disabled){
-        cls.push('r-select-option-disabled')
-      }
-
-      return cls
-    },
+  mounted () {
+    this.$parent._getLabelValue()
   },
-  render (h) {
-    jsx.h = h
-    return li('.' + this.cls.join('+'), this.label)
+  beforeDestroy () {
+    this.$parent._getLabelValue()
+  },
+  render () {
   }
 })
 
