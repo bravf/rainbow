@@ -95,6 +95,7 @@ var RSelect = Vue.extend({
       var labelValue = []
 
       if (!this.$slots.default){
+        this.labelValue = []
         return
       }
 

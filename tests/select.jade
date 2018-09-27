@@ -249,6 +249,10 @@ block script
         remoteSearch (val) {
 
           setTimeout(_=>{
+            if (val == 'test'){
+              this.remoteCities = []
+              return
+            }
             var cities = []
             for (var i=0; i<10; i++){
               cities.push({
